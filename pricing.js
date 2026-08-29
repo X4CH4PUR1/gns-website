@@ -55,3 +55,4 @@ function closePanel(panel) {
     }
   });
 }
+

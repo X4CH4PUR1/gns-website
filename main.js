@@ -116,3 +116,4 @@ function initScrollReveal() {
 
   targets.forEach((el) => observer.observe(el));
 }
+
