@@ -25,6 +25,28 @@
   border-color: var(--color-gold);
   background-color: var(--color-bg-raised);
   box-shadow: 0 30px 60px -32px rgba(210, 173, 92, 0.3);
+  animation: featured-glow 4.5s ease-in-out infinite;
+}
+
+@keyframes featured-glow {
+  0%, 100% {
+    box-shadow: 0 30px 60px -32px rgba(210, 173, 92, 0.3);
+  }
+  50% {
+    box-shadow: 0 30px 70px -28px rgba(210, 173, 92, 0.5);
+  }
+}
+
+@media (min-width: 700px) {
+  .pricing-card-featured {
+    margin-block-start: -10px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pricing-card-featured {
+    animation: none;
+  }
 }
 
 .pricing-card h3 {

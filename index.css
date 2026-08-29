@@ -29,10 +29,17 @@
   z-index: 0;
 }
 
-.hero-inner {
+.hero-grid {
   position: relative;
   z-index: 1;
-  max-width: 780px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 380px);
+  align-items: center;
+  gap: var(--space-2xl);
+}
+
+.hero-inner {
+  max-width: 640px;
 }
 
 .hero-sub {
@@ -42,11 +49,175 @@
   margin-bottom: var(--space-lg);
 }
 
-/* ---------- Service grid ---------- */
+/* ---------- Hero proof stack (decorative, channel cues — not performance claims) ---------- */
+.proof-stack {
+  position: relative;
+  height: 340px;
+  justify-self: center;
+  width: 100%;
+  max-width: 300px;
+}
+
+.proof-card {
+  position: absolute;
+  width: 230px;
+  padding: var(--space-md);
+  background-color: var(--color-bg-raised);
+  border: 1px solid var(--color-gold-soft);
+  border-radius: var(--radius-md);
+  box-shadow: 0 30px 60px -30px rgba(0, 0, 0, 0.65);
+  transition: transform 120ms ease-out;
+  animation: proof-float 7s ease-in-out infinite;
+}
+
+.proof-card-1 {
+  top: 0;
+  left: 0;
+  transform: rotate(-6deg);
+  animation-delay: 0s;
+  z-index: 3;
+}
+
+.proof-card-2 {
+  top: 108px;
+  right: 0;
+  transform: rotate(4deg);
+  animation-delay: 1.4s;
+  z-index: 2;
+}
+
+.proof-card-3 {
+  bottom: 0;
+  left: 24px;
+  transform: rotate(-3deg);
+  animation-delay: 2.8s;
+  z-index: 1;
+}
+
+@keyframes proof-float {
+  0%, 100% {
+    translate: 0 0;
+  }
+  50% {
+    translate: 0 -10px;
+  }
+}
+
+.proof-card-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--space-sm);
+}
+
+.proof-label {
+  font-family: var(--font-heavy);
+  font-size: 0.68rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-ink);
+}
+
+.proof-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background-color: var(--color-gold);
+  box-shadow: 0 0 0 4px var(--color-gold-wash);
+}
+
+.proof-meta {
+  display: block;
+  margin-top: var(--space-sm);
+  font-size: 0.72rem;
+  color: var(--color-muted);
+}
+
+.proof-spark {
+  width: 100%;
+  height: 32px;
+  overflow: visible;
+}
+
+.proof-spark polyline {
+  fill: none;
+  stroke: var(--color-gold);
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.proof-bars {
+  display: flex;
+  align-items: flex-end;
+  gap: 5px;
+  height: 32px;
+}
+
+.proof-bars span {
+  flex: 1;
+  height: var(--h);
+  background-color: var(--color-gold);
+  opacity: 0.75;
+  border-radius: 2px 2px 0 0;
+}
+
+.proof-frame {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  height: 32px;
+  justify-content: center;
+}
+
+.proof-frame span {
+  display: block;
+  height: 4px;
+  border-radius: 2px;
+  background-color: var(--color-gold-soft);
+}
+
+.proof-frame span:first-child {
+  width: 55%;
+  background-color: var(--color-gold);
+}
+
+@media (max-width: 960px) {
+  .hero-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .proof-stack {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .proof-card {
+    animation: none;
+  }
+}
+
+/* ---------- Service grid (bento — first tile spans two columns on wide screens) ---------- */
 .service-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
   gap: var(--space-md);
+}
+
+@media (min-width: 700px) {
+  .service-grid {
+    grid-template-columns: repeat(4, 1fr);
+    grid-auto-rows: 1fr;
+  }
+
+  .service-grid .service-card:first-child {
+    grid-column: span 2;
+  }
+
+  .service-grid .service-card:nth-child(4) {
+    grid-column: span 2;
+  }
 }
 
 .service-card p {
@@ -67,6 +238,16 @@
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
   gap: var(--space-lg);
+}
+
+.why-item {
+  padding-left: var(--space-md);
+  border-left: 2px solid var(--color-gold-soft);
+  transition: border-color var(--transition-slow);
+}
+
+.why-item:hover {
+  border-left-color: var(--color-gold);
 }
 
 .why-item h3 {

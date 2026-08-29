@@ -16,10 +16,41 @@
 }
 
 .form-wrapper {
+  position: relative;
   border: var(--border-hairline);
   border-radius: var(--radius-md);
   overflow: hidden;
   background-color: var(--color-bg-raised);
+  transition: border-color var(--transition-base), box-shadow var(--transition-slow);
+}
+
+.form-wrapper:focus-within {
+  border-color: var(--color-gold);
+  box-shadow: 0 24px 48px -28px rgba(210, 173, 92, 0.35);
+}
+
+.form-wrapper::before,
+.form-wrapper::after {
+  content: '';
+  position: absolute;
+  width: 22px;
+  height: 22px;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.form-wrapper::before {
+  top: -1px;
+  left: -1px;
+  border-top: 2px solid var(--color-gold);
+  border-left: 2px solid var(--color-gold);
+}
+
+.form-wrapper::after {
+  bottom: -1px;
+  right: -1px;
+  border-bottom: 2px solid var(--color-gold);
+  border-right: 2px solid var(--color-gold);
 }
 
 .form-wrapper iframe {

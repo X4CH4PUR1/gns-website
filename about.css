@@ -30,17 +30,47 @@
 }
 
 .avatar-placeholder {
-  width: 88px;
-  height: 88px;
-  border-radius: 50%;
-  background-color: var(--color-gold);
-  color: var(--color-bg);
+  position: relative;
+  width: 92px;
+  height: 92px;
+  background: linear-gradient(155deg, var(--color-gold-wash), var(--color-bg-alt) 70%);
+  color: var(--color-gold);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-family: var(--font-heavy);
-  font-size: 1.6rem;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.5rem;
+  letter-spacing: 0.04em;
   margin-bottom: var(--space-md);
+  border: 1px solid var(--color-gold-soft);
+  transition: transform var(--transition-slow), border-color var(--transition-base);
+}
+
+.founder-card:hover .avatar-placeholder {
+  transform: rotate(-2deg);
+  border-color: var(--color-gold);
+}
+
+.avatar-corner {
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  pointer-events: none;
+}
+
+.avatar-corner-tl {
+  top: -6px;
+  left: -6px;
+  border-top: 2px solid var(--color-gold);
+  border-left: 2px solid var(--color-gold);
+}
+
+.avatar-corner-br {
+  bottom: -6px;
+  right: -6px;
+  border-bottom: 2px solid var(--color-gold);
+  border-right: 2px solid var(--color-gold);
 }
 
 .founder-role {

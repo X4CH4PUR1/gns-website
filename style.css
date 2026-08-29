@@ -65,6 +65,37 @@ body {
   }
 }
 
+/* ---------- Selection & scrollbar ---------- */
+::selection {
+  background-color: var(--color-gold);
+  color: var(--color-bg);
+}
+
+html {
+  scrollbar-color: var(--color-gold-soft) var(--color-bg);
+  scrollbar-width: thin;
+}
+
+::-webkit-scrollbar {
+  width: 11px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-bg);
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: var(--color-bg-raised);
+  border: 2px solid var(--color-bg);
+  border-radius: 999px;
+  background-clip: padding-box;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: var(--color-gold-soft);
+  background-clip: padding-box;
+}
+
 /* ---------- Brand tokens ---------- */
 :root {
   /* Color */
@@ -263,15 +294,51 @@ main > section:not(.hero):not(.page-intro):not(.closing-cta) {
 
 /* ---------- Buttons ---------- */
 .btn {
-  display: inline-block;
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55em;
   font-family: var(--font-heavy);
   font-size: 0.85rem;
   letter-spacing: 0.04em;
   text-transform: uppercase;
   padding: 0.9rem 1.75rem;
   border-radius: var(--radius-sm);
+  overflow: hidden;
+  isolation: isolate;
+  will-change: transform;
   transition: background-color var(--transition-base), color var(--transition-base),
-    transform var(--transition-base), border-color var(--transition-base), letter-spacing var(--transition-base);
+    transform var(--transition-base), border-color var(--transition-base), letter-spacing var(--transition-base),
+    box-shadow var(--transition-base);
+}
+
+.btn::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(115deg, transparent 30%, rgba(255, 255, 255, 0.4) 48%, rgba(255, 255, 255, 0.4) 52%, transparent 70%);
+  background-size: 220% 100%;
+  background-position: 130% 0;
+  transition: background-position 0.65s cubic-bezier(0.22, 1, 0.36, 1);
+  pointer-events: none;
+}
+
+.btn:hover::before {
+  background-position: -30% 0;
+}
+
+.btn::after {
+  content: '\2192';
+  display: inline-block;
+  transform: translateX(-4px);
+  opacity: 0;
+  transition: transform var(--transition-base), opacity var(--transition-base);
+}
+
+.btn:hover::after {
+  transform: translateX(0);
+  opacity: 1;
 }
 
 .btn-primary {
@@ -285,6 +352,7 @@ main > section:not(.hero):not(.page-intro):not(.closing-cta) {
   border-color: var(--color-gold-bright);
   transform: translateY(-2px);
   letter-spacing: 0.06em;
+  box-shadow: 0 14px 30px -12px rgba(233, 200, 131, 0.55);
 }
 
 .btn-secondary {
@@ -297,6 +365,12 @@ main > section:not(.hero):not(.page-intro):not(.closing-cta) {
   border-color: var(--color-gold);
   background-color: var(--color-gold-wash);
   transform: translateY(-2px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .btn::before {
+    display: none;
+  }
 }
 
 .btn-row {
@@ -344,12 +418,31 @@ main > section:not(.hero):not(.page-intro):not(.closing-cta) {
 
 /* ---------- Generic card ---------- */
 .card {
+  position: relative;
   background-color: var(--color-bg-raised);
   border: 1px solid var(--color-gold-soft);
   border-top: 2px solid var(--color-gold);
   border-radius: var(--radius-sm);
   padding: var(--space-lg);
+  overflow: hidden;
+  isolation: isolate;
   transition: transform var(--transition-slow), box-shadow var(--transition-slow), border-color var(--transition-base);
+}
+
+/* Cursor-tracked spotlight — position set via --mx/--my from main.js pointermove */
+.card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  opacity: 0;
+  background: radial-gradient(360px circle at var(--mx, 50%) var(--my, 0%), var(--color-gold-wash), transparent 65%);
+  transition: opacity var(--transition-base);
+  pointer-events: none;
+}
+
+.card:hover::before {
+  opacity: 1;
 }
 
 .card:hover {
@@ -382,6 +475,8 @@ main > section:not(.hero):not(.page-intro):not(.closing-cta) {
   overflow: hidden;
   border-block: var(--border-hairline);
   background-color: var(--color-bg-alt);
+  mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
 }
 
 .marquee-track {
@@ -422,6 +517,31 @@ main > section:not(.hero):not(.page-intro):not(.closing-cta) {
   }
 }
 
+/* ---------- Page transitions (View Transitions API, progressive enhancement) ---------- */
+@media not (prefers-reduced-motion: reduce) {
+  ::view-transition-old(root) {
+    animation: page-fade-out 220ms ease both;
+  }
+
+  ::view-transition-new(root) {
+    animation: page-fade-in 320ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+}
+
+@keyframes page-fade-out {
+  to {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+}
+
+@keyframes page-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+}
+
 /* ---------- Scroll reveal (applied via main.js) ---------- */
 .reveal {
   opacity: 0;
@@ -432,6 +552,31 @@ main > section:not(.hero):not(.page-intro):not(.closing-cta) {
 .reveal.is-visible {
   opacity: 1;
   transform: translateY(0);
+}
+
+/* Directional variants — main.js assigns these to break the uniform fade-up rhythm */
+.reveal-left {
+  transform: translateX(-28px);
+}
+
+.reveal-left.is-visible {
+  transform: translateX(0);
+}
+
+.reveal-right {
+  transform: translateX(28px);
+}
+
+.reveal-right.is-visible {
+  transform: translateX(0);
+}
+
+.reveal-scale {
+  transform: scale(0.94);
+}
+
+.reveal-scale.is-visible {
+  transform: scale(1);
 }
 
 /* Stagger reveal timing across grid items for a hand-tuned feel */
@@ -543,12 +688,17 @@ main > section:not(.hero):not(.page-intro):not(.closing-cta) {
   box-shadow: 0 16px 32px -24px rgba(0, 0, 0, 0.7);
 }
 
+.site-header.is-scrolled .header-inner {
+  padding-block: 0.65rem;
+}
+
 .header-inner {
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding-block: var(--space-sm);
   gap: var(--space-md);
+  transition: padding-block var(--transition-base);
 }
 
 .site-nav {
@@ -748,4 +898,54 @@ main > section:not(.hero):not(.page-intro):not(.closing-cta) {
 
 .section-heading.text-center {
   margin-inline: auto;
+}
+
+/* Oversized faded index numeral — set content via a data-index attribute */
+.ghost-num {
+  position: relative;
+}
+
+.ghost-num::before {
+  content: attr(data-index);
+  position: absolute;
+  top: -0.3em;
+  right: -0.1em;
+  font-family: var(--font-display);
+  font-size: 3.6rem;
+  font-weight: 700;
+  color: var(--color-gold);
+  opacity: 0.09;
+  line-height: 1;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.ghost-num > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* Gold gradient sweep for emphasized headline words */
+.text-gradient {
+  background: linear-gradient(100deg, var(--color-gold-bright) 10%, var(--color-gold) 45%, var(--color-ink) 60%, var(--color-gold) 75%, var(--color-gold-bright) 90%);
+  background-size: 250% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: gradient-sweep 7s ease-in-out infinite;
+}
+
+@keyframes gradient-sweep {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .text-gradient {
+    animation: none;
+  }
 }
