@@ -1,0 +1,67 @@
+/* =========================================================
+   GN SCALES — SERVICES PAGE
+   Page intro and per-service detail blocks.
+   ========================================================= */
+
+.page-intro {
+  padding-block: var(--space-2xl) var(--space-xl);
+  border-bottom: var(--border-hairline);
+}
+
+.page-intro-sub {
+  color: var(--color-ink);
+  font-size: 1.1rem;
+  max-width: 65ch;
+  margin-top: var(--space-md);
+}
+
+.service-detail-heading {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  margin-bottom: var(--space-md);
+}
+
+.service-detail-heading .service-icon {
+  margin-bottom: 0;
+  width: 30px;
+  height: 30px;
+  flex-shrink: 0;
+}
+
+.service-detail-body {
+  display: grid;
+  grid-template-columns: 1.3fr 1fr;
+  gap: var(--space-lg);
+}
+
+.service-detail-body h3 {
+  color: var(--color-gold);
+  font-size: 1rem;
+  margin-bottom: var(--space-sm);
+}
+
+.service-detail-body p {
+  color: var(--color-ink);
+}
+
+.check-list li {
+  position: relative;
+  padding-left: 1.4rem;
+  color: var(--color-ink);
+  margin-bottom: var(--space-xs);
+}
+
+.check-list li::before {
+  content: '\2713';
+  position: absolute;
+  left: 0;
+  color: var(--color-gold);
+  font-family: var(--font-heavy);
+}
+
+@media (max-width: 700px) {
+  .service-detail-body {
+    grid-template-columns: 1fr;
+  }
+}

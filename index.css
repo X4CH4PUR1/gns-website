@@ -1,0 +1,128 @@
+/* =========================================================
+   GN SCALES — HOME PAGE
+   Hero, service grid, differentiator section, illustrative
+   results cards, closing CTA.
+   ========================================================= */
+
+.hero {
+  padding-block: var(--space-2xl) var(--space-xl);
+  background:
+    radial-gradient(ellipse at top right, var(--color-gold-wash), transparent 55%),
+    var(--color-bg);
+  border-bottom: var(--border-hairline);
+  overflow: hidden;
+}
+
+.hero::before {
+  content: 'GNS';
+  position: absolute;
+  right: -3vw;
+  top: -6vw;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: min(42vw, 420px);
+  line-height: 1;
+  color: var(--color-gold);
+  opacity: 0.05;
+  pointer-events: none;
+  user-select: none;
+  z-index: 0;
+}
+
+.hero-inner {
+  position: relative;
+  z-index: 1;
+  max-width: 780px;
+}
+
+.hero-sub {
+  font-size: 1.1rem;
+  color: var(--color-ink);
+  margin-top: var(--space-md);
+  margin-bottom: var(--space-lg);
+}
+
+/* ---------- Service grid ---------- */
+.service-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: var(--space-md);
+}
+
+.service-card p {
+  color: var(--color-ink);
+  margin-block: var(--space-sm);
+}
+
+.service-card a {
+  font-family: var(--font-heavy);
+  font-size: 0.78rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--color-gold);
+}
+
+/* ---------- Why GN Scales ---------- */
+.why-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: var(--space-lg);
+}
+
+.why-item h3 {
+  margin-bottom: var(--space-xs);
+}
+
+.why-item p {
+  color: var(--color-ink);
+}
+
+/* ---------- Illustrative results ---------- */
+.results-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: var(--space-md);
+}
+
+.result-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+}
+
+.result-card h3 {
+  margin-top: var(--space-xs);
+}
+
+.result-stat {
+  font-family: var(--font-heavy);
+  font-size: 0.85rem;
+  color: var(--color-gold);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.result-card p {
+  color: var(--color-ink);
+}
+
+.result-disclaimer {
+  font-size: 0.8rem;
+  color: var(--color-muted);
+  border-top: var(--border-hairline);
+  padding-top: var(--space-sm);
+  margin-top: var(--space-xs);
+}
+
+/* ---------- Closing CTA ---------- */
+.closing-cta {
+  background-color: var(--color-bg-alt);
+  border-top: var(--border-hairline);
+}
+
+.closing-cta-sub {
+  color: var(--color-muted);
+  margin-block: var(--space-sm) var(--space-lg);
+  margin-inline: auto;
+  max-width: 50ch;
+}

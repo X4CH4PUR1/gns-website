@@ -1,0 +1,57 @@
+/* =========================================================
+   GN SCALES — ABOUT PAGE
+   Founding story, founders grid, avatar placeholders.
+   ========================================================= */
+
+.page-intro {
+  padding-block: var(--space-2xl) var(--space-xl);
+  border-bottom: var(--border-hairline);
+}
+
+.story-copy {
+  color: var(--color-ink);
+  font-size: 1.05rem;
+  max-width: 70ch;
+}
+
+.story-copy + .story-copy {
+  margin-top: var(--space-md);
+}
+
+/* ---------- Founders ---------- */
+.founders-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: var(--space-lg);
+}
+
+.founder-card {
+  text-align: left;
+}
+
+.avatar-placeholder {
+  width: 88px;
+  height: 88px;
+  border-radius: 50%;
+  background-color: var(--color-gold);
+  color: var(--color-bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-heavy);
+  font-size: 1.6rem;
+  margin-bottom: var(--space-md);
+}
+
+.founder-role {
+  font-family: var(--font-heavy);
+  font-size: 0.75rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-gold);
+  margin-bottom: var(--space-sm);
+}
+
+.founder-card p:not(.founder-role) {
+  color: var(--color-ink);
+}

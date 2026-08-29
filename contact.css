@@ -1,0 +1,50 @@
+/* =========================================================
+   GN SCALES — CONTACT PAGE
+   Google Form iframe wrapper, fallback link styling.
+   ========================================================= */
+
+.page-intro {
+  padding-block: var(--space-2xl) var(--space-xl);
+  border-bottom: var(--border-hairline);
+}
+
+.page-intro-sub {
+  color: var(--color-ink);
+  font-size: 1.1rem;
+  max-width: 65ch;
+  margin-top: var(--space-md);
+}
+
+.form-wrapper {
+  border: var(--border-hairline);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  background-color: var(--color-bg-raised);
+}
+
+.form-wrapper iframe {
+  display: block;
+  width: 100%;
+  border: none;
+}
+
+.form-fallback-link {
+  margin-top: var(--space-md);
+  font-size: 0.9rem;
+}
+
+.form-fallback-link a {
+  color: var(--color-gold);
+}
+
+.contact-fallback {
+  margin-top: var(--space-lg);
+  color: var(--color-ink);
+  font-size: 1rem;
+}
+
+.contact-fallback a {
+  color: var(--color-gold);
+  font-family: var(--font-heavy);
+  font-size: 0.9rem;
+}
