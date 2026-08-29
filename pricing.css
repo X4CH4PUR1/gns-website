@@ -1,0 +1,127 @@
+/* =========================================================
+   GN SCALES — PRICING PAGE
+   Two-tier pricing cards, ad-spend disclosure, FAQ accordion.
+   ========================================================= */
+
+.page-intro {
+  padding-block: var(--space-2xl) var(--space-xl);
+  border-bottom: var(--border-hairline);
+}
+
+/* ---------- Pricing cards ---------- */
+.pricing-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: var(--space-lg);
+  margin-bottom: var(--space-lg);
+}
+
+.pricing-card {
+  display: flex;
+  flex-direction: column;
+}
+
+.pricing-card-featured {
+  border-color: var(--color-gold);
+  background-color: var(--color-bg-raised);
+  box-shadow: 0 30px 60px -32px rgba(210, 173, 92, 0.3);
+}
+
+.pricing-card h3 {
+  margin-bottom: var(--space-sm);
+}
+
+.price {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.4em;
+  font-family: var(--font-heavy);
+  font-size: 1.05rem;
+  color: var(--color-ink);
+  margin-bottom: var(--space-md);
+  padding-bottom: var(--space-md);
+  border-bottom: var(--border-hairline);
+}
+
+.price-monthly {
+  font-size: 1.3rem;
+  color: var(--color-gold);
+}
+
+.pricing-card .check-list {
+  flex-grow: 1;
+  margin-bottom: var(--space-lg);
+}
+
+.pricing-cta {
+  align-self: flex-start;
+}
+
+/* ---------- Parity note ---------- */
+.parity-note {
+  color: var(--color-ink);
+  max-width: 65ch;
+  margin-bottom: var(--space-md);
+}
+
+/* ---------- Ad spend disclosure ---------- */
+.ad-spend-notice {
+  border: 1px solid var(--color-gold);
+  border-radius: var(--radius-md);
+  background-color: var(--color-gold-wash);
+  padding: var(--space-md);
+}
+
+.ad-spend-notice p {
+  color: var(--color-ink);
+  max-width: 70ch;
+}
+
+/* ---------- FAQ accordion ---------- */
+.faq-list {
+  max-width: 800px;
+  border-top: var(--border-hairline);
+}
+
+.faq-item {
+  border-bottom: var(--border-hairline);
+}
+
+.faq-question {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--space-md);
+  text-align: left;
+  padding-block: var(--space-md);
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  color: var(--color-gold);
+}
+
+.faq-question::after {
+  content: '+';
+  font-family: var(--font-heavy);
+  font-size: 1.2rem;
+  color: var(--color-gold);
+  flex-shrink: 0;
+  transition: transform var(--transition-base);
+}
+
+.faq-question[aria-expanded="true"]::after {
+  transform: rotate(45deg);
+}
+
+.faq-answer {
+  overflow: hidden;
+  max-height: 0;
+  transition: max-height var(--transition-slow);
+}
+
+.faq-answer p {
+  color: var(--color-ink);
+  max-width: 70ch;
+  padding-bottom: var(--space-md);
+}

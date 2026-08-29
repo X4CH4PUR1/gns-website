@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact — GN Scales</title>
+  <meta name="description" content="Book a strategy call with GN Scales — the only step needed to get started.">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Archivo+Black&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="contact.css">
+</head>
+<body>
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="index.html" class="logo" aria-label="GN Scales — home">
+        <!-- TODO: replace with final logo SVG/PNG when provided -->
+        <span class="logo-glyph" aria-hidden="true">
+          <svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="10" cy="9" r="3"/>
+            <circle cx="24" cy="6" r="3"/>
+            <circle cx="38" cy="9" r="3"/>
+            <circle cx="17" cy="7" r="2.3"/>
+            <circle cx="31" cy="7" r="2.3"/>
+            <path d="M10 12 L38 12 L34 25 Q34 28 30 28 L18 28 Q14 28 14 25 Z"/>
+            <path d="M15 28 H33 L36 37 Q24 41 12 37 Z"/>
+            <rect x="10" y="39" width="28" height="4" rx="1"/>
+          </svg>
+        </span>
+        <span class="logo-mark">
+          <span class="logo-initials"><span class="letter-g">G</span><span class="letter-n">N</span></span>
+          <span class="logo-suffix">Scales</span>
+        </span>
+      </a>
+
+      <button type="button" class="nav-toggle" aria-expanded="false" aria-controls="primary-nav-list">
+        <span class="nav-toggle-bar" aria-hidden="true"></span>
+        <span class="nav-toggle-bar" aria-hidden="true"></span>
+        <span class="nav-toggle-bar" aria-hidden="true"></span>
+        <span class="sr-only">Menu</span>
+      </button>
+
+      <nav class="site-nav" aria-label="Primary">
+        <ul id="primary-nav-list" class="nav-list">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="services.html">Services</a></li>
+          <li><a href="pricing.html">Pricing</a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a href="contact.html" aria-current="page">Contact</a></li>
+        </ul>
+        <a href="contact.html" class="btn btn-primary nav-cta">Book a Strategy Call</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main-content">
+    <section class="page-intro">
+      <div class="container">
+        <p class="eyebrow">Contact</p>
+        <h1>Book a Strategy Call</h1>
+        <p class="page-intro-sub">Tell us about your business below and we'll follow up to schedule a short call &mdash; no obligation, just a conversation about whether GN Scales is the right fit.</p>
+      </div>
+    </section>
+
+    <section aria-labelledby="form-heading">
+      <div class="container">
+        <h2 id="form-heading" class="sr-only">Strategy call request form</h2>
+
+        <div class="form-wrapper">
+          <!-- TODO: replace src below with the real published Google Form embed URL -->
+          <iframe
+            src="https://docs.google.com/forms/d/e/PLACEHOLDER_FORM_ID/viewform?embedded=true"
+            width="100%"
+            height="900"
+            frameborder="0"
+            title="GN Scales strategy call booking form">Loading&hellip;</iframe>
+        </div>
+
+        <p class="form-fallback-link" id="form-fallback-link" hidden>
+          <a href="https://docs.google.com/forms/d/e/PLACEHOLDER_FORM_ID/viewform" target="_blank" rel="noopener">Trouble viewing the form? Open it in a new tab &rarr;</a>
+        </p>
+
+        <p class="contact-fallback">Or email us directly at <a href="mailto:hello@REPLACE-DOMAIN">hello@REPLACE-DOMAIN</a>.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <div class="footer-brand">
+        <span class="logo-glyph" aria-hidden="true">
+          <svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="10" cy="9" r="3"/>
+            <circle cx="24" cy="6" r="3"/>
+            <circle cx="38" cy="9" r="3"/>
+            <circle cx="17" cy="7" r="2.3"/>
+            <circle cx="31" cy="7" r="2.3"/>
+            <path d="M10 12 L38 12 L34 25 Q34 28 30 28 L18 28 Q14 28 14 25 Z"/>
+            <path d="M15 28 H33 L36 37 Q24 41 12 37 Z"/>
+            <rect x="10" y="39" width="28" height="4" rx="1"/>
+          </svg>
+        </span>
+        <span class="site-name">GN Scales</span>
+      </div>
+      <nav class="footer-nav" aria-label="Footer">
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="services.html">Services</a></li>
+          <li><a href="pricing.html">Pricing</a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </nav>
+      <div class="footer-meta">
+        <p>&copy; <span id="current-year"></span> <span class="site-name">GN Scales</span>. All rights reserved.</p>
+        <p class="footer-fine-print">Ad spend is paid by clients directly to ad platforms &mdash; never routed or marked up by GN Scales.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="main.js"></script>
+  <script src="contact.js"></script>
+</body>
+</html>
