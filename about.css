@@ -1,88 +1,76 @@
 /* =========================================================
-   GN SCALES — ABOUT PAGE
-   Founding story, founders grid, avatar placeholders.
+   GN SCALES — STUDIO / ABOUT
+   Origin story, founder cards, principles.
    ========================================================= */
 
-.page-intro {
-  padding-block: var(--space-2xl) var(--space-xl);
-  border-bottom: var(--border-hairline);
+/* ---------- Origin ---------- */
+.story {
+  display: grid; grid-template-columns: minmax(0, 16rem) minmax(0, 1fr);
+  gap: clamp(2rem, 6vw, 5.5rem); align-items: start;
 }
+.eyebrow-stack::after { display: none; }
+.story-rail { position: relative; }
+.story-rail .eyebrow { flex-direction: column; align-items: flex-start; gap: 0.9rem; }
+.story-rail .eyebrow::after { display: block; content: ''; width: 60px; height: 1px; background: rgba(210, 173, 92, 0.4); }
 
-.story-copy {
-  color: var(--color-ink);
-  font-size: 1.05rem;
-  max-width: 70ch;
+.story-copy { display: flex; flex-direction: column; gap: 1.6rem; }
+.story-lede {
+  font-family: var(--font-display); font-weight: 400;
+  font-size: clamp(1.4rem, 2.3vw, 1.8rem);
+  line-height: 1.42; letter-spacing: -0.012em; color: var(--ink);
+  max-width: 58ch;
 }
-
-.story-copy + .story-copy {
-  margin-top: var(--space-md);
-}
+.story-copy > p { color: var(--ink-2); font-size: clamp(1rem, 1.2vw, 1.09rem); line-height: 1.7; max-width: 64ch; }
 
 /* ---------- Founders ---------- */
-.founders-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: var(--space-lg);
+.founder-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.25rem; }
+.founder-card { display: flex; flex-direction: column; padding: 0 !important; }
+.founder-card:hover { transform: translateY(-4px); }
+
+.portrait-lg {
+  position: relative; height: 300px; display: grid; place-items: center;
+  background: linear-gradient(160deg, rgba(210, 173, 92, 0.18), rgba(210, 173, 92, 0.03));
+  border-bottom: 1px solid rgba(210, 173, 92, 0.2);
+}
+.portrait-lg span { font-family: var(--font-display); font-size: 5rem; line-height: 1; color: rgba(210, 173, 92, 0.42); }
+.portrait-lg em {
+  position: absolute; bottom: 0.9rem; left: 0; right: 0; text-align: center;
+  font-family: var(--font-mono); font-style: normal; font-size: 0.5625rem;
+  letter-spacing: 0.16em; text-transform: uppercase; color: var(--ink-4);
 }
 
-.founder-card {
-  text-align: left;
-}
-
-.avatar-placeholder {
-  position: relative;
-  width: 92px;
-  height: 92px;
-  background: linear-gradient(155deg, var(--color-gold-wash), var(--color-bg-alt) 70%);
-  color: var(--color-gold);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family: var(--font-display);
-  font-weight: 700;
-  font-size: 1.5rem;
-  letter-spacing: 0.04em;
-  margin-bottom: var(--space-md);
-  border: 1px solid var(--color-gold-soft);
-  transition: transform var(--transition-slow), border-color var(--transition-base);
-}
-
-.founder-card:hover .avatar-placeholder {
-  transform: rotate(-2deg);
-  border-color: var(--color-gold);
-}
-
-.avatar-corner {
-  position: absolute;
-  width: 16px;
-  height: 16px;
-  pointer-events: none;
-}
-
-.avatar-corner-tl {
-  top: -6px;
-  left: -6px;
-  border-top: 2px solid var(--color-gold);
-  border-left: 2px solid var(--color-gold);
-}
-
-.avatar-corner-br {
-  bottom: -6px;
-  right: -6px;
-  border-bottom: 2px solid var(--color-gold);
-  border-right: 2px solid var(--color-gold);
-}
-
+.founder-body { padding: clamp(1.75rem, 2.6vw, 2.25rem); display: flex; flex-direction: column; gap: 0.9rem; }
+.founder-body h3 { font-size: clamp(1.75rem, 2.6vw, 2.375rem); }
 .founder-role {
-  font-family: var(--font-heavy);
-  font-size: 0.75rem;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: var(--color-gold);
-  margin-bottom: var(--space-sm);
+  font-family: var(--font-mono); font-size: 0.625rem;
+  letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold-500);
+  margin-top: -0.5rem;
+}
+.founder-body > p:last-child { color: var(--ink-2); font-size: 1rem; line-height: 1.68; }
+
+/* ---------- Principles ---------- */
+.principles { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.25rem; }
+.principle {
+  display: flex; flex-direction: column; gap: 0.8rem;
+  border: 1px solid var(--line); border-left: 2px solid var(--gold-500);
+  padding: clamp(1.75rem, 2.8vw, 2.25rem);
+  transition: border-color var(--t-hover), background-color var(--t-hover);
+}
+.principles > *:nth-child(2) { border-left-color: rgba(210, 173, 92, 0.62); }
+.principles > *:nth-child(3) { border-left-color: rgba(210, 173, 92, 0.42); }
+.principles > *:nth-child(4) { border-left-color: rgba(210, 173, 92, 0.26); }
+.principle:hover { background: var(--navy-800); border-left-color: var(--gold-500); }
+.principle-num { font-family: var(--font-mono); font-size: 0.625rem; letter-spacing: 0.2em; color: rgba(210, 173, 92, 0.6); }
+.principle p:last-child { color: var(--ink-2); font-size: 0.96rem; line-height: 1.66; }
+
+/* Closing flag without the pulse dot */
+.hero-flag-solo {
+  font-family: var(--font-mono); font-size: 0.6875rem;
+  letter-spacing: 0.26em; text-transform: uppercase; color: var(--gold-500);
 }
 
-.founder-card p:not(.founder-role) {
-  color: var(--color-ink);
+@media (max-width: 900px) {
+  .story { grid-template-columns: 1fr; gap: 1.75rem; }
+  .founder-grid { grid-template-columns: 1fr; }
+  .principles { grid-template-columns: 1fr; }
 }
-

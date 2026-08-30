@@ -4,126 +4,228 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Contact — GN Scales</title>
-  <meta name="description" content="Book a strategy call with GN Scales — the only step needed to get started.">
+  <meta name="description" content="Book a twenty-minute strategy call with GN Scales. No deck, no pressure — we will tell you honestly whether paid media is your next lever.">
+  <meta name="theme-color" content="#00081a">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Archivo+Black&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Schibsted+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="contact.css">
 </head>
 <body>
-  <a class="skip-link" href="#main-content">Skip to main content</a>
+  <a class="skip-link" href="#main">Skip to main content</a>
 
   <header class="site-header">
-    <div class="container header-inner">
-      <a href="index.html" class="logo" aria-label="GN Scales — home">
-        <!-- TODO: replace with final logo SVG/PNG when provided -->
-        <span class="logo-glyph" aria-hidden="true">
-          <svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
-            <circle cx="10" cy="9" r="3"/>
-            <circle cx="24" cy="6" r="3"/>
-            <circle cx="38" cy="9" r="3"/>
-            <circle cx="17" cy="7" r="2.3"/>
-            <circle cx="31" cy="7" r="2.3"/>
-            <path d="M10 12 L38 12 L34 25 Q34 28 30 28 L18 28 Q14 28 14 25 Z"/>
-            <path d="M15 28 H33 L36 37 Q24 41 12 37 Z"/>
-            <rect x="10" y="39" width="28" height="4" rx="1"/>
-          </svg>
-        </span>
-        <span class="logo-mark">
-          <span class="logo-initials"><span class="letter-g">G</span><span class="letter-n">N</span></span>
-          <span class="logo-suffix">Scales</span>
+    <div class="shell header-inner">
+      <a class="brand" href="index.html" aria-label="GN Scales — home">
+        <svg class="brand-mark" viewBox="19 0 42 93" aria-hidden="true" focusable="false">
+          <path d="M37.4 1H42.6V4.6H48.6V8.8H42.6V13.2H37.4V8.8H31.4V4.6H37.4Z"/>
+          <path d="M23 17C24.5 22 27 25.6 28 30H52C53 25.6 55.5 22 57 17C53 18 50 20.6 49 23.6C47.5 17.6 44 14.1 40 14.1C36 14.1 32.5 17.6 31 23.6C30 20.6 27 18 23 17Z"/>
+          <path d="M28 32H52V35.6H28Z"/>
+          <path d="M29.6 37.4H50.4V40.4H29.6Z"/>
+          <path d="M31.8 42.4H48.2C48.2 55 50.6 63.6 55 69H25C29.4 63.6 31.8 55 31.8 42.4Z"/>
+          <path d="M26.4 71H53.6L57.2 82.4H22.8Z"/>
+          <path d="M20.6 85H59.4V91.4H20.6Z"/>
+        </svg>
+        <span class="brand-type">
+          <span class="brand-gn">GN</span>
+          <span class="brand-scales">Scales</span>
         </span>
       </a>
 
-      <button type="button" class="nav-toggle" aria-expanded="false" aria-controls="primary-nav-list">
-        <span class="nav-toggle-bar" aria-hidden="true"></span>
-        <span class="nav-toggle-bar" aria-hidden="true"></span>
-        <span class="nav-toggle-bar" aria-hidden="true"></span>
+      <button type="button" class="nav-toggle" aria-expanded="false" aria-controls="site-nav">
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
         <span class="sr-only">Menu</span>
       </button>
 
-      <nav class="site-nav" aria-label="Primary">
-        <ul id="primary-nav-list" class="nav-list">
+      <nav class="site-nav" id="site-nav" aria-label="Primary">
+        <ul class="nav-list">
           <li><a href="index.html">Home</a></li>
           <li><a href="services.html">Services</a></li>
           <li><a href="pricing.html">Pricing</a></li>
-          <li><a href="about.html">About</a></li>
+          <li><a href="about.html">Studio</a></li>
           <li><a href="contact.html" aria-current="page">Contact</a></li>
         </ul>
-        <a href="contact.html" class="btn btn-primary nav-cta">Book a Strategy Call</a>
+        <div class="nav-end">
+          <span class="spots">3 / 10 spots</span>
+          <a class="btn btn-ghost btn-sm" href="#form">Jump to form</a>
+        </div>
       </nav>
     </div>
   </header>
 
-  <main id="main-content">
-    <section class="page-intro">
-      <div class="container">
-        <p class="eyebrow">Contact</p>
-        <h1>Book a Strategy Call</h1>
-        <p class="page-intro-sub">Tell us about your business below and we'll follow up to schedule a short call &mdash; no obligation, just a conversation about whether GN Scales is the right fit.</p>
-      </div>
-    </section>
+  <main id="main">
+    <section class="contact-section">
+      <div class="grain" aria-hidden="true"></div>
 
-    <section aria-labelledby="form-heading">
-      <div class="container">
-        <h2 id="form-heading" class="sr-only">Strategy call request form</h2>
+      <div class="shell contact-grid">
 
-        <div class="form-wrapper">
-          <!-- TODO: replace src below with the real published Google Form embed URL -->
-          <iframe
-            src="https://docs.google.com/forms/d/e/PLACEHOLDER_FORM_ID/viewform?embedded=true"
-            width="100%"
-            height="900"
-            frameborder="0"
-            title="GN Scales strategy call booking form">Loading&hellip;</iframe>
+        <!-- LEFT -->
+        <div class="contact-copy">
+          <p class="hero-flag">
+            <span class="pulse" aria-hidden="true"></span>
+            <span>Contact</span>
+          </p>
+          <h1>Twenty minutes. <span class="metal">No deck.</span></h1>
+          <p class="lead">Tell us what you sell and what you are spending now. We will tell you whether paid media is your next lever — including when it plainly is not.</p>
+
+          <hr class="hair">
+
+          <ol class="steps">
+            <li>
+              <span class="step-num">1</span>
+              <div>
+                <p class="step-title">You send this form</p>
+                <p class="step-desc">Both founders read it. Not a shared inbox, not a bot.</p>
+              </div>
+            </li>
+            <li>
+              <span class="step-num">2</span>
+              <div>
+                <p class="step-title">We reply within one business day</p>
+                <p class="step-desc">With a time, or with an honest note about why we are not the right fit.</p>
+              </div>
+            </li>
+            <li>
+              <span class="step-num">3</span>
+              <div>
+                <p class="step-title">We talk through your numbers</p>
+                <p class="step-desc">No slide deck, no pressure, no follow-up sequence afterwards.</p>
+              </div>
+            </li>
+          </ol>
+
+          <hr class="hair">
+
+          <div class="contact-direct">
+            <p class="contact-direct-label">Prefer email</p>
+            <!-- TODO: replace with the real address once the domain is registered -->
+            <a class="contact-mail" href="mailto:hello@yourdomain.com">[hello@yourdomain.com]</a>
+          </div>
         </div>
 
-        <p class="form-fallback-link" id="form-fallback-link" hidden>
-          <a href="https://docs.google.com/forms/d/e/PLACEHOLDER_FORM_ID/viewform" target="_blank" rel="noopener">Trouble viewing the form? Open it in a new tab &rarr;</a>
-        </p>
+        <!-- FORM -->
+        <!--
+          TODO: this form needs a submission endpoint before it will send.
+          Two options that need no backend:
+            1. Formspree — replace YOUR_FORM_ID below with your form id.
+            2. Netlify Forms — add `netlify` and `name="contact"` to the <form>
+               tag instead, and drop the action attribute.
+          Until then, submitting will not deliver anything.
+        -->
+        <form class="form" id="form" action="https://formspree.io/f/YOUR_FORM_ID" method="post">
+          <div class="form-head">
+            <h2>Start here</h2>
+            <span class="form-time">2 minutes</span>
+          </div>
 
-        <p class="contact-fallback">Or email us directly at <a href="mailto:hello@REPLACE-DOMAIN">hello@REPLACE-DOMAIN</a>.</p>
+          <div class="field-row">
+            <div class="field">
+              <label for="name">Your name</label>
+              <input type="text" id="name" name="name" autocomplete="name" placeholder="Jane Doe" required>
+            </div>
+            <div class="field">
+              <label for="business">Business name</label>
+              <input type="text" id="business" name="business" autocomplete="organization" placeholder="Apex Detailing" required>
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" autocomplete="email" placeholder="jane@apexdetailing.com" required>
+          </div>
+
+          <fieldset class="field">
+            <legend>What do you do?</legend>
+            <div class="chips">
+              <label class="chip"><input type="radio" name="sector" value="ppf" checked><span>PPF / coating</span></label>
+              <label class="chip"><input type="radio" name="sector" value="wraps"><span>Vehicle wraps</span></label>
+              <label class="chip"><input type="radio" name="sector" value="jewelry"><span>Jewelry</span></label>
+              <label class="chip"><input type="radio" name="sector" value="other"><span>Something else</span></label>
+            </div>
+          </fieldset>
+
+          <fieldset class="field">
+            <legend>Current monthly ad spend</legend>
+            <div class="chips">
+              <label class="chip"><input type="radio" name="spend" value="none"><span>Not spending yet</span></label>
+              <label class="chip"><input type="radio" name="spend" value="1-5k" checked><span>$1—5k</span></label>
+              <label class="chip"><input type="radio" name="spend" value="5-15k"><span>$5—15k</span></label>
+              <label class="chip"><input type="radio" name="spend" value="15k+"><span>$15k+</span></label>
+            </div>
+          </fieldset>
+
+          <div class="field">
+            <label for="message">What are you trying to fix?</label>
+            <textarea id="message" name="message" rows="4" placeholder="We get plenty of enquiries but they go cold after the quote…"></textarea>
+          </div>
+
+          <button type="submit" class="btn btn-primary btn-block btn-lg">
+            Send and book a time
+            <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M2.5 8h11M9 3.5 13.5 8 9 12.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+
+          <p class="form-privacy">
+            <svg viewBox="0 0 16 16" aria-hidden="true"><rect x="3" y="7" width="10" height="7" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M5.5 7V5a2.5 2.5 0 0 1 5 0v2" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>
+            We do not sell, share, or add you to a list.
+          </p>
+        </form>
       </div>
     </section>
   </main>
 
   <footer class="site-footer">
-    <div class="container footer-inner">
-      <div class="footer-brand">
-        <span class="logo-glyph" aria-hidden="true">
-          <svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
-            <circle cx="10" cy="9" r="3"/>
-            <circle cx="24" cy="6" r="3"/>
-            <circle cx="38" cy="9" r="3"/>
-            <circle cx="17" cy="7" r="2.3"/>
-            <circle cx="31" cy="7" r="2.3"/>
-            <path d="M10 12 L38 12 L34 25 Q34 28 30 28 L18 28 Q14 28 14 25 Z"/>
-            <path d="M15 28 H33 L36 37 Q24 41 12 37 Z"/>
-            <rect x="10" y="39" width="28" height="4" rx="1"/>
-          </svg>
-        </span>
-        <span class="site-name">GN Scales</span>
+    <div class="shell">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a class="brand" href="index.html" aria-label="GN Scales — home">
+            <svg class="brand-mark" viewBox="19 0 42 93" aria-hidden="true" focusable="false">
+              <path d="M37.4 1H42.6V4.6H48.6V8.8H42.6V13.2H37.4V8.8H31.4V4.6H37.4Z"/>
+              <path d="M23 17C24.5 22 27 25.6 28 30H52C53 25.6 55.5 22 57 17C53 18 50 20.6 49 23.6C47.5 17.6 44 14.1 40 14.1C36 14.1 32.5 17.6 31 23.6C30 20.6 27 18 23 17Z"/>
+              <path d="M28 32H52V35.6H28Z"/>
+              <path d="M29.6 37.4H50.4V40.4H29.6Z"/>
+              <path d="M31.8 42.4H48.2C48.2 55 50.6 63.6 55 69H25C29.4 63.6 31.8 55 31.8 42.4Z"/>
+              <path d="M26.4 71H53.6L57.2 82.4H22.8Z"/>
+              <path d="M20.6 85H59.4V91.4H20.6Z"/>
+            </svg>
+            <span class="brand-type">
+              <span class="brand-gn">GN</span>
+              <span class="brand-scales">Scales</span>
+            </span>
+          </a>
+          <p>Design-led performance marketing for automotive aftermarket and jewelry brands.</p>
+        </div>
+        <div class="footer-col">
+          <h2>Studio</h2>
+          <a href="index.html">Home</a>
+          <a href="services.html">Services</a>
+          <a href="pricing.html">Pricing</a>
+          <a href="about.html">About</a>
+        </div>
+        <div class="footer-col">
+          <h2>Capabilities</h2>
+          <a href="services.html">Meta &amp; Instagram</a>
+          <a href="services.html">Google Search</a>
+          <a href="services.html">TikTok</a>
+          <a href="services.html">Landing pages</a>
+        </div>
+        <div class="footer-col">
+          <h2>Get in touch</h2>
+          <a class="footer-mail" href="mailto:hello@yourdomain.com">[hello@yourdomain.com]</a>
+          <a href="contact.html">Book a strategy call</a>
+          <span>Serving U.S. brands · Remote-first</span>
+        </div>
       </div>
-      <nav class="footer-nav" aria-label="Footer">
-        <ul>
-          <li><a href="index.html">Home</a></li>
-          <li><a href="services.html">Services</a></li>
-          <li><a href="pricing.html">Pricing</a></li>
-          <li><a href="about.html">About</a></li>
-          <li><a href="contact.html">Contact</a></li>
-        </ul>
-      </nav>
-      <div class="footer-meta">
-        <p>&copy; <span id="current-year"></span> <span class="site-name">GN Scales</span>. All rights reserved.</p>
-        <p class="footer-fine-print">Ad spend is paid by clients directly to ad platforms &mdash; never routed or marked up by GN Scales.</p>
+      <div class="footer-base">
+        <p>© <span id="year">2026</span> GN Scales. All rights reserved.</p>
+        <p>Ad spend is paid by clients directly to ad platforms — never routed or marked up by GN Scales.</p>
       </div>
     </div>
   </footer>
 
   <script src="main.js"></script>
-  <script src="contact.js"></script>
 </body>
 </html>

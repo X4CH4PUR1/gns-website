@@ -4,259 +4,307 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Pricing — GN Scales</title>
-  <meta name="description" content="Two GN Scales retainer tiers: Launch and Growth. Clients pay ad platforms directly — GN Scales never routes or marks up ad spend.">
+  <meta name="description" content="Two published retainer tiers: Launch at $1,500/mo and Growth at $2,500/mo. Month to month. Clients pay ad platforms directly — GN Scales never routes or marks up ad spend.">
+  <meta name="theme-color" content="#00081a">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Archivo+Black&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Schibsted+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="pricing.css">
 </head>
 <body>
-  <a class="skip-link" href="#main-content">Skip to main content</a>
+  <a class="skip-link" href="#main">Skip to main content</a>
 
   <header class="site-header">
-    <div class="container header-inner">
-      <a href="index.html" class="logo" aria-label="GN Scales — home">
-        <!-- TODO: replace with final logo SVG/PNG when provided -->
-        <span class="logo-glyph" aria-hidden="true">
-          <svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
-            <circle cx="10" cy="9" r="3"/>
-            <circle cx="24" cy="6" r="3"/>
-            <circle cx="38" cy="9" r="3"/>
-            <circle cx="17" cy="7" r="2.3"/>
-            <circle cx="31" cy="7" r="2.3"/>
-            <path d="M10 12 L38 12 L34 25 Q34 28 30 28 L18 28 Q14 28 14 25 Z"/>
-            <path d="M15 28 H33 L36 37 Q24 41 12 37 Z"/>
-            <rect x="10" y="39" width="28" height="4" rx="1"/>
-          </svg>
-        </span>
-        <span class="logo-mark">
-          <span class="logo-initials"><span class="letter-g">G</span><span class="letter-n">N</span></span>
-          <span class="logo-suffix">Scales</span>
+    <div class="shell header-inner">
+      <a class="brand" href="index.html" aria-label="GN Scales — home">
+        <svg class="brand-mark" viewBox="19 0 42 93" aria-hidden="true" focusable="false">
+          <path d="M37.4 1H42.6V4.6H48.6V8.8H42.6V13.2H37.4V8.8H31.4V4.6H37.4Z"/>
+          <path d="M23 17C24.5 22 27 25.6 28 30H52C53 25.6 55.5 22 57 17C53 18 50 20.6 49 23.6C47.5 17.6 44 14.1 40 14.1C36 14.1 32.5 17.6 31 23.6C30 20.6 27 18 23 17Z"/>
+          <path d="M28 32H52V35.6H28Z"/>
+          <path d="M29.6 37.4H50.4V40.4H29.6Z"/>
+          <path d="M31.8 42.4H48.2C48.2 55 50.6 63.6 55 69H25C29.4 63.6 31.8 55 31.8 42.4Z"/>
+          <path d="M26.4 71H53.6L57.2 82.4H22.8Z"/>
+          <path d="M20.6 85H59.4V91.4H20.6Z"/>
+        </svg>
+        <span class="brand-type">
+          <span class="brand-gn">GN</span>
+          <span class="brand-scales">Scales</span>
         </span>
       </a>
 
-      <button type="button" class="nav-toggle" aria-expanded="false" aria-controls="primary-nav-list">
-        <span class="nav-toggle-bar" aria-hidden="true"></span>
-        <span class="nav-toggle-bar" aria-hidden="true"></span>
-        <span class="nav-toggle-bar" aria-hidden="true"></span>
+      <button type="button" class="nav-toggle" aria-expanded="false" aria-controls="site-nav">
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
         <span class="sr-only">Menu</span>
       </button>
 
-      <nav class="site-nav" aria-label="Primary">
-        <ul id="primary-nav-list" class="nav-list">
+      <nav class="site-nav" id="site-nav" aria-label="Primary">
+        <ul class="nav-list">
           <li><a href="index.html">Home</a></li>
           <li><a href="services.html">Services</a></li>
           <li><a href="pricing.html" aria-current="page">Pricing</a></li>
-          <li><a href="about.html">About</a></li>
+          <li><a href="about.html">Studio</a></li>
           <li><a href="contact.html">Contact</a></li>
         </ul>
-        <a href="contact.html" class="btn btn-primary nav-cta">Book a Strategy Call</a>
+        <div class="nav-end">
+          <span class="spots">3 / 10 spots</span>
+          <a class="btn btn-primary btn-sm" href="contact.html">
+            Book a call
+            <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M2.5 8h11M9 3.5 13.5 8 9 12.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+        </div>
       </nav>
     </div>
   </header>
 
-  <main id="main-content">
-    <section class="page-intro">
-      <div class="container">
-        <p class="eyebrow">Pricing</p>
-        <h1>Two tiers. No games. No markup on ad spend.</h1>
+  <main id="main">
+
+    <section class="page-intro is-center">
+      <div class="shell">
+        <p class="eyebrow eyebrow-center">Pricing</p>
+        <h1>Two tiers. <span class="metal">No games.</span></h1>
+        <p class="lead">Published, because you should not have to sit through a discovery call to find out whether we are in your range. Month to month — if we are not earning it, leave.</p>
       </div>
     </section>
 
-    <section aria-labelledby="pricing-heading">
-      <div class="container">
-        <h2 id="pricing-heading" class="sr-only">Pricing tiers</h2>
-        <div class="pricing-grid">
-          <article class="card pricing-card">
-            <h3>Launch</h3>
-            <p class="price"><span class="price-setup">$1,500 setup</span> + <span class="price-monthly">$1,500/mo</span></p>
-            <ul class="check-list">
-              <li>One ad platform (Meta, Google, or TikTok)</li>
-              <li>One landing page</li>
-              <li>Ongoing performance reporting</li>
+    <section class="section" aria-labelledby="tiers-heading">
+      <div class="shell">
+        <h2 id="tiers-heading" class="sr-only">Retainer tiers</h2>
+
+        <div class="tiers stagger">
+          <article class="card tier">
+            <div class="tier-head">
+              <p class="tier-for">For one channel, done properly</p>
+              <h3>Launch</h3>
+            </div>
+            <div class="tier-price">
+              <p class="tier-figure">$1,500 <span>/ month</span></p>
+              <p class="tier-setup">plus a one-time $1,500 setup</p>
+            </div>
+            <ul class="ticks">
+              <li><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8.4 6.4 11.8 13 5.2" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>One ad platform — Meta, Google, or TikTok</li>
+              <li><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8.4 6.4 11.8 13 5.2" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>One designed and built landing page</li>
+              <li><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8.4 6.4 11.8 13 5.2" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>Ongoing performance reporting</li>
+              <li><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8.4 6.4 11.8 13 5.2" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>Direct access to both founders</li>
             </ul>
-            <a href="contact.html" class="btn btn-secondary pricing-cta">Book a Strategy Call</a>
+            <a class="btn btn-ghost btn-block" href="contact.html">
+              Book a strategy call
+              <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M2.5 8h11M9 3.5 13.5 8 9 12.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </a>
           </article>
 
-          <article class="card pricing-card pricing-card-featured">
-            <p class="eyebrow">Most Comprehensive</p>
-            <h3>Growth</h3>
-            <p class="price"><span class="price-setup">$2,000 setup</span> + <span class="price-monthly">$2,500/mo</span></p>
-            <ul class="check-list">
-              <li>Both ad platforms</li>
-              <li>Ongoing creative refresh</li>
-              <li>Regular strategy check-ins</li>
-              <li>Continued landing page iteration</li>
+          <article class="card card-gold tier is-featured">
+            <p class="tier-flag">Most chosen</p>
+            <div class="tier-head">
+              <p class="tier-for is-gold">The full engine</p>
+              <h3>Growth</h3>
+            </div>
+            <div class="tier-price">
+              <p class="tier-figure"><span class="metal metal-figure">$2,500</span> <span>/ month</span></p>
+              <p class="tier-setup">plus a one-time $2,000 setup</p>
+            </div>
+            <ul class="ticks is-bright">
+              <li><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8.4 6.4 11.8 13 5.2" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>Both ad platforms, run as one funnel</li>
+              <li><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8.4 6.4 11.8 13 5.2" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>Ongoing creative refresh so ads don't fatigue</li>
+              <li><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8.4 6.4 11.8 13 5.2" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>Continued landing page iteration</li>
+              <li><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8.4 6.4 11.8 13 5.2" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>Regular strategy check-ins</li>
+              <li><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8.4 6.4 11.8 13 5.2" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>Everything in Launch</li>
             </ul>
-            <a href="contact.html" class="btn btn-primary pricing-cta">Book a Strategy Call</a>
+            <a class="btn btn-primary btn-block" href="contact.html">
+              Book a strategy call
+              <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M2.5 8h11M9 3.5 13.5 8 9 12.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </a>
           </article>
         </div>
 
-        <p class="parity-note">Every client &mdash; Launch or Growth &mdash; gets close, frequent communication. The tiers differ in scope of deliverables, not in how often you'll hear from us.</p>
+        <p class="parity">
+          <svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.4" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M8 7.4v3.4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><circle cx="8" cy="5.2" r="0.6" fill="currentColor"/></svg>
+          The tiers differ in scope of work, never in how often you hear from us. Every client gets the same access.
+        </p>
 
-        <aside class="ad-spend-notice" aria-label="Ad spend disclosure">
-          <p><strong>Ad spend is paid by you, directly to the ad platform</strong> (Meta, Google, or TikTok). GN Scales never routes, holds, or marks up your media budget. The setup and monthly fees above cover our work only.</p>
+        <aside class="spend-note reveal" aria-label="Ad spend disclosure">
+          <span class="icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 2.6 20 5.6v6.2c0 4.9-3.4 8.3-8 9.6-4.6-1.3-8-4.7-8-9.6V5.6z"/><path d="M8.6 11.8 11 14.2l4.6-4.6"/></svg></span>
+          <div>
+            <h2>Your ad spend never touches our account</h2>
+            <p>You pay Meta, Google or TikTok directly, from your own card, on your own billing. GN Scales never routes, holds, or marks up your media budget — the fees above cover our work and nothing else. If an agency will not put that in writing, ask why.</p>
+          </div>
         </aside>
       </div>
     </section>
 
-    <section class="section-alt" aria-labelledby="faq-heading">
-      <div class="container">
-        <div class="section-heading">
-          <p class="eyebrow">FAQ</p>
-          <h2 id="faq-heading">Common questions</h2>
+    <section class="section section-alt" aria-labelledby="setup-heading">
+      <div class="shell">
+        <div class="section-head section-head-split reveal">
+          <div>
+            <p class="eyebrow">The setup fee</p>
+            <h2 id="setup-heading">What you are actually paying for up front</h2>
+          </div>
+          <p class="lead">Roughly three to four weeks of work before a single ad goes live. Most of the outcome is decided here.</p>
         </div>
 
-        <div class="faq-list">
-          <div class="faq-item">
+        <div class="setup-grid stagger">
+          <article class="card setup-step">
+            <p class="setup-num">01</p>
+            <h3>Offer &amp; audit</h3>
+            <p>What you sell, who buys it, and why the current version is not converting.</p>
+          </article>
+          <article class="card setup-step">
+            <p class="setup-num">02</p>
+            <h3>Creative build</h3>
+            <p>Concepts, art direction, and the first production round of assets.</p>
+          </article>
+          <article class="card setup-step">
+            <p class="setup-num">03</p>
+            <h3>Landing page</h3>
+            <p>Designed and built from scratch. Yours to keep, whatever happens next.</p>
+          </article>
+          <article class="card setup-step">
+            <p class="setup-num">04</p>
+            <h3>Tracking</h3>
+            <p>Pixel, conversions API, call tracking. Done once, done right, in your accounts.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="pfaq-heading">
+      <div class="shell pricing-faq">
+        <div class="reveal">
+          <p class="eyebrow">Questions</p>
+          <h2 id="pfaq-heading">Before you ask</h2>
+        </div>
+
+        <div class="faq-list reveal">
+          <div class="faq-item is-open">
             <h3>
-              <button type="button" class="faq-question" aria-expanded="false" aria-controls="faq-panel-1" id="faq-trigger-1">
-                What does GN Scales actually do?
+              <button type="button" class="faq-q" aria-expanded="true" aria-controls="pf-1">
+                Am I locked into a contract?
+                <span class="faq-icon" aria-hidden="true"></span>
               </button>
             </h3>
-            <div class="faq-answer" id="faq-panel-1" role="region" aria-labelledby="faq-trigger-1" hidden>
-              <p>We run paid ad campaigns (Meta, Google, TikTok) and build the landing pages, websites, and brand assets behind them, as a single design-led retainer &mdash; not just media buying.</p>
-            </div>
+            <div class="faq-a" id="pf-1" role="region"><div>
+              <p>No. Month to month after the setup period. The setup fee covers real work that is delivered to you regardless, and the landing page is yours to keep either way.</p>
+            </div></div>
           </div>
 
           <div class="faq-item">
             <h3>
-              <button type="button" class="faq-question" aria-expanded="false" aria-controls="faq-panel-2" id="faq-trigger-2">
-                What makes GN Scales different from other performance agencies?
+              <button type="button" class="faq-q" aria-expanded="false" aria-controls="pf-2">
+                What ad budget do I need on top?
+                <span class="faq-icon" aria-hidden="true"></span>
               </button>
             </h3>
-            <div class="faq-answer" id="faq-panel-2" role="region" aria-labelledby="faq-trigger-2" hidden>
-              <p>The founders come from design backgrounds in automotive and industrial B2B work, so campaigns are backed by real design craft most performance-only agencies don't have in-house.</p>
-            </div>
+            <div class="faq-a" id="pf-2" role="region"><div>
+              <p>That depends entirely on your job value and margin, which is why we would rather work it out with you than publish a number. Use the break-even model on the home page as a starting point, then bring your real figures to the call.</p>
+            </div></div>
           </div>
 
           <div class="faq-item">
             <h3>
-              <button type="button" class="faq-question" aria-expanded="false" aria-controls="faq-panel-3" id="faq-trigger-3">
-                Who is GN Scales built for?
+              <button type="button" class="faq-q" aria-expanded="false" aria-controls="pf-3">
+                Can I start on Launch and move up?
+                <span class="faq-icon" aria-hidden="true"></span>
               </button>
             </h3>
-            <div class="faq-answer" id="faq-panel-3" role="region" aria-labelledby="faq-trigger-3" hidden>
-              <p>Right now, primarily U.S.-based automotive aftermarket businesses (PPF, ceramic coating, vehicle wraps) and local jewelry businesses doing custom/engagement work &mdash; not ecommerce-only brands.</p>
-            </div>
+            <div class="faq-a" id="pf-3" role="region"><div>
+              <p>Yes, and most people should. Proving one channel works before adding a second is cheaper than debugging two at once. Moving up costs the difference in monthly fee — there is no second setup charge.</p>
+            </div></div>
           </div>
 
           <div class="faq-item">
             <h3>
-              <button type="button" class="faq-question" aria-expanded="false" aria-controls="faq-panel-4" id="faq-trigger-4">
-                What's included in the Launch tier?
+              <button type="button" class="faq-q" aria-expanded="false" aria-controls="pf-4">
+                Do you work outside automotive and jewelry?
+                <span class="faq-icon" aria-hidden="true"></span>
               </button>
             </h3>
-            <div class="faq-answer" id="faq-panel-4" role="region" aria-labelledby="faq-trigger-4" hidden>
-              <p>One ad platform, one landing page, and ongoing performance reporting, for a $1,500 setup and $1,500/month.</p>
-            </div>
+            <div class="faq-a" id="pf-4" role="region"><div>
+              <p>Occasionally, if the shape of the business matches: high job value, a considered purchase, and local or regional intent. If you are ecommerce-only, we are honestly not the right studio and will tell you so.</p>
+            </div></div>
           </div>
 
           <div class="faq-item">
             <h3>
-              <button type="button" class="faq-question" aria-expanded="false" aria-controls="faq-panel-5" id="faq-trigger-5">
-                What's included in the Growth tier?
+              <button type="button" class="faq-q" aria-expanded="false" aria-controls="pf-5">
+                Do you have case studies yet?
+                <span class="faq-icon" aria-hidden="true"></span>
               </button>
             </h3>
-            <div class="faq-answer" id="faq-panel-5" role="region" aria-labelledby="faq-trigger-5" hidden>
-              <p>Both ad platforms, ongoing creative refreshes, regular check-ins, and continued landing page iteration, for a $2,000 setup and $2,500/month.</p>
-            </div>
-          </div>
-
-          <div class="faq-item">
-            <h3>
-              <button type="button" class="faq-question" aria-expanded="false" aria-controls="faq-panel-6" id="faq-trigger-6">
-                Do the tiers differ in how often you'll hear from us?
-              </button>
-            </h3>
-            <div class="faq-answer" id="faq-panel-6" role="region" aria-labelledby="faq-trigger-6" hidden>
-              <p>No &mdash; every client gets close, frequent communication regardless of tier.</p>
-            </div>
-          </div>
-
-          <div class="faq-item">
-            <h3>
-              <button type="button" class="faq-question" aria-expanded="false" aria-controls="faq-panel-7" id="faq-trigger-7">
-                Who pays for ad spend?
-              </button>
-            </h3>
-            <div class="faq-answer" id="faq-panel-7" role="region" aria-labelledby="faq-trigger-7" hidden>
-              <p>You do, directly to the ad platform (Meta, Google, or TikTok). GN Scales never routes or marks up ad spend.</p>
-            </div>
-          </div>
-
-          <div class="faq-item">
-            <h3>
-              <button type="button" class="faq-question" aria-expanded="false" aria-controls="faq-panel-8" id="faq-trigger-8">
-                Do you have client testimonials or case studies?
-              </button>
-            </h3>
-            <div class="faq-answer" id="faq-panel-8" role="region" aria-labelledby="faq-trigger-8" hidden>
-              <p>We're a young agency building our first client cohort now, so current examples are illustrative/scenario-based rather than verified client results &mdash; clearly labeled as such wherever shown.</p>
-            </div>
-          </div>
-
-          <div class="faq-item">
-            <h3>
-              <button type="button" class="faq-question" aria-expanded="false" aria-controls="faq-panel-9" id="faq-trigger-9">
-                How do I get started?
-              </button>
-            </h3>
-            <div class="faq-answer" id="faq-panel-9" role="region" aria-labelledby="faq-trigger-9" hidden>
-              <p>Book a strategy call through the contact page &mdash; that's the only step needed to begin.</p>
-            </div>
+            <div class="faq-a" id="pf-5" role="region"><div>
+              <p>No. We are building our first client cohort now and we will not dress a planning scenario up as a result. What we can show you is the work itself — creative, pages, account structure — on a call.</p>
+            </div></div>
           </div>
         </div>
       </div>
     </section>
 
-    <section class="closing-cta">
-      <div class="container text-center">
-        <h2>Ready to talk through your goals?</h2>
+    <section class="closing">
+      <div class="grain" aria-hidden="true"></div>
+      <div class="shell">
+        <h2>Still cheaper than one <span class="metal">bad quarter.</span></h2>
+        <p class="lead">Bring your numbers to the call and we will work out together whether this is worth doing. If it is not, we will say so.</p>
         <div class="btn-row btn-row-center">
-          <a href="contact.html" class="btn btn-primary">Book a Strategy Call</a>
+          <a class="btn btn-primary btn-lg" href="contact.html">
+            Book a strategy call
+            <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M2.5 8h11M9 3.5 13.5 8 9 12.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
         </div>
       </div>
     </section>
   </main>
 
   <footer class="site-footer">
-    <div class="container footer-inner">
-      <div class="footer-brand">
-        <span class="logo-glyph" aria-hidden="true">
-          <svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
-            <circle cx="10" cy="9" r="3"/>
-            <circle cx="24" cy="6" r="3"/>
-            <circle cx="38" cy="9" r="3"/>
-            <circle cx="17" cy="7" r="2.3"/>
-            <circle cx="31" cy="7" r="2.3"/>
-            <path d="M10 12 L38 12 L34 25 Q34 28 30 28 L18 28 Q14 28 14 25 Z"/>
-            <path d="M15 28 H33 L36 37 Q24 41 12 37 Z"/>
-            <rect x="10" y="39" width="28" height="4" rx="1"/>
-          </svg>
-        </span>
-        <span class="site-name">GN Scales</span>
+    <div class="shell">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a class="brand" href="index.html" aria-label="GN Scales — home">
+            <svg class="brand-mark" viewBox="19 0 42 93" aria-hidden="true" focusable="false">
+              <path d="M37.4 1H42.6V4.6H48.6V8.8H42.6V13.2H37.4V8.8H31.4V4.6H37.4Z"/>
+              <path d="M23 17C24.5 22 27 25.6 28 30H52C53 25.6 55.5 22 57 17C53 18 50 20.6 49 23.6C47.5 17.6 44 14.1 40 14.1C36 14.1 32.5 17.6 31 23.6C30 20.6 27 18 23 17Z"/>
+              <path d="M28 32H52V35.6H28Z"/>
+              <path d="M29.6 37.4H50.4V40.4H29.6Z"/>
+              <path d="M31.8 42.4H48.2C48.2 55 50.6 63.6 55 69H25C29.4 63.6 31.8 55 31.8 42.4Z"/>
+              <path d="M26.4 71H53.6L57.2 82.4H22.8Z"/>
+              <path d="M20.6 85H59.4V91.4H20.6Z"/>
+            </svg>
+            <span class="brand-type">
+              <span class="brand-gn">GN</span>
+              <span class="brand-scales">Scales</span>
+            </span>
+          </a>
+          <p>Design-led performance marketing for automotive aftermarket and jewelry brands.</p>
+        </div>
+        <div class="footer-col">
+          <h2>Studio</h2>
+          <a href="index.html">Home</a>
+          <a href="services.html">Services</a>
+          <a href="pricing.html">Pricing</a>
+          <a href="about.html">About</a>
+        </div>
+        <div class="footer-col">
+          <h2>Capabilities</h2>
+          <a href="services.html">Meta &amp; Instagram</a>
+          <a href="services.html">Google Search</a>
+          <a href="services.html">TikTok</a>
+          <a href="services.html">Landing pages</a>
+        </div>
+        <div class="footer-col">
+          <h2>Get in touch</h2>
+          <a class="footer-mail" href="mailto:hello@yourdomain.com">[hello@yourdomain.com]</a>
+          <a href="contact.html">Book a strategy call</a>
+          <span>Serving U.S. brands · Remote-first</span>
+        </div>
       </div>
-      <nav class="footer-nav" aria-label="Footer">
-        <ul>
-          <li><a href="index.html">Home</a></li>
-          <li><a href="services.html">Services</a></li>
-          <li><a href="pricing.html">Pricing</a></li>
-          <li><a href="about.html">About</a></li>
-          <li><a href="contact.html">Contact</a></li>
-        </ul>
-      </nav>
-      <div class="footer-meta">
-        <p>&copy; <span id="current-year"></span> <span class="site-name">GN Scales</span>. All rights reserved.</p>
-        <p class="footer-fine-print">Ad spend is paid by clients directly to ad platforms &mdash; never routed or marked up by GN Scales.</p>
+      <div class="footer-base">
+        <p>© <span id="year">2026</span> GN Scales. All rights reserved.</p>
+        <p>Ad spend is paid by clients directly to ad platforms — never routed or marked up by GN Scales.</p>
       </div>
     </div>
   </footer>
 
   <script src="main.js"></script>
-  <script src="pricing.js"></script>
 </body>
 </html>

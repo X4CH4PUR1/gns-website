@@ -4,297 +4,604 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>GN Scales — Design-Led Performance Marketing</title>
-  <meta name="description" content="GN Scales is a design-led performance marketing agency running Meta, Google, and TikTok campaigns backed by real design craft.">
+  <meta name="description" content="GN Scales is a design-led performance marketing studio. We build the creative, the landing page and the media engine as one system, for automotive aftermarket and jewelry brands.">
+  <meta name="theme-color" content="#00081a">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Archivo+Black&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Schibsted+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="index.css">
 </head>
 <body>
   <!--
-    GN SCALES — SITE-WIDE TODO / PLACEHOLDER INVENTORY
-    ====================================================
-    1. LOGO: header + footer logo is a text/glyph placeholder (♛ + "GN" + "SCALES").
-       Replace with final logo SVG/PNG when provided. (header/footer, all 5 pages)
-    2. DISPLAY FONT: using Google Fonts "Cinzel" as a stand-in for licensed
-       Colonna MT Regular. Swap in style.css --font-display and the <head> font links.
-    3. HEAVY FONT: using Google Fonts "Archivo Black" as a stand-in for licensed
-       Dutch 801 Extra Bold BT. Swap in style.css --font-heavy and the <head> font links.
-    4. FOUNDER PHOTOS (about.html): Gn Lomidze and George Lomidze currently use
-       initials-on-gold-circle placeholders. Replace with real photography.
-    5. PORTFOLIO / CAMPAIGN IMAGERY (index.html results section, services.html):
-       no real screenshots or creative used yet — all sample results are clearly
-       labeled "Illustrative Example" / "Sample Scenario" and contain no real
-       client images.
-    6. GOOGLE FORM EMBED (contact.html): iframe src is a placeholder
-       (PLACEHOLDER_FORM_ID) — replace with the real published Google Form
-       embed URL once the form is built.
-    7. CONTACT EMAIL (contact.html): mailto fallback uses hello@REPLACE-DOMAIN —
-       replace with the real domain once registered.
+    GN SCALES — OUTSTANDING ITEMS
+    1. Founder portraits (about.html + home) are initial placeholders.
+    2. Contact email is [hello@yourdomain.com] until the domain is registered.
+    3. Contact form posts nowhere yet — wire to a form endpoint or Google Form.
+    4. "3 of 10 founding spots" appears in the header and closing CTA on every
+       page; update both when the number changes.
   -->
 
-  <a class="skip-link" href="#main-content">Skip to main content</a>
+  <a class="skip-link" href="#main">Skip to main content</a>
 
   <header class="site-header">
-    <div class="container header-inner">
-      <a href="index.html" class="logo" aria-label="GN Scales — home">
-        <!-- TODO: replace with final logo SVG/PNG when provided -->
-        <span class="logo-glyph" aria-hidden="true">
-          <svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
-            <circle cx="10" cy="9" r="3"/>
-            <circle cx="24" cy="6" r="3"/>
-            <circle cx="38" cy="9" r="3"/>
-            <circle cx="17" cy="7" r="2.3"/>
-            <circle cx="31" cy="7" r="2.3"/>
-            <path d="M10 12 L38 12 L34 25 Q34 28 30 28 L18 28 Q14 28 14 25 Z"/>
-            <path d="M15 28 H33 L36 37 Q24 41 12 37 Z"/>
-            <rect x="10" y="39" width="28" height="4" rx="1"/>
-          </svg>
-        </span>
-        <span class="logo-mark">
-          <span class="logo-initials"><span class="letter-g">G</span><span class="letter-n">N</span></span>
-          <span class="logo-suffix">Scales</span>
+    <div class="shell header-inner">
+      <a class="brand" href="index.html" aria-label="GN Scales — home">
+        <svg class="brand-mark" viewBox="19 0 42 93" role="img" aria-hidden="true" focusable="false">
+          <path d="M37.4 1H42.6V4.6H48.6V8.8H42.6V13.2H37.4V8.8H31.4V4.6H37.4Z"/>
+          <path d="M23 17C24.5 22 27 25.6 28 30H52C53 25.6 55.5 22 57 17C53 18 50 20.6 49 23.6C47.5 17.6 44 14.1 40 14.1C36 14.1 32.5 17.6 31 23.6C30 20.6 27 18 23 17Z"/>
+          <path d="M28 32H52V35.6H28Z"/>
+          <path d="M29.6 37.4H50.4V40.4H29.6Z"/>
+          <path d="M31.8 42.4H48.2C48.2 55 50.6 63.6 55 69H25C29.4 63.6 31.8 55 31.8 42.4Z"/>
+          <path d="M26.4 71H53.6L57.2 82.4H22.8Z"/>
+          <path d="M20.6 85H59.4V91.4H20.6Z"/>
+        </svg>
+        <span class="brand-type">
+          <span class="brand-gn">GN</span>
+          <span class="brand-scales">Scales</span>
         </span>
       </a>
 
-      <button type="button" class="nav-toggle" aria-expanded="false" aria-controls="primary-nav-list">
-        <span class="nav-toggle-bar" aria-hidden="true"></span>
-        <span class="nav-toggle-bar" aria-hidden="true"></span>
-        <span class="nav-toggle-bar" aria-hidden="true"></span>
+      <button type="button" class="nav-toggle" aria-expanded="false" aria-controls="site-nav">
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
         <span class="sr-only">Menu</span>
       </button>
 
-      <nav class="site-nav" aria-label="Primary">
-        <ul id="primary-nav-list" class="nav-list">
+      <nav class="site-nav" id="site-nav" aria-label="Primary">
+        <ul class="nav-list">
           <li><a href="index.html" aria-current="page">Home</a></li>
           <li><a href="services.html">Services</a></li>
           <li><a href="pricing.html">Pricing</a></li>
-          <li><a href="about.html">About</a></li>
+          <li><a href="about.html">Studio</a></li>
           <li><a href="contact.html">Contact</a></li>
         </ul>
-        <a href="contact.html" class="btn btn-primary nav-cta">Book a Strategy Call</a>
+        <div class="nav-end">
+          <span class="spots">3 / 10 spots</span>
+          <a class="btn btn-primary btn-sm" href="contact.html">
+            Book a call
+            <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M2.5 8h11M9 3.5 13.5 8 9 12.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+        </div>
       </nav>
     </div>
   </header>
 
-  <main id="main-content">
-    <section class="hero">
-      <div class="container hero-grid">
-        <div class="hero-inner">
-          <p class="eyebrow">Performance Marketing, Design-Led</p>
-          <h1>Design-Led Performance Marketing for Brands <span class="text-gradient">Built to Last.</span></h1>
-          <!-- Headline alternates considered:
-               2. "Where Craft Meets Conversion."
-               3. "Marketing With the Precision of Engineering, the Eye of Design." -->
-          <p class="hero-sub">GN Scales blends industrial-grade design discipline with performance marketing built to compound — for brands that want to look as sharp as they perform.</p>
-          <div class="btn-row">
-            <a href="contact.html" class="btn btn-primary">Book a Strategy Call</a>
-            <a href="services.html" class="btn btn-secondary">What We Do</a>
-          </div>
-        </div>
+  <main id="main">
 
-        <div class="proof-stack" aria-hidden="true">
-          <div class="proof-card proof-card-1" data-tilt="-6">
-            <div class="proof-card-top">
-              <span class="proof-label">Meta Ads</span>
-              <span class="proof-dot"></span>
-            </div>
-            <svg class="proof-spark" viewBox="0 0 120 40" preserveAspectRatio="none">
-              <polyline points="0,32 15,26 30,29 45,18 60,21 75,10 90,14 105,4 120,8" />
-            </svg>
-            <span class="proof-meta">Cold &rarr; Warm &rarr; Retarget</span>
-          </div>
-          <div class="proof-card proof-card-2" data-tilt="4">
-            <div class="proof-card-top">
-              <span class="proof-label">Google Ads</span>
-              <span class="proof-dot"></span>
-            </div>
-            <div class="proof-bars">
-              <span style="--h: 40%"></span>
-              <span style="--h: 65%"></span>
-              <span style="--h: 52%"></span>
-              <span style="--h: 88%"></span>
-              <span style="--h: 70%"></span>
-            </div>
-            <span class="proof-meta">High-Intent Search</span>
-          </div>
-          <div class="proof-card proof-card-3" data-tilt="-3">
-            <div class="proof-card-top">
-              <span class="proof-label">Landing Pages</span>
-              <span class="proof-dot"></span>
-            </div>
-            <div class="proof-frame">
-              <span></span>
-              <span></span>
-              <span></span>
-            </div>
-            <span class="proof-meta">Built to Convert</span>
-          </div>
+    <!-- ============ HERO ============ -->
+    <section class="hero">
+      <canvas class="hero-canvas" id="hero-canvas" aria-hidden="true"></canvas>
+      <div class="grain" aria-hidden="true"></div>
+
+      <div class="shell hero-inner">
+        <p class="hero-flag">
+          <span class="pulse" aria-hidden="true"></span>
+          <span>Accepting 10 founding partners</span>
+          <span class="hero-flag-rule" aria-hidden="true"></span>
+          <span class="hero-flag-dim">Automotive &amp; jewelry</span>
+        </p>
+
+        <h1>Craft first.<br><span class="metal">Then the numbers.</span></h1>
+
+        <p class="lead hero-sub">A campaign is only as good as the thing it points at. We design the creative, the landing page and the media engine as one system — then we spend against it.</p>
+
+        <div class="btn-row">
+          <a class="btn btn-primary btn-lg" href="contact.html">
+            Book a strategy call
+            <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M2.5 8h11M9 3.5 13.5 8 9 12.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+          <a class="btn btn-secondary btn-lg" href="#process">
+            <svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.2" fill="none" stroke="#d2ad5c" stroke-width="1.4"/><path d="M6.6 5.6 10.6 8l-4 2.4z" fill="#d2ad5c"/></svg>
+            See how we work
+          </a>
+        </div>
+      </div>
+
+      <div class="hero-rail">
+        <div class="shell hero-rail-inner">
+          <ul class="hero-facts">
+            <li>
+              <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8.4 6.4 11.8 13 5.2" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              No markup on ad spend
+            </li>
+            <li>
+              <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8.4 6.4 11.8 13 5.2" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              Design and media, one team
+            </li>
+            <li>
+              <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8.4 6.4 11.8 13 5.2" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              Month to month, no lock-in
+            </li>
+          </ul>
+          <span class="hero-scroll" aria-hidden="true">
+            Scroll
+            <svg viewBox="0 0 12 26"><path d="M6 2v18M2.4 16.4 6 20l3.6-3.6" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+          </span>
         </div>
       </div>
     </section>
 
+    <!-- ============ SECTORS ============ -->
     <div class="marquee" aria-hidden="true">
       <div class="marquee-track">
-        <span>Automotive Aftermarket</span><span class="marquee-dot">&#9670;</span>
-        <span>Local Jewelry</span><span class="marquee-dot">&#9670;</span>
-        <span>PPF &amp; Ceramic Coating</span><span class="marquee-dot">&#9670;</span>
-        <span>Vehicle Wraps</span><span class="marquee-dot">&#9670;</span>
-        <span>Custom &amp; Engagement Jewelry</span><span class="marquee-dot">&#9670;</span>
-        <span>Automotive Aftermarket</span><span class="marquee-dot">&#9670;</span>
-        <span>Local Jewelry</span><span class="marquee-dot">&#9670;</span>
-        <span>PPF &amp; Ceramic Coating</span><span class="marquee-dot">&#9670;</span>
-        <span>Vehicle Wraps</span><span class="marquee-dot">&#9670;</span>
-        <span>Custom &amp; Engagement Jewelry</span><span class="marquee-dot">&#9670;</span>
+        <span>Paint protection film</span><span class="dot">◆</span>
+        <span>Ceramic coating</span><span class="dot">◆</span>
+        <span>Vehicle wraps</span><span class="dot">◆</span>
+        <span>Custom jewelry</span><span class="dot">◆</span>
+        <span>Engagement rings</span><span class="dot">◆</span>
+        <span>Automotive aftermarket</span><span class="dot">◆</span>
+        <span>Paint protection film</span><span class="dot">◆</span>
+        <span>Ceramic coating</span><span class="dot">◆</span>
+        <span>Vehicle wraps</span><span class="dot">◆</span>
+        <span>Custom jewelry</span><span class="dot">◆</span>
+        <span>Engagement rings</span><span class="dot">◆</span>
+        <span>Automotive aftermarket</span><span class="dot">◆</span>
       </div>
     </div>
 
-    <section class="section-alt" aria-labelledby="services-heading">
-      <div class="container">
-        <div class="section-heading">
-          <p class="eyebrow">What We Do</p>
-          <h2 id="services-heading">Six ways we move your growth forward</h2>
+    <!-- ============ THE GAP ============ -->
+    <section class="section" aria-labelledby="gap-heading">
+      <div class="shell gap-grid">
+        <div class="gap-copy reveal">
+          <p class="eyebrow">01 — The gap</p>
+          <h2 id="gap-heading">Most agencies inherit the creative. <span class="metal">We author it.</span></h2>
+          <p>A media buyer takes whatever assets a client already has and optimises around them. When performance stalls, the lever they reach for is targeting — because the creative isn't theirs to change.</p>
+          <p>Our founders spent years designing for automotive and industrial B2B, where precision isn't a style choice. We build the asset and the account together, so the biggest lever in paid media is one we actually control.</p>
+          <a class="link-arrow" href="about.html">
+            Read our approach
+            <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M2.5 8h11M9 3.5 13.5 8 9 12.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
         </div>
-        <div class="service-grid">
-          <article class="card service-card">
-            <span class="service-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3 L21 8 L12 13 L3 8 Z"/><path d="M3 12 L12 17 L21 12"/><path d="M3 16 L12 21 L21 16"/></svg></span>
-            <h3>Meta Ads</h3>
-            <p>Full-funnel campaigns across Facebook and Instagram, built on creative that stops the scroll and targeting that finds the right buyer.</p>
-            <a href="services.html">Learn more &rarr;</a>
-          </article>
-          <article class="card service-card">
-            <span class="service-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="10" cy="10" r="6"/><path d="M15 15 L21 21"/></svg></span>
-            <h3>Google Ads</h3>
-            <p>Search and Shopping campaigns that capture high-intent demand right when someone is ready to buy.</p>
-            <a href="services.html">Learn more &rarr;</a>
-          </article>
-          <article class="card service-card">
-            <span class="service-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M10 8 L16 12 L10 16 Z"/></svg></span>
-            <h3>TikTok Ads</h3>
-            <p>Short-form creative testing built for a platform where craft and authenticity outperform polish.</p>
-            <a href="services.html">Learn more &rarr;</a>
-          </article>
-          <article class="card service-card">
-            <span class="service-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7 L12 13 L21 7"/></svg></span>
-            <h3>Email Campaigns</h3>
-            <p>Lifecycle and retention email that keeps your list warm and turns one-time buyers into repeat customers.</p>
-            <a href="services.html">Learn more &rarr;</a>
-          </article>
-          <article class="card service-card">
-            <span class="service-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9 H21"/><circle cx="6.5" cy="6.5" r="0.6" fill="currentColor" stroke="none"/><circle cx="9" cy="6.5" r="0.6" fill="currentColor" stroke="none"/></svg></span>
-            <h3>Landing Pages &amp; Websites</h3>
-            <p>Conversion-focused pages designed to match the quality of the ad that sent someone there.</p>
-            <a href="services.html">Learn more &rarr;</a>
-          </article>
-          <article class="card service-card">
-            <span class="service-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3 L20 6 V12 C20 17 16.5 20 12 21 C7.5 20 4 17 4 12 V6 Z"/><path d="M12 8 L14 14 L8 12 Z"/></svg></span>
-            <h3>Full Retainer Brand Management</h3>
-            <p>Ongoing design and media under one accountable partner, for brands that want a single team behind the whole engine.</p>
-            <a href="services.html">Learn more &rarr;</a>
-          </article>
-        </div>
-      </div>
-    </section>
 
-    <section aria-labelledby="why-heading">
-      <div class="container">
-        <div class="section-heading">
-          <p class="eyebrow">Why GN Scales</p>
-          <h2 id="why-heading">Design craft most performance agencies don't have in-house</h2>
-        </div>
-        <div class="why-grid">
-          <div class="why-item ghost-num" data-index="01">
-            <h3>Design first, media second</h3>
-            <p>We design the creative and the landing experience before we ever turn on ad spend — every campaign inherits real craft, not a template graphic.</p>
+        <div class="order-compare reveal">
+          <div class="order-col">
+            <p class="order-label">Typical agency</p>
+            <ol class="order-list is-muted">
+              <li><span>01</span>Client supplies assets</li>
+              <li><span>02</span>Build campaign structure</li>
+              <li><span>03</span>Launch and optimise</li>
+              <li class="is-dead"><span>04</span>Creative stalls. Retarget harder.</li>
+            </ol>
           </div>
-          <div class="why-item ghost-num" data-index="02">
-            <h3>Industrial &amp; automotive design roots</h3>
-            <p>Our founders spent years designing for precision-engineered, high-trust industries. That background taught us how to sell complexity clearly — a skill most performance-only agencies never had to learn.</p>
-          </div>
-          <div class="why-item ghost-num" data-index="03">
-            <h3>One team, fully accountable</h3>
-            <p>Media buying and design live under one roof, so nothing gets lost in translation between "the agency" and "the freelancer" — and no one can point fingers when a campaign underperforms.</p>
+          <div class="order-col">
+            <p class="order-label is-gold">GN Scales</p>
+            <ol class="order-list is-live">
+              <li><span>01</span>Design the offer and creative</li>
+              <li><span>02</span>Build the landing experience</li>
+              <li><span>03</span>Launch media against it</li>
+              <li class="is-hot"><span>04</span>Redesign the lever that stalled</li>
+            </ol>
           </div>
         </div>
       </div>
     </section>
 
-    <section class="section-alt" aria-labelledby="results-heading">
-      <div class="container">
-        <div class="section-heading">
-          <p class="eyebrow">What Success Can Look Like</p>
-          <h2 id="results-heading">Sample campaign scenarios</h2>
-          <p>The cards below are illustrative planning scenarios, not verified client results. We're a young agency building our first client cohort now — see our <a href="about.html">story</a>.</p>
+    <!-- ============ CAPABILITIES ============ -->
+    <section class="section section-alt" aria-labelledby="cap-heading">
+      <div class="shell">
+        <div class="section-head section-head-split reveal">
+          <div>
+            <p class="eyebrow">02 — Capabilities</p>
+            <h2 id="cap-heading">Six disciplines,<br>one accountable team</h2>
+          </div>
+          <p class="lead">Nothing is subcontracted. The person designing your ad is in the same room as the person spending against it.</p>
         </div>
-        <div class="results-grid">
-          <article class="card result-card">
-            <span class="badge badge-illustrative">Illustrative Example</span>
-            <h3>Meta Ads — Automotive Aftermarket (Sample Scenario)</h3>
-            <p class="result-stat">Target range: 2.5&ndash;3.5x ROAS within 90 days</p>
-            <p>A representative campaign arc for a performance-parts or PPF/coating retailer scaling paid social from cold traffic through to retargeting.</p>
-            <p class="result-disclaimer">Sample scenario for illustration only &mdash; not an actual client result or a guarantee of performance.</p>
+
+        <div class="bento stagger">
+          <article class="card card-gold bento-lg">
+            <span class="icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M3 14.5c0-4 2.2-7.5 4.8-7.5 3.4 0 4.6 10 8.4 10C18.8 17 21 13.5 21 9.5S18.8 2 16.2 2C12.8 2 11.6 12 7.8 12 5.2 12 3 8.5 3 4.5"/></svg></span>
+            <h3>Meta &amp; Instagram</h3>
+            <p>Full-funnel campaigns built on creative that earns the stop, not just targeting that finds the eyeball. Cold, warm and retargeting run as one arc.</p>
+            <div class="funnel" aria-hidden="true">
+              <div class="funnel-row"><span class="funnel-bar" style="--w:100%;--c:#d2ad5c"></span><span class="funnel-key">Cold</span></div>
+              <div class="funnel-row"><span class="funnel-bar" style="--w:66%;--c:#b4914a"></span><span class="funnel-key">Warm</span></div>
+              <div class="funnel-row"><span class="funnel-bar" style="--w:34%;--c:#f7e7be"></span><span class="funnel-key">Convert</span></div>
+            </div>
           </article>
-          <article class="card result-card">
-            <span class="badge badge-illustrative">Illustrative Example</span>
-            <h3>Google Ads — Local Jewelry (Sample Scenario)</h3>
-            <p class="result-stat">Target range: 3&ndash;5 qualified consultations per week</p>
-            <p>A representative search campaign built around high-intent local queries for custom and engagement jewelry work.</p>
-            <p class="result-disclaimer">Sample scenario for illustration only &mdash; not an actual client result or a guarantee of performance.</p>
+
+          <article class="card bento-lg">
+            <span class="icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.4 15.4 21 21"/></svg></span>
+            <h3>Google Search &amp; Shopping</h3>
+            <p>Demand that already exists, captured at the moment of intent. For a PPF shop that is somebody typing “ceramic coating near me” at 9pm.</p>
+            <div class="serp" aria-hidden="true">
+              <div class="serp-row is-ad"><span class="serp-tag">Ad</span><span class="serp-line" style="--w:44%"></span><span class="serp-line is-dim" style="--w:20%"></span></div>
+              <div class="serp-row"><span class="serp-line is-dim" style="--w:38%"></span><span class="serp-line is-faint" style="--w:26%"></span></div>
+              <div class="serp-row"><span class="serp-line is-faint" style="--w:30%"></span><span class="serp-line is-faint" style="--w:18%"></span></div>
+            </div>
           </article>
-          <article class="card result-card">
-            <span class="badge badge-illustrative">Illustrative Example</span>
-            <h3>Landing Page + Email — Full Retainer (Sample Scenario)</h3>
-            <p class="result-stat">Target range: 15&ndash;25% lift in on-site conversion</p>
-            <p>A representative arc showing how a redesigned landing page paired with a lifecycle email sequence can compound the return on existing ad spend.</p>
-            <p class="result-disclaimer">Sample scenario for illustration only &mdash; not an actual client result or a guarantee of performance.</p>
+
+          <article class="card">
+            <span class="icon" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="3.5" y="3.5" width="17" height="17" rx="4.5"/><path d="M10 16.2a2.6 2.6 0 1 0 0-5.2v-4l1 1.4 2 .9"/></svg></span>
+            <h3>TikTok</h3>
+            <p>Short-form testing at volume, on the one platform where over-polish actively costs you performance.</p>
+          </article>
+
+          <article class="card">
+            <span class="icon" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="2.5" y="5" width="19" height="14" rx="2.5"/><path d="M3 7.5 12 13.5 21 7.5"/></svg></span>
+            <h3>Lifecycle email</h3>
+            <p>The quote that went cold three weeks ago is cheaper to win back than a new click. We build the sequence that does it.</p>
+          </article>
+
+          <article class="card card-gold bento-wide">
+            <div class="bento-wide-copy">
+              <span class="icon" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="2.5" y="4" width="19" height="16" rx="2.5"/><path d="M2.5 8.6h19"/><circle cx="5.8" cy="6.3" r="0.7" fill="currentColor" stroke="none"/><circle cx="8.2" cy="6.3" r="0.7" fill="currentColor" stroke="none"/></svg></span>
+              <h3>Landing pages &amp; websites</h3>
+              <p>The page has to be as good as the ad that sent them. Usually it is the cheapest performance gain available.</p>
+            </div>
+            <div class="mini-page" aria-hidden="true">
+              <div class="mini-dots"><span></span><span></span><span></span></div>
+              <div class="mini-title"></div>
+              <div class="mini-line"></div>
+              <div class="mini-line is-short"></div>
+              <div class="mini-cta"></div>
+              <div class="mini-grid"><span></span><span></span></div>
+            </div>
+          </article>
+
+          <article class="card bento-full">
+            <div class="retainer">
+              <span class="icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 2.6 20 5.6v6.2c0 4.9-3.4 8.3-8 9.6-4.6-1.3-8-4.7-8-9.6V5.6z"/><path d="M8.6 11.8 11 14.2l4.6-4.6"/></svg></span>
+              <div>
+                <h3>Full retainer brand management</h3>
+                <p>Every discipline above, run as one engine, with a single team accountable for the number at the bottom. For brands tired of refereeing between an agency and a freelancer.</p>
+              </div>
+            </div>
+            <a class="btn btn-ghost btn-sm" href="services.html">
+              All services
+              <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M2.5 8h11M9 3.5 13.5 8 9 12.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </a>
           </article>
         </div>
       </div>
     </section>
 
-    <section class="closing-cta">
-      <div class="container text-center">
-        <h2>Ready to see if GN Scales is the right fit?</h2>
-        <p class="closing-cta-sub">No obligation &mdash; just a straightforward conversation about your goals.</p>
+    <!-- ============ PROCESS ============ -->
+    <section class="section" id="process" aria-labelledby="process-heading">
+      <div class="shell">
+        <div class="section-head reveal">
+          <p class="eyebrow">03 — Process</p>
+          <h2 id="process-heading">Ninety days, four movements</h2>
+        </div>
+
+        <ol class="process stagger">
+          <li>
+            <span class="process-num is-on">1</span>
+            <p class="process-when">Week 1—2</p>
+            <h3>Audit &amp; offer</h3>
+            <p>We pull apart what you sell and how you say it. Half the time the offer is the problem, not the ad account.</p>
+          </li>
+          <li>
+            <span class="process-num is-on">2</span>
+            <p class="process-when">Week 2—4</p>
+            <h3>Design the system</h3>
+            <p>Creative concepts, landing page, tracking. Nothing goes live until the destination is worth sending traffic to.</p>
+          </li>
+          <li>
+            <span class="process-num">3</span>
+            <p class="process-when">Week 4—8</p>
+            <h3>Launch &amp; learn</h3>
+            <p>Structured tests, not scattergun. We are looking for the one angle that outperforms, then we pour into it.</p>
+          </li>
+          <li>
+            <span class="process-num is-off">4</span>
+            <p class="process-when">Week 8—12</p>
+            <h3>Scale the winner</h3>
+            <p>Budget follows evidence. Creative refreshes on a cadence so the winning angle doesn't fatigue into the ground.</p>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- ============ BREAK-EVEN MODEL ============ -->
+    <section class="section section-alt" aria-labelledby="maths-heading">
+      <div class="shell maths-grid">
+        <div class="maths-copy reveal">
+          <p class="eyebrow">04 — The maths</p>
+          <h2 id="maths-heading">Run your own numbers</h2>
+          <p>Most agencies hide the arithmetic until the proposal. Move the sliders and see what a retainer has to beat before it is worth doing — including our fee.</p>
+          <p class="note-rule">A planning model, not a forecast. It uses your inputs and our published retainer pricing. Nothing here is a claim about results.</p>
+        </div>
+
+        <div class="calc reveal" id="calc">
+          <div class="calc-tier">
+            <span class="calc-tier-label">Retainer tier</span>
+            <div class="calc-tier-btns">
+              <button type="button" class="tier-btn" data-tier="launch" aria-pressed="false">Launch · $1,500</button>
+              <button type="button" class="tier-btn is-active" data-tier="growth" aria-pressed="true">Growth · $2,500</button>
+            </div>
+          </div>
+
+          <div class="calc-inputs">
+            <div class="calc-field">
+              <label for="calc-spend">Monthly ad spend</label>
+              <output class="calc-value" id="out-spend" for="calc-spend">$6,000</output>
+              <input type="range" id="calc-spend" min="1000" max="30000" step="500" value="6000">
+              <div class="calc-scale"><span>$1k</span><span>$30k</span></div>
+            </div>
+            <div class="calc-field">
+              <label for="calc-job">Average job value</label>
+              <output class="calc-value" id="out-job" for="calc-job">$1,800</output>
+              <input type="range" id="calc-job" min="200" max="12000" step="100" value="1800">
+              <div class="calc-scale"><span>$200</span><span>$12k</span></div>
+            </div>
+            <div class="calc-field">
+              <label for="calc-close">Close rate on leads</label>
+              <output class="calc-value" id="out-close" for="calc-close">25%</output>
+              <input type="range" id="calc-close" min="5" max="80" step="1" value="25">
+              <div class="calc-scale"><span>5%</span><span>80%</span></div>
+            </div>
+          </div>
+
+          <hr class="calc-rule">
+
+          <div class="calc-outputs">
+            <div class="stat">
+              <p class="stat-label">All-in monthly cost</p>
+              <p class="stat-value" id="out-total">$8,500</p>
+              <p class="stat-note" id="out-breakdown">$6,000 media + $2,500 retainer</p>
+            </div>
+            <div class="stat">
+              <p class="stat-label">Jobs to break even</p>
+              <p class="stat-value metal" id="out-jobs">5</p>
+              <p class="stat-note" id="out-jobs-note">at $1,800 average</p>
+            </div>
+            <div class="stat">
+              <p class="stat-label">Leads required</p>
+              <p class="stat-value" id="out-leads">20</p>
+              <p class="stat-note" id="out-leads-note">at 25% close rate</p>
+            </div>
+            <div class="stat">
+              <p class="stat-label">Max cost per lead</p>
+              <p class="stat-value" id="out-cpl">$300</p>
+              <p class="stat-note">from media budget alone</p>
+            </div>
+          </div>
+
+          <div class="calc-funnel" aria-hidden="true">
+            <div class="funnel-row"><span class="funnel-bar is-lg" id="bar-leads" style="--c:#d2ad5c"><em id="bar-leads-label">20 leads</em></span></div>
+            <div class="funnel-row"><span class="funnel-bar is-lg" id="bar-jobs" style="--c:#f7e7be"><em id="bar-jobs-label">5 jobs</em></span></div>
+          </div>
+
+          <p class="calc-verdict">
+            <svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.4" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M8 7.4v3.4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><circle cx="8" cy="5.2" r="0.6" fill="currentColor"/></svg>
+            <span id="out-verdict">A $300 cost per lead is achievable in most local markets, but it is not a given. This is the honest middle of the range.</span>
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ THE STUDIO ============ -->
+    <section class="section" aria-labelledby="studio-heading">
+      <div class="shell">
+        <div class="section-head section-head-split reveal">
+          <div>
+            <p class="eyebrow">05 — The studio</p>
+            <h2 id="studio-heading">Two people. No account managers.</h2>
+          </div>
+          <p class="lead">You will talk to the people doing the work, every time. That is the honest advantage of being small — and the reason we cap the roster at ten.</p>
+        </div>
+
+        <div class="founders stagger">
+          <article class="card card-gold founder">
+            <div class="portrait" role="img" aria-label="Portrait of Gn Lomidze — pending">
+              <span aria-hidden="true">GL</span>
+              <em aria-hidden="true">Portrait pending</em>
+            </div>
+            <div class="founder-copy">
+              <h3>Gn Lomidze</h3>
+              <p class="founder-role">Co-founder — Creative</p>
+              <p>Came out of industrial and automotive design. Sets the creative and brand direction — how a campaign looks and feels before a dollar of media goes out.</p>
+            </div>
+          </article>
+
+          <article class="card card-gold founder">
+            <div class="portrait" role="img" aria-label="Portrait of George Lomidze — pending">
+              <span aria-hidden="true">GL</span>
+              <em aria-hidden="true">Portrait pending</em>
+            </div>
+            <div class="founder-copy">
+              <h3>George Lomidze</h3>
+              <p class="founder-role">Co-founder — Media</p>
+              <p>Runs media strategy and account performance. Turns design-led creative into campaigns that can actually be measured, argued with and improved.</p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ CRAFT / COMPARISON ============ -->
+    <section class="section section-alt" aria-labelledby="craft-heading">
+      <div class="shell">
+        <div class="section-head section-head-split reveal">
+          <div>
+            <p class="eyebrow">06 — Craft</p>
+            <h2 id="craft-heading">What design actually changes</h2>
+          </div>
+          <p class="lead">Drag the handle. Same offer, same budget, same audience — a different reason to stop.</p>
+        </div>
+
+        <div class="compare reveal" data-cursor="drag">
+          <div class="compare-after">
+            <p class="compare-tag is-gold">After — designed</p>
+            <div class="compare-body">
+              <p class="compare-kicker">Ceramic coating · 5 year</p>
+              <p class="compare-head">Keep the showroom<br><span class="metal">finish for five years.</span></p>
+              <div class="compare-actions">
+                <span class="compare-btn">Book an inspection</span>
+                <span class="compare-meta">Free · 20 minutes</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="compare-before">
+            <p class="compare-tag">Before — stock template</p>
+            <div class="compare-body">
+              <p class="compare-head-bad">Best ceramic coating<br>in town!! Call today!</p>
+              <p class="compare-sub-bad">Free quotes. Limited time offer. Financing available. Serving the whole metro area since 2019. Satisfaction guaranteed!</p>
+              <div class="compare-actions">
+                <span class="compare-btn-bad is-red">Call now!!</span>
+                <span class="compare-btn-bad is-green">Get quote</span>
+              </div>
+            </div>
+          </div>
+
+          <span class="compare-line" aria-hidden="true"></span>
+          <span class="compare-handle" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path d="M9.5 8 5.5 12l4 4M14.5 8l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </span>
+
+          <label class="sr-only" for="compare-range">Reveal the redesigned version</label>
+          <input class="compare-range" id="compare-range" type="range" min="3" max="97" value="50">
+        </div>
+
+        <p class="compare-note">Both panels are our own illustrative creative, made to show a design contrast. Neither is a client campaign.</p>
+      </div>
+    </section>
+
+    <!-- ============ FAQ ============ -->
+    <section class="section" aria-labelledby="faq-heading">
+      <div class="shell faq-grid">
+        <div class="reveal">
+          <p class="eyebrow">07 — Straight answers</p>
+          <h2 id="faq-heading">The questions you were going to ask anyway</h2>
+        </div>
+
+        <div class="faq-list reveal">
+          <div class="faq-item is-open">
+            <h3>
+              <button type="button" class="faq-q" aria-expanded="true" aria-controls="fa-1">
+                Do you have case studies yet?
+                <span class="faq-icon" aria-hidden="true"></span>
+              </button>
+            </h3>
+            <div class="faq-a" id="fa-1" role="region"><div>
+              <p>No. We are building our first client cohort now, and we would rather say that plainly than dress up a planning scenario as a result. What we can show you is the work itself — creative, pages, account structure — on a call.</p>
+            </div></div>
+          </div>
+
+          <div class="faq-item">
+            <h3>
+              <button type="button" class="faq-q" aria-expanded="false" aria-controls="fa-2">
+                Who pays for the ad spend?
+                <span class="faq-icon" aria-hidden="true"></span>
+              </button>
+            </h3>
+            <div class="faq-a" id="fa-2" role="region"><div>
+              <p>You do, directly to Meta, Google or TikTok, from your own card on your own billing. GN Scales never routes, holds or marks up your media budget. Our fees cover our work and nothing else.</p>
+            </div></div>
+          </div>
+
+          <div class="faq-item">
+            <h3>
+              <button type="button" class="faq-q" aria-expanded="false" aria-controls="fa-3">
+                Why only automotive and jewelry?
+                <span class="faq-icon" aria-hidden="true"></span>
+              </button>
+            </h3>
+            <div class="faq-a" id="fa-3" role="region"><div>
+              <p>Because a high-ticket considered purchase behaves nothing like ecommerce, and we would rather be genuinely good at two categories than passable at ten. PPF, coating, wraps and custom jewelry all share the same shape: high job value, long consideration, local intent.</p>
+            </div></div>
+          </div>
+
+          <div class="faq-item">
+            <h3>
+              <button type="button" class="faq-q" aria-expanded="false" aria-controls="fa-4">
+                Am I locked into a contract?
+                <span class="faq-icon" aria-hidden="true"></span>
+              </button>
+            </h3>
+            <div class="faq-a" id="fa-4" role="region"><div>
+              <p>No. Month to month after the setup period. The setup fee covers real work that is delivered to you regardless, and the landing page is yours to keep either way.</p>
+            </div></div>
+          </div>
+
+          <div class="faq-item">
+            <h3>
+              <button type="button" class="faq-q" aria-expanded="false" aria-controls="fa-5">
+                What does a strategy call involve?
+                <span class="faq-icon" aria-hidden="true"></span>
+              </button>
+            </h3>
+            <div class="faq-a" id="fa-5" role="region"><div>
+              <p>Twenty minutes, no deck. You tell us what you sell and what you are spending now; we tell you whether paid media is your next lever, and what we would do first. If the answer is that you shouldn't be spending yet, we will say so.</p>
+            </div></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ CLOSING ============ -->
+    <section class="closing">
+      <div class="grain" aria-hidden="true"></div>
+      <div class="shell">
+        <p class="hero-flag">
+          <span class="pulse" aria-hidden="true"></span>
+          <span>3 of 10 founding spots remaining</span>
+        </p>
+        <h2>Let's find out if this is <span class="metal">a fit.</span></h2>
+        <p class="lead">Twenty minutes, no deck, no pressure. We will tell you honestly whether paid media is the right lever for you right now — including when the answer is no.</p>
         <div class="btn-row btn-row-center">
-          <a href="contact.html" class="btn btn-primary">Book a Strategy Call</a>
+          <a class="btn btn-primary btn-lg" href="contact.html">
+            Book a strategy call
+            <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M2.5 8h11M9 3.5 13.5 8 9 12.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
         </div>
       </div>
     </section>
   </main>
 
   <footer class="site-footer">
-    <div class="container footer-inner">
-      <div class="footer-brand">
-        <span class="logo-glyph" aria-hidden="true">
-          <svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
-            <circle cx="10" cy="9" r="3"/>
-            <circle cx="24" cy="6" r="3"/>
-            <circle cx="38" cy="9" r="3"/>
-            <circle cx="17" cy="7" r="2.3"/>
-            <circle cx="31" cy="7" r="2.3"/>
-            <path d="M10 12 L38 12 L34 25 Q34 28 30 28 L18 28 Q14 28 14 25 Z"/>
-            <path d="M15 28 H33 L36 37 Q24 41 12 37 Z"/>
-            <rect x="10" y="39" width="28" height="4" rx="1"/>
-          </svg>
-        </span>
-        <span class="site-name">GN Scales</span>
+    <div class="shell">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a class="brand" href="index.html" aria-label="GN Scales — home">
+            <svg class="brand-mark" viewBox="19 0 42 93" aria-hidden="true" focusable="false">
+              <path d="M37.4 1H42.6V4.6H48.6V8.8H42.6V13.2H37.4V8.8H31.4V4.6H37.4Z"/>
+              <path d="M23 17C24.5 22 27 25.6 28 30H52C53 25.6 55.5 22 57 17C53 18 50 20.6 49 23.6C47.5 17.6 44 14.1 40 14.1C36 14.1 32.5 17.6 31 23.6C30 20.6 27 18 23 17Z"/>
+              <path d="M28 32H52V35.6H28Z"/>
+              <path d="M29.6 37.4H50.4V40.4H29.6Z"/>
+              <path d="M31.8 42.4H48.2C48.2 55 50.6 63.6 55 69H25C29.4 63.6 31.8 55 31.8 42.4Z"/>
+              <path d="M26.4 71H53.6L57.2 82.4H22.8Z"/>
+              <path d="M20.6 85H59.4V91.4H20.6Z"/>
+            </svg>
+            <span class="brand-type">
+              <span class="brand-gn">GN</span>
+              <span class="brand-scales">Scales</span>
+            </span>
+          </a>
+          <p>Design-led performance marketing for automotive aftermarket and jewelry brands.</p>
+        </div>
+
+        <div class="footer-col">
+          <h2>Studio</h2>
+          <a href="index.html">Home</a>
+          <a href="services.html">Services</a>
+          <a href="pricing.html">Pricing</a>
+          <a href="about.html">About</a>
+        </div>
+
+        <div class="footer-col">
+          <h2>Capabilities</h2>
+          <a href="services.html">Meta &amp; Instagram</a>
+          <a href="services.html">Google Search</a>
+          <a href="services.html">TikTok</a>
+          <a href="services.html">Landing pages</a>
+        </div>
+
+        <div class="footer-col">
+          <h2>Get in touch</h2>
+          <a class="footer-mail" href="mailto:hello@yourdomain.com">[hello@yourdomain.com]</a>
+          <a href="contact.html">Book a strategy call</a>
+          <span>Serving U.S. brands · Remote-first</span>
+        </div>
       </div>
-      <nav class="footer-nav" aria-label="Footer">
-        <ul>
-          <li><a href="index.html">Home</a></li>
-          <li><a href="services.html">Services</a></li>
-          <li><a href="pricing.html">Pricing</a></li>
-          <li><a href="about.html">About</a></li>
-          <li><a href="contact.html">Contact</a></li>
-        </ul>
-      </nav>
-      <div class="footer-meta">
-        <p>&copy; <span id="current-year"></span> <span class="site-name">GN Scales</span>. All rights reserved.</p>
-        <p class="footer-fine-print">Ad spend is paid by clients directly to ad platforms &mdash; never routed or marked up by GN Scales.</p>
+
+      <div class="footer-base">
+        <p>© <span id="year">2026</span> GN Scales. All rights reserved.</p>
+        <p>Ad spend is paid by clients directly to ad platforms — never routed or marked up by GN Scales.</p>
       </div>
     </div>
   </footer>

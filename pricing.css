@@ -1,150 +1,110 @@
 /* =========================================================
-   GN SCALES — PRICING PAGE
-   Two-tier pricing cards, ad-spend disclosure, FAQ accordion.
+   GN SCALES — PRICING
+   Tier cards, ad-spend disclosure, setup breakdown, FAQ.
    ========================================================= */
 
-.page-intro {
-  padding-block: var(--space-2xl) var(--space-xl);
-  border-bottom: var(--border-hairline);
+/* Centred page intro variant */
+.page-intro.is-center { text-align: center; }
+.page-intro.is-center .shell { display: flex; flex-direction: column; align-items: center; gap: 1.5rem; }
+.page-intro.is-center h1 { max-width: 15ch; }
+.page-intro.is-center .lead { max-width: 58ch; margin-bottom: 0; }
+.eyebrow-center { justify-content: center; }
+.eyebrow-center::before {
+  content: ''; width: 48px; height: 1px; background: rgba(210, 173, 92, 0.35); flex-shrink: 0;
 }
 
-/* ---------- Pricing cards ---------- */
-.pricing-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: var(--space-lg);
-  margin-bottom: var(--space-lg);
+/* ---------- Tiers ---------- */
+.tiers { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.4rem; align-items: stretch; }
+
+.tier {
+  display: flex; flex-direction: column; gap: 1.75rem;
+  padding: clamp(2rem, 3.4vw, 2.875rem);
+}
+.tier:hover { transform: none; }
+.tier.is-featured { box-shadow: 0 40px 90px -50px rgba(210, 173, 92, 0.5); }
+
+.tier-flag {
+  position: absolute; top: 0; right: 0;
+  background: var(--gold-500); color: var(--navy-900);
+  font-family: var(--font-mono); font-size: 0.5625rem;
+  letter-spacing: 0.18em; text-transform: uppercase;
+  padding: 0.45rem 1rem;
 }
 
-.pricing-card {
-  display: flex;
-  flex-direction: column;
+.tier-head { display: flex; flex-direction: column; gap: 0.7rem; }
+.tier-for {
+  font-family: var(--font-mono); font-size: 0.625rem;
+  letter-spacing: 0.22em; text-transform: uppercase; color: var(--ink-3);
 }
+.tier-for.is-gold { color: var(--gold-500); }
+.tier-head h3 { font-size: clamp(2.1rem, 3.4vw, 3.125rem); line-height: 1; }
 
-.pricing-card-featured {
-  border-color: var(--color-gold);
-  background-color: var(--color-bg-raised);
-  box-shadow: 0 30px 60px -32px rgba(210, 173, 92, 0.3);
-  animation: featured-glow 4.5s ease-in-out infinite;
+.tier-price {
+  display: flex; flex-direction: column; gap: 0.5rem;
+  border-block: 1px solid var(--line); padding-block: 1.6rem;
 }
+.tier.is-featured .tier-price { border-color: rgba(210, 173, 92, 0.22); }
+.tier-figure {
+  font-family: var(--font-display); font-size: clamp(2.5rem, 4.6vw, 3.875rem);
+  line-height: 1; color: var(--ink);
+}
+.tier-figure span:not(.metal) {
+  font-family: var(--font-mono); font-size: 0.75rem;
+  letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-3);
+  margin-left: 0.35rem;
+}
+/* The animated clip needs its own inline box to paint at this size.
+   Upright, not italic — a slanted price reads as a typo. */
+.metal-figure { display: inline-block; font-style: normal; }
+.tier-setup { font-family: var(--font-mono); font-size: 0.75rem; color: var(--ink-3); }
 
-@keyframes featured-glow {
-  0%, 100% {
-    box-shadow: 0 30px 60px -32px rgba(210, 173, 92, 0.3);
-  }
-  50% {
-    box-shadow: 0 30px 70px -28px rgba(210, 173, 92, 0.5);
-  }
-}
+.tier .ticks { flex: 1 1 auto; gap: 0.95rem; }
+.tier .ticks li { font-size: 1rem; }
+.tier .ticks.is-bright li { color: var(--ink); }
 
-@media (min-width: 700px) {
-  .pricing-card-featured {
-    margin-block-start: -10px;
-  }
+.parity {
+  display: flex; align-items: flex-start; justify-content: center; gap: 0.75rem;
+  max-width: 76ch; margin: 1.75rem auto 0; text-align: center;
+  font-size: 0.94rem; color: var(--ink-3);
 }
-
-@media (prefers-reduced-motion: reduce) {
-  .pricing-card-featured {
-    animation: none;
-  }
-}
-
-.pricing-card h3 {
-  margin-bottom: var(--space-sm);
-}
-
-.price {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: baseline;
-  gap: 0.4em;
-  font-family: var(--font-heavy);
-  font-size: 1.05rem;
-  color: var(--color-ink);
-  margin-bottom: var(--space-md);
-  padding-bottom: var(--space-md);
-  border-bottom: var(--border-hairline);
-}
-
-.price-monthly {
-  font-size: 1.3rem;
-  color: var(--color-gold);
-}
-
-.pricing-card .check-list {
-  flex-grow: 1;
-  margin-bottom: var(--space-lg);
-}
-
-.pricing-cta {
-  align-self: flex-start;
-}
-
-/* ---------- Parity note ---------- */
-.parity-note {
-  color: var(--color-ink);
-  max-width: 65ch;
-  margin-bottom: var(--space-md);
-}
+.parity svg { width: 15px; height: 15px; flex-shrink: 0; color: var(--gold-500); margin-top: 0.3rem; }
 
 /* ---------- Ad spend disclosure ---------- */
-.ad-spend-notice {
-  border: 1px solid var(--color-gold);
-  border-radius: var(--radius-md);
-  background-color: var(--color-gold-wash);
-  padding: var(--space-md);
+.spend-note {
+  display: flex; align-items: flex-start; gap: 1.6rem;
+  margin-top: clamp(3rem, 5vw, 4.5rem);
+  background: linear-gradient(120deg, rgba(210, 173, 92, 0.09), rgba(210, 173, 92, 0.02));
+  border: 1px solid rgba(210, 173, 92, 0.28);
+  padding: clamp(1.75rem, 3vw, 2.375rem);
+}
+.spend-note .icon { width: 30px; height: 30px; margin-top: 0.15rem; }
+.spend-note h2 { font-size: clamp(1.5rem, 2.4vw, 1.9rem); margin-bottom: 0.6rem; }
+.spend-note p { color: var(--ink-2); font-size: 1rem; line-height: 1.65; max-width: 88ch; }
+
+/* ---------- Setup breakdown ---------- */
+.setup-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1rem; }
+.setup-step { display: flex; flex-direction: column; gap: 0.8rem; border-top: 2px solid var(--gold-500); }
+.setup-grid > *:nth-child(2) { border-top-color: rgba(210, 173, 92, 0.55); }
+.setup-grid > *:nth-child(3) { border-top-color: rgba(210, 173, 92, 0.34); }
+.setup-grid > *:nth-child(4) { border-top-color: rgba(210, 173, 92, 0.18); }
+.setup-num { font-family: var(--font-display); font-size: 2.4rem; line-height: 1; color: rgba(210, 173, 92, 0.4); }
+
+/* ---------- FAQ layout ---------- */
+.pricing-faq {
+  display: grid; grid-template-columns: minmax(0, 22rem) minmax(0, 1fr);
+  gap: clamp(2.5rem, 6vw, 5.5rem); align-items: start;
+}
+.pricing-faq h2 { margin-top: 1.2rem; }
+
+@media (max-width: 900px) {
+  .tiers { grid-template-columns: 1fr; }
+  .setup-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .pricing-faq { grid-template-columns: 1fr; }
+  .pricing-faq h2 { margin-top: 0.75rem; }
+  .parity { text-align: left; justify-content: flex-start; }
 }
 
-.ad-spend-notice p {
-  color: var(--color-ink);
-  max-width: 70ch;
+@media (max-width: 560px) {
+  .setup-grid { grid-template-columns: 1fr; }
+  .spend-note { flex-direction: column; gap: 1.1rem; }
 }
-
-/* ---------- FAQ accordion ---------- */
-.faq-list {
-  max-width: 800px;
-  border-top: var(--border-hairline);
-}
-
-.faq-item {
-  border-bottom: var(--border-hairline);
-}
-
-.faq-question {
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: var(--space-md);
-  text-align: left;
-  padding-block: var(--space-md);
-  font-family: var(--font-display);
-  font-size: 1.05rem;
-  color: var(--color-gold);
-}
-
-.faq-question::after {
-  content: '+';
-  font-family: var(--font-heavy);
-  font-size: 1.2rem;
-  color: var(--color-gold);
-  flex-shrink: 0;
-  transition: transform var(--transition-base);
-}
-
-.faq-question[aria-expanded="true"]::after {
-  transform: rotate(45deg);
-}
-
-.faq-answer {
-  overflow: hidden;
-  max-height: 0;
-  transition: max-height var(--transition-slow);
-}
-
-.faq-answer p {
-  color: var(--color-ink);
-  max-width: 70ch;
-  padding-bottom: var(--space-md);
-}
-
