@@ -1,0 +1,42 @@
+/* =========================================================
+   GN SCALES — LEGAL, THANK YOU AND 404
+   One narrow measure, generous leading, nothing decorative
+   competing with the reading.
+   ========================================================= */
+
+.legal-page {
+  position: relative;
+  background: var(--navy-950);
+  padding-block: clamp(3.5rem, 7vw, 6.5rem);
+}
+
+.legal-inner { max-width: 44rem; display: flex; flex-direction: column; gap: clamp(2rem, 4vw, 3rem); }
+
+.legal-head { display: flex; flex-direction: column; gap: 1.1rem; }
+.legal-head h1 { font-size: clamp(3rem, 7vw, 5rem); }
+.legal-head .lead { max-width: 52ch; }
+
+.legal-updated {
+  font-family: var(--font-mono); font-size: 0.625rem;
+  letter-spacing: 0.2em; text-transform: uppercase; color: var(--ink-4);
+}
+
+.legal-section { display: flex; flex-direction: column; gap: 0.9rem; }
+.legal-section h2 {
+  font-size: clamp(1.4rem, 2.4vw, 1.875rem);
+  padding-top: clamp(1.25rem, 2.4vw, 1.75rem);
+  border-top: 1px solid var(--line);
+}
+.legal-section p { color: var(--ink-2); font-size: 1rem; line-height: 1.72; max-width: 62ch; }
+.legal-section strong { color: var(--ink); font-weight: 600; }
+.legal-section a {
+  color: var(--gold-500);
+  border-bottom: 1px solid rgba(210, 173, 92, 0.4);
+  transition: color var(--t-micro), border-color var(--t-micro);
+}
+.legal-section a:hover { color: var(--gold-200); border-color: var(--gold-200); }
+
+.legal-address {
+  font-family: var(--font-mono); font-size: 0.8125rem; line-height: 1.8;
+  color: var(--ink-3) !important;
+}

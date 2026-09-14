@@ -78,7 +78,13 @@
 .gap-copy h2 { max-width: 16ch; }
 .gap-copy p { color: var(--ink-2); font-size: clamp(1rem, 1.2vw, 1.125rem); max-width: 52ch; }
 
+/* .order-col had no rule either, which mattered: on a phone the two columns
+   stack, and without an explicit order the "typical agency" list could end up
+   underneath ours, reversing the argument the section is making. */
 .order-compare { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.9rem; }
+.order-col { display: flex; flex-direction: column; min-width: 0; }
+.order-col:first-child { order: 1; }
+.order-col:last-child { order: 2; }
 .order-label {
   font-family: var(--font-mono); font-size: 0.625rem;
   letter-spacing: 0.2em; text-transform: uppercase; color: var(--ink-4);
@@ -216,7 +222,9 @@
 .tier-btn:hover { color: var(--gold-500); border-color: rgba(210, 173, 92, 0.5); }
 .tier-btn.is-active { color: var(--gold-500); border-color: var(--gold-500); background: rgba(210, 173, 92, 0.14); }
 
-.calc-inputs { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(1.5rem, 2.6vw, 2.25rem); }
+/* Four inputs, not three: the model needs gross margin, and 2x2 stays
+   readable inside a half-width panel where a single row of four would not. */
+.calc-inputs { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(1.4rem, 2.4vw, 2rem) clamp(1.5rem, 2.6vw, 2.25rem); }
 .calc-field { display: flex; flex-direction: column; gap: 0.5rem; }
 .calc-field label {
   font-family: var(--font-mono); font-size: 0.625rem;
@@ -277,18 +285,9 @@
 /* ---------- Founders ---------- */
 .founders { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.25rem; }
 .founder { display: flex; flex-direction: row; gap: 1.75rem; align-items: flex-start; }
-.portrait {
-  position: relative; width: 148px; height: 190px; flex-shrink: 0;
-  display: grid; place-items: center;
-  background: linear-gradient(160deg, rgba(210, 173, 92, 0.18), rgba(210, 173, 92, 0.03));
-  border: 1px solid rgba(210, 173, 92, 0.28);
-}
-.portrait span { font-family: var(--font-display); font-size: 2.75rem; color: rgba(210, 173, 92, 0.55); }
-.portrait em {
-  position: absolute; bottom: 0.6rem; left: 0; right: 0; text-align: center;
-  font-family: var(--font-mono); font-style: normal; font-size: 0.5rem;
-  letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-4);
-}
+/* Sizing only. The monogram and photograph treatments are shared with the
+   studio page and live in style.css. */
+.founder .portrait { width: 148px; flex-shrink: 0; aspect-ratio: 148 / 190; }
 .founder-copy { display: flex; flex-direction: column; gap: 0.7rem; }
 .founder-role {
   font-family: var(--font-mono); font-size: 0.625rem;
@@ -372,6 +371,17 @@
 }
 .compare-handle svg { width: 22px; height: 22px; }
 
+/* On a touch device there is no hover to discover the drag with, so the
+   handle breathes once a second until the first touch lands on it. main.js
+   sets .is-touched on pointerdown and the hint stops for good. */
+@media (hover: none) {
+  .compare:not(.is-touched) .compare-handle { animation: handle-hint 2.4s ease-in-out infinite; }
+}
+@keyframes handle-hint {
+  0%, 62%, 100% { transform: translate(-50%, -50%) scale(1); }
+  74% { transform: translate(-50%, -50%) scale(1.12); }
+}
+
 /* Keyboard route to the same control: invisible until focused, so mouse
    users get the drag affordance and keyboard users get a real slider. */
 .compare-range {
@@ -384,6 +394,9 @@
 .compare-note { margin-top: 1.35rem; font-size: 0.85rem; color: var(--ink-3); }
 
 /* ---------- FAQ layout ---------- */
+/* .faq-list had no rule at all, so the accordion inherited whatever the
+   surrounding grid happened to do. It owns its own stacking now. */
+.faq-list { display: flex; flex-direction: column; }
 .faq-grid {
   display: grid; grid-template-columns: minmax(0, 24rem) minmax(0, 1fr);
   gap: clamp(2.5rem, 6vw, 5.5rem); align-items: start;
@@ -414,7 +427,8 @@
   .bento-lg, .bento-wide, .bento-full { grid-column: span 1; }
   .bento-wide, .bento-full { flex-direction: column !important; align-items: flex-start; }
   .mini-page { width: 100%; }
-  .calc-inputs, .calc-outputs { grid-template-columns: 1fr; }
+  .calc-inputs { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .calc-outputs { grid-template-columns: 1fr; }
   .founders { grid-template-columns: 1fr; }
   .order-compare { grid-template-columns: 1fr; }
   .hero-rail-inner { justify-content: flex-start; }
@@ -423,7 +437,8 @@
 }
 
 @media (max-width: 560px) {
+  .calc-inputs { grid-template-columns: 1fr; }
   .founder { flex-direction: column; }
-  .portrait { width: 100%; height: 220px; }
+  .founder .portrait { width: 100%; aspect-ratio: 16 / 7; }
   .process { grid-template-columns: 1fr; }
 }
