@@ -52,4 +52,3 @@ deployment:
 #   - /bin/cp -R . $DEPLOYPATH/
 #   - /bin/rm -rf $DEPLOYPATH/.git $DEPLOYPATH/.cpanel.yml $DEPLOYPATH/.gitattributes $DEPLOYPATH/.gitignore
 #   - /bin/rm -rf $DEPLOYPATH/docs $DEPLOYPATH/tools
-
