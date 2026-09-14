@@ -9,50 +9,23 @@
 (function () {
   'use strict';
 
-  /* ---------- Environment ----------
-     Read live rather than captured once at parse time. Somebody who turns on
-     Reduce Motion mid-session, or docks a laptop, or plugs a mouse into a
-     tablet, should get the right behaviour without reloading the page. */
-  var mqMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
-  var mqPointer = window.matchMedia('(hover: hover) and (pointer: fine)');
-  var mqWide = window.matchMedia('(min-width: 900px)');
+  var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var finePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
 
-  function reduceMotion() { return mqMotion.matches; }
-  function finePointer() { return mqPointer.matches; }
-
-  function onMediaChange(mq, fn) {
-    if (mq.addEventListener) { mq.addEventListener('change', fn); }
-    else if (mq.addListener) { mq.addListener(fn); }
-  }
-
-  /* ---------- Startup ----------
-     Each initialiser is wrapped, because they used to run as one unguarded
-     sequence: a throw in the first one took out every feature after it,
-     including the scroll reveal, which left most of the page invisible.
-     One broken feature should cost you that feature and nothing else. */
-  function safe(fn) {
-    try {
-      fn();
-    } catch (err) {
-      if (window.console && console.error) {
-        console.error('[gns] ' + (fn.name || 'init') + ' failed:', err);
-      }
-    }
-  }
-
-  function start() {
-    [
-      setYear, initNav, initHeaderState, initReveal, initCardSpotlight,
-      initCursor, initMagnetic, initFaq, initCalculator, initCompare,
-      initForm, initScheduler, initConsent, initConversion, initHeroShader
-    ].forEach(safe);
-  }
-
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', start);
-  } else {
-    start();
-  }
+  document.addEventListener('DOMContentLoaded', function () {
+    setYear();
+    initNav();
+    initHeaderState();
+    initReveal();
+    initCardSpotlight();
+    initCursor();
+    initMagnetic();
+    initFaq();
+    initCalculator();
+    initCompare();
+    initHeroShader();
+    initViewTransitions();
+  });
 
   /* ---------- Footer year ---------- */
   function setYear() {
@@ -66,61 +39,27 @@
     var nav = document.getElementById('site-nav');
     if (!toggle || !nav) return;
 
-    // Everything outside the drawer while it is open. inert removes these from
-    // the tab order and the accessibility tree in one attribute; the manual
-    // Tab trap below covers browsers that do not support it yet.
-    var behind = [document.getElementById('main'), document.querySelector('.site-footer')]
-      .filter(Boolean);
-
-    function setOpen(open) {
-      document.body.classList.toggle('nav-open', open);
-      toggle.setAttribute('aria-expanded', String(open));
-      behind.forEach(function (el) {
-        if (open) { el.setAttribute('inert', ''); } else { el.removeAttribute('inert'); }
-      });
-      if (open) {
-        var first = nav.querySelector('a, button');
-        if (first) first.focus();
-      }
+    function close() {
+      document.body.classList.remove('nav-open');
+      toggle.setAttribute('aria-expanded', 'false');
     }
 
-    function isOpen() { return document.body.classList.contains('nav-open'); }
-
-    toggle.addEventListener('click', function () { setOpen(!isOpen()); });
+    toggle.addEventListener('click', function () {
+      var open = !document.body.classList.contains('nav-open');
+      document.body.classList.toggle('nav-open', open);
+      toggle.setAttribute('aria-expanded', String(open));
+    });
 
     nav.addEventListener('click', function (e) {
-      if (e.target.closest('a')) setOpen(false);
+      if (e.target.closest('a')) close();
     });
 
     document.addEventListener('keydown', function (e) {
-      if (!isOpen()) return;
-
-      if (e.key === 'Escape') {
-        setOpen(false);
-        toggle.focus();
-        return;
-      }
-      if (e.key !== 'Tab') return;
-
-      var focusable = nav.querySelectorAll('a[href], button:not([disabled]), input, [tabindex]:not([tabindex="-1"])');
-      if (!focusable.length) return;
-      var first = focusable[0];
-      var last = focusable[focusable.length - 1];
-
-      // The toggle sits outside the drawer but has to stay reachable, so it
-      // is treated as the element before the first item in the cycle.
-      if (e.shiftKey && (document.activeElement === first || document.activeElement === toggle)) {
-        e.preventDefault();
-        last.focus();
-      } else if (!e.shiftKey && document.activeElement === last) {
-        e.preventDefault();
+      if (e.key === 'Escape' && document.body.classList.contains('nav-open')) {
+        close();
         toggle.focus();
       }
     });
-
-    // A drawer left open across a resize into the desktop layout would strand
-    // inert attributes on the page.
-    onMediaChange(mqWide, function (e) { if (e.matches && isOpen()) setOpen(false); });
   }
 
   /* ---------- Header scrolled state ---------- */
@@ -139,12 +78,8 @@
     var targets = document.querySelectorAll('.reveal, .stagger');
     if (!targets.length) return;
 
-    function showAll() {
+    if (reduceMotion || !('IntersectionObserver' in window)) {
       targets.forEach(function (el) { el.classList.add('is-in'); });
-    }
-
-    if (reduceMotion() || !('IntersectionObserver' in window)) {
-      showAll();
       return;
     }
 
@@ -157,17 +92,13 @@
     }, { threshold: 0.12, rootMargin: '0px 0px -60px 0px' });
 
     targets.forEach(function (el) { io.observe(el); });
-
-    // Turning on Reduce Motion mid-session should not leave the rest of the
-    // page waiting behind an animation the visitor has asked not to see.
-    onMediaChange(mqMotion, function (e) { if (e.matches) { io.disconnect(); showAll(); } });
   }
 
   /* ---------- Cursor-tracked card glow ---------- */
   function initCardSpotlight() {
+    if (!finePointer) return;
     document.querySelectorAll('.card').forEach(function (card) {
       card.addEventListener('pointermove', function (e) {
-        if (!finePointer()) return;
         var r = card.getBoundingClientRect();
         card.style.setProperty('--mx', ((e.clientX - r.left) / r.width) * 100 + '%');
         card.style.setProperty('--my', ((e.clientY - r.top) / r.height) * 100 + '%');
@@ -177,7 +108,7 @@
 
   /* ---------- Custom cursor ---------- */
   function initCursor() {
-    if (!finePointer() || reduceMotion()) return;
+    if (!finePointer || reduceMotion) return;
 
     var dot = document.createElement('div');
     var ring = document.createElement('div');
@@ -191,7 +122,6 @@
     var tx = window.innerWidth / 2, ty = window.innerHeight / 2;
     var rx = tx, ry = ty;
     var started = false;
-    var stopped = false;
 
     document.addEventListener('pointermove', function (e) {
       tx = e.clientX;
@@ -208,66 +138,34 @@
 
     // The dot is pinned to the pointer; the ring trails it, which is what
     // reads as weight rather than as lag.
-    //
-    // The loop bails out when the tab is hidden and when the ring has caught
-    // up with the pointer, so a stationary cursor on an idle tab costs
-    // nothing. It used to write two transforms every frame, forever.
     (function frame() {
-      if (stopped) return;
-      requestAnimationFrame(frame);
-      if (document.hidden) return;
-
-      var dx = tx - rx, dy = ty - ry;
+      rx += (tx - rx) * 0.18;
+      ry += (ty - ry) * 0.18;
       dot.style.transform = 'translate3d(' + tx + 'px,' + ty + 'px,0)';
-
-      if (Math.abs(dx) < 0.1 && Math.abs(dy) < 0.1) {
-        if (rx !== tx || ry !== ty) {
-          rx = tx; ry = ty;
-          ring.style.transform = 'translate3d(' + rx + 'px,' + ry + 'px,0)';
-        }
-        return;
-      }
-      rx += dx * 0.18;
-      ry += dy * 0.18;
       ring.style.transform = 'translate3d(' + rx + 'px,' + ry + 'px,0)';
+      requestAnimationFrame(frame);
     })();
-
-    function teardown() {
-      stopped = true;
-      dot.remove();
-      ring.remove();
-      document.body.classList.remove('cursor-ready', 'cursor-hidden', 'cursor-link', 'cursor-text', 'cursor-drag');
-    }
-    onMediaChange(mqMotion, function (e) { if (e.matches) teardown(); });
-    onMediaChange(mqPointer, function (e) { if (!e.matches) teardown(); });
 
     var LINK = 'a,button,summary,[role="button"],label';
     var TEXT = 'input[type="text"],input[type="email"],input[type="tel"],textarea';
 
-    // Work out the intended state first and only touch the DOM when it
-    // changes. Three classList.toggle() calls on <body> per pointerover
-    // invalidated style for the whole document on every mouse move.
-    var cursorState = '';
     document.addEventListener('pointerover', function (e) {
       var t = e.target;
       if (!t || !t.closest) return;
-
-      var next = t.closest('[data-cursor="drag"]') ? 'drag'
-        : t.closest(TEXT) ? 'text'
-          : t.closest(LINK) ? 'link' : '';
-
-      if (next === cursorState) return;
-      if (cursorState) document.body.classList.remove('cursor-' + cursorState);
-      if (next) document.body.classList.add('cursor-' + next);
-      cursorState = next;
+      document.body.classList.toggle('cursor-drag', !!t.closest('[data-cursor="drag"]'));
+      document.body.classList.toggle('cursor-text', !!t.closest(TEXT));
+      document.body.classList.toggle(
+        'cursor-link',
+        !!t.closest(LINK) && !t.closest('[data-cursor="drag"]')
+      );
     });
   }
 
   /* ---------- Magnetic primary buttons ---------- */
   function initMagnetic() {
+    if (!finePointer || reduceMotion) return;
     document.querySelectorAll('.btn-primary').forEach(function (btn) {
       btn.addEventListener('pointermove', function (e) {
-        if (!finePointer() || reduceMotion()) return;
         var r = btn.getBoundingClientRect();
         var x = (e.clientX - r.left - r.width / 2) * 0.16;
         var y = (e.clientY - r.top - r.height / 2) * 0.28;
@@ -282,108 +180,26 @@
     var items = document.querySelectorAll('.faq-item');
     if (!items.length) return;
 
-    // Panels are hidden outright, not just collapsed to zero height. A purely
-    // visual collapse leaves every answer in the accessibility tree, so a
-    // screen reader reads the whole FAQ straight through regardless of which
-    // question is open.
-    function setOpen(item, open) {
-      var btn = item.querySelector('.faq-q');
-      var panel = item.querySelector('.faq-a');
-      item.classList.toggle('is-open', open);
-      if (btn) btn.setAttribute('aria-expanded', String(open));
-      if (!panel) return;
-
-      if (open) {
-        panel.hidden = false;
-      } else if (item.dataset.gnsReady) {
-        // Wait for the collapse transition before hiding, so the animation
-        // still plays. On first paint there is nothing to animate.
-        var done = function () {
-          if (!item.classList.contains('is-open')) panel.hidden = true;
-          panel.removeEventListener('transitionend', done);
-        };
-        panel.addEventListener('transitionend', done);
-        window.setTimeout(done, 900);
-      } else {
-        panel.hidden = true;
-      }
-    }
-
     items.forEach(function (item) {
       var btn = item.querySelector('.faq-q');
       if (!btn) return;
-      item.dataset.gnsReady = '1';
-
       btn.addEventListener('click', function () {
         var open = !item.classList.contains('is-open');
         // One open at a time keeps the section from growing unreadably tall.
-        items.forEach(function (other) { setOpen(other, false); });
-        if (open) setOpen(item, true);
+        items.forEach(function (other) {
+          other.classList.remove('is-open');
+          var b = other.querySelector('.faq-q');
+          if (b) b.setAttribute('aria-expanded', 'false');
+        });
+        if (open) {
+          item.classList.add('is-open');
+          btn.setAttribute('aria-expanded', 'true');
+        }
       });
     });
   }
 
-  /* ---------- Break-even calculator ----------
-     The model works in gross profit, not revenue. Dividing total cost by job
-     value answers "how much revenue covers the bill", which is not the same
-     question and understates the work required by roughly the inverse of the
-     margin — better than two to one at the numbers these trades run at.
-
-     gns_calc() in admin/lib/store.php is a line-for-line twin of this, so the
-     statically rendered page and the live widget always agree. Change one and
-     you must change the other; tools/check-calc.php asserts they match. */
-  function calcModel(o) {
-    var spend = Math.max(0, o.spend);
-    var job = Math.max(1, o.job);
-    var close = Math.min(100, Math.max(1, o.close));
-    var margin = Math.min(95, Math.max(5, o.margin));
-    var fee = Math.max(0, o.fee);
-
-    var profit = job * (margin / 100);
-    var total = spend + fee;
-    var jobs = Math.max(1, Math.ceil(total / profit));
-    var leads = Math.max(1, Math.ceil(jobs / (close / 100)));
-    var cpl = Math.floor(spend / leads);
-
-    // A planning reference, not a promise: for considered local purchases a
-    // workable cost per lead sits near 4.5% of job value, floored and capped
-    // so a $200 detail and a $12,000 ring both land somewhere sane. Fixed
-    // dollar thresholds cannot do that.
-    var benchmark = Math.round(Math.min(450, Math.max(20, job * 0.045)));
-    // "unviable" is not "difficult" — it is arithmetically out of reach, and
-    // saying so is the whole point of publishing the model.
-    var band = cpl < benchmark * 0.25 ? 'unviable'
-      : cpl < benchmark * 0.6 ? 'tight'
-        : cpl <= benchmark * 1.6 ? 'middle' : 'headroom';
-
-    return {
-      spend: spend, job: job, close: close, margin: margin, fee: fee,
-      total: total, profit: profit, jobs: jobs, leads: leads,
-      cpl: cpl, benchmark: benchmark, band: band
-    };
-  }
-
-  function calcVerdict(r, money) {
-    var cpl = money(r.cpl), bm = money(r.benchmark), jv = money(r.job);
-    if (r.band === 'unviable') {
-      return 'At these numbers the arithmetic does not work: covering the cost needs '
-        + r.leads.toLocaleString('en-US') + ' leads a month out of ' + money(r.spend)
-        + ' of media. Job value, margin or budget has to move before a retainer makes sense — '
-        + 'and that is exactly the kind of thing we would tell you on the call.';
-    }
-    if (r.band === 'tight') {
-      return 'At ' + cpl + ' per lead this is tight. For a ' + jv
-        + ' job we would expect to plan around ' + bm
-        + ', so the spend has to work harder than usual before the retainer pays for itself.';
-    }
-    if (r.band === 'middle') {
-      return 'A ' + cpl + ' cost per lead is the honest middle of the range for a ' + jv
-        + ' job. Achievable in most local markets, but not a given.';
-    }
-    return 'At ' + cpl + ' per lead you have real headroom — we would plan around ' + bm
-      + ' for a job this size. High job values are where design-led creative pays for itself fastest.';
-  }
-
+  /* ---------- Break-even calculator ---------- */
   function initCalculator() {
     var root = document.getElementById('calc');
     if (!root) return;
@@ -391,15 +207,13 @@
     var spendEl = root.querySelector('#calc-spend');
     var jobEl = root.querySelector('#calc-job');
     var closeEl = root.querySelector('#calc-close');
-    var marginEl = root.querySelector('#calc-margin');
     var tierBtns = root.querySelectorAll('[data-tier]');
-    if (!spendEl || !jobEl || !closeEl || !marginEl) return;
+    if (!spendEl || !jobEl || !closeEl) return;
 
     var out = {
       spend: root.querySelector('#out-spend'),
       job: root.querySelector('#out-job'),
       close: root.querySelector('#out-close'),
-      margin: root.querySelector('#out-margin'),
       total: root.querySelector('#out-total'),
       breakdown: root.querySelector('#out-breakdown'),
       jobs: root.querySelector('#out-jobs'),
@@ -414,50 +228,50 @@
       barJobsLabel: root.querySelector('#bar-jobs-label')
     };
 
-    var nf = new Intl.NumberFormat('en-US', {
+    var fmt = new Intl.NumberFormat('en-US', {
       style: 'currency', currency: 'USD', maximumFractionDigits: 0
     });
-    function money(n) { return nf.format(Math.round(n)); }
-
-    var active = root.querySelector('[data-tier].is-active') || tierBtns[0];
-    var fee = active ? Number(active.getAttribute('data-fee')) || 0 : 0;
-
-    function set(el, text) { if (el) el.textContent = text; }
+    var tier = 'growth';
 
     function update() {
-      var r = calcModel({
-        spend: Number(spendEl.value),
-        job: Number(jobEl.value),
-        close: Number(closeEl.value),
-        margin: Number(marginEl.value),
-        fee: fee
-      });
+      var spend = Number(spendEl.value);
+      var job = Number(jobEl.value);
+      var close = Number(closeEl.value);
+      var fee = tier === 'growth' ? 2500 : 1500;
+      var total = spend + fee;
+      var jobs = Math.max(1, Math.ceil(total / job));
+      var leads = Math.max(1, Math.ceil(jobs / (close / 100)));
+      var cpl = Math.floor(spend / leads);
 
-      set(out.spend, money(r.spend));
-      set(out.job, money(r.job));
-      set(out.close, r.close + '%');
-      set(out.margin, r.margin + '%');
-      set(out.total, money(r.total));
-      set(out.breakdown, money(r.spend) + ' media + ' + money(r.fee) + ' retainer');
-      set(out.jobs, String(r.jobs));
-      set(out.jobsNote, 'at ' + money(r.profit) + ' profit per job');
-      set(out.leads, String(r.leads));
-      set(out.leadsNote, 'at ' + r.close + '% close rate');
-      set(out.cpl, money(r.cpl));
-      set(out.verdict, calcVerdict(r, money));
-
-      // Spoken values, so a slider reads as "$6,000" rather than "6000".
-      spendEl.setAttribute('aria-valuetext', money(r.spend));
-      jobEl.setAttribute('aria-valuetext', money(r.job));
-      closeEl.setAttribute('aria-valuetext', r.close + ' percent');
-      marginEl.setAttribute('aria-valuetext', r.margin + ' percent');
+      if (out.spend) out.spend.textContent = fmt.format(spend);
+      if (out.job) out.job.textContent = fmt.format(job);
+      if (out.close) out.close.textContent = close + '%';
+      if (out.total) out.total.textContent = fmt.format(total);
+      if (out.breakdown) out.breakdown.textContent = fmt.format(spend) + ' media + ' + fmt.format(fee) + ' retainer';
+      if (out.jobs) out.jobs.textContent = String(jobs);
+      if (out.jobsNote) out.jobsNote.textContent = 'at ' + fmt.format(job) + ' average';
+      if (out.leads) out.leads.textContent = String(leads);
+      if (out.leadsNote) out.leadsNote.textContent = 'at ' + close + '% close rate';
+      if (out.cpl) out.cpl.textContent = fmt.format(cpl);
 
       if (out.barLeads) out.barLeads.style.width = '100%';
-      if (out.barJobs) out.barJobs.style.width = Math.max(14, r.close) + '%';
-      set(out.barLeadsLabel, r.leads + ' leads');
-      set(out.barJobsLabel, r.jobs + ' jobs');
+      if (out.barJobs) out.barJobs.style.width = Math.max(14, close) + '%';
+      if (out.barLeadsLabel) out.barLeadsLabel.textContent = leads + ' leads';
+      if (out.barJobsLabel) out.barJobsLabel.textContent = jobs + ' jobs';
 
-      [spendEl, jobEl, closeEl, marginEl].forEach(paintTrack);
+      if (out.verdict) {
+        var v;
+        if (cpl < 25) {
+          v = 'A ' + fmt.format(cpl) + ' cost per lead is below what most paid channels deliver. At this job value the retainer is doing a lot of the lifting — worth a hard look before committing.';
+        } else if (cpl < 120) {
+          v = 'A ' + fmt.format(cpl) + ' cost per lead is achievable in most local markets, but it is not a given. This is the honest middle of the range.';
+        } else {
+          v = 'At ' + fmt.format(cpl) + ' per lead you have real headroom. High job values are exactly where design-led creative pays for itself fastest.';
+        }
+        out.verdict.textContent = v;
+      }
+
+      [spendEl, jobEl, closeEl].forEach(paintTrack);
     }
 
     // Paints the filled portion of the range track without extra elements.
@@ -467,13 +281,13 @@
       el.style.setProperty('--fill', pct + '%');
     }
 
-    [spendEl, jobEl, closeEl, marginEl].forEach(function (el) {
+    [spendEl, jobEl, closeEl].forEach(function (el) {
       el.addEventListener('input', update);
     });
 
     tierBtns.forEach(function (btn) {
       btn.addEventListener('click', function () {
-        fee = Number(btn.getAttribute('data-fee')) || 0;
+        tier = btn.getAttribute('data-tier');
         tierBtns.forEach(function (b) {
           var on = b === btn;
           b.classList.toggle('is-active', on);
@@ -492,7 +306,6 @@
     if (!root) return;
 
     var range = root.querySelector('.compare-range');
-    var handle = root.querySelector('.compare-handle');
     var dragging = false;
 
     function setSplit(pct) {
@@ -506,20 +319,9 @@
       setSplit(((e.clientX - r.left) / r.width) * 100);
     }
 
-    // Near the split line, or on the handle. Starting a drag from anywhere in
-    // the widget meant a thumb landing on the caption yanked the split across
-    // the screen — which reads as a bug, not as an affordance.
-    function isGrab(e) {
-      if (e.target.closest('.compare-range')) return false;
-      if (handle && e.target.closest('.compare-handle')) return true;
-      var r = root.getBoundingClientRect();
-      var splitX = r.left + (r.width * (parseFloat(getComputedStyle(root).getPropertyValue('--split')) || 50)) / 100;
-      return Math.abs(e.clientX - splitX) < 56;
-    }
-
     root.addEventListener('pointerdown', function (e) {
-      root.classList.add('is-touched');
-      if (!isGrab(e)) return;
+      // The range input keeps its own keyboard and pointer behavior.
+      if (e.target.closest('.compare-range')) return;
       dragging = true;
       root.setPointerCapture(e.pointerId);
       fromEvent(e);
@@ -535,164 +337,22 @@
     setSplit(50);
   }
 
-  /* ---------- Contact form ----------
-     Progressive enhancement only. Without JavaScript the form posts normally
-     and submit.php redirects to the thank-you page; with it, the submission
-     happens in place and the visitor never loses what they typed if something
-     goes wrong. */
-  function initForm() {
-    var form = document.getElementById('form');
-    if (!form) return;
-
-    var started = form.querySelector('input[name="_started"]');
-    if (started) started.value = String(Date.now());
-
-    // Formspree and friends want the reply-to filled in from the email field.
-    var replyto = form.querySelector('input[name="_replyto"]');
-    var emailEl = form.querySelector('#email');
-    if (replyto && emailEl) {
-      form.addEventListener('submit', function () { replyto.value = emailEl.value; });
-    }
-
-    if (!form.dataset.ajax || !window.fetch || !window.FormData) return;
-
-    var status = document.getElementById('form-status');
-    var button = form.querySelector('button[type="submit"]');
-
-    function say(message, state) {
-      if (!status) return;
-      status.textContent = message;
-      status.className = 'form-status is-shown' + (state ? ' is-' + state : '');
-    }
-
-    form.addEventListener('submit', function (e) {
-      if (!form.checkValidity()) return;   // let the browser show its own messages
-      e.preventDefault();
-
-      say('Sending…', 'busy');
-      if (button) button.disabled = true;
-
-      fetch(form.action, {
-        method: 'POST',
-        body: new FormData(form),
-        headers: { Accept: 'application/json' },
-        credentials: 'same-origin'
-      })
-        .then(function (res) { return res.json().catch(function () { return { ok: res.ok }; }); })
-        .then(function (data) {
-          if (!data || !data.ok) throw new Error(data && data.error ? data.error : 'send failed');
-          say('Sent. Redirecting…', '');
-          window.location.href = data.redirect || '/thanks.html';
-        })
-        .catch(function () {
-          if (button) button.disabled = false;
-          say('That did not send. Try again, or email us directly — the address is in the footer.', 'error');
-        });
-    });
-  }
-
-  /* ---------- Scheduler ----------
-     The calendar frame is built on demand. A third-party iframe that most
-     visitors never open should not be part of everybody's page load. */
-  function initScheduler() {
-    var host = document.querySelector('[data-scheduler]');
-    if (!host) return;
-    var button = host.querySelector('[data-scheduler-open]');
-    if (!button) return;
-
-    button.addEventListener('click', function () {
-      var frame = document.createElement('iframe');
-      frame.src = host.getAttribute('data-scheduler');
-      frame.title = 'Booking calendar';
-      frame.loading = 'lazy';
-      frame.setAttribute('allow', 'camera; microphone; fullscreen; payment');
-      host.innerHTML = '';
-      host.appendChild(frame);
-    });
-  }
-
-  /* ---------- Cookie consent ----------
-     Only present when the banner is switched on in the admin. */
-  function initConsent() {
-    var bar = document.getElementById('consent');
-    if (!bar) return;
-
-    function read() {
-      try { return localStorage.getItem('gns-consent'); } catch (e) { return null; }
-    }
-    function write(value) {
-      try { localStorage.setItem('gns-consent', value); } catch (e) { /* private mode */ }
-    }
-
-    if (read()) return;
-    bar.hidden = false;
-
-    bar.addEventListener('click', function (e) {
-      var btn = e.target.closest('[data-consent]');
-      if (!btn) return;
-      var answer = btn.getAttribute('data-consent');
-      write(answer);
-      bar.hidden = true;
-
-      if (answer !== 'yes') return;
-      window.gnsConsent = true;
-      if (typeof window.gtag === 'function') {
-        window.gtag('consent', 'update', {
-          ad_storage: 'granted', analytics_storage: 'granted',
-          ad_user_data: 'granted', ad_personalization: 'granted'
-        });
-      }
-      if (typeof window.fbq === 'function' && bar.dataset.pixel) {
-        window.fbq('init', bar.dataset.pixel);
-        window.fbq('track', 'PageView');
-      }
-    });
-  }
-
-  /* ---------- Conversion event ----------
-     Fires once on the thank-you page, which is the only place we know a lead
-     actually completed. */
-  function initConversion() {
-    var marker = document.querySelector('[data-conversion="lead"]');
-    if (!marker || !window.gnsConsent) return;
-
-    if (typeof window.gtag === 'function') {
-      window.gtag('event', 'generate_lead', { event_category: 'contact', value: 1 });
-    }
-    if (typeof window.fbq === 'function') {
-      window.fbq('track', 'Lead');
-    }
-  }
-
   /* ---------- Hero shader ----------
      A full-bleed fragment shader: two drifting light bodies (warm gold,
      cool steel) over the void navy, domain-warped by fbm, with grain and
      a falloff into the page background. The CSS gradient underneath is
      the real fallback — the canvas only fades in once a frame has
-     actually rendered, so a WebGL failure is invisible.
-
-     Deferred until the main thread is idle, and skipped entirely below the
-     900px breakpoint: on a phone the hero is smaller, the GPU is weaker, the
-     battery cost is a real cost to the visitor, and the gradient fallback is
-     good enough that nobody would know the difference. */
+     actually rendered, so a WebGL failure is invisible.               */
   function initHeroShader() {
     var canvas = document.getElementById('hero-canvas');
-    if (!canvas || reduceMotion() || !mqWide.matches) return;
+    if (!canvas) return;
+    if (reduceMotion) return;
 
-    var idle = window.requestIdleCallback || function (fn) { return window.setTimeout(fn, 200); };
-    idle(function () { safe(function startShader() { buildShader(canvas); }); }, { timeout: 2000 });
-  }
-
-  function buildShader(canvas) {
     var gl;
-    function context() {
-      try {
-        return canvas.getContext('webgl', {
-          antialias: false, alpha: false, depth: false, powerPreference: 'low-power'
-        }) || canvas.getContext('experimental-webgl');
-      } catch (err) { return null; }
-    }
-    gl = context();
+    try {
+      gl = canvas.getContext('webgl', { antialias: false, alpha: false, depth: false, powerPreference: 'low-power' })
+        || canvas.getContext('experimental-webgl');
+    } catch (err) { return; }
     if (!gl) return;
 
     var VERT = [
@@ -715,11 +375,9 @@
       '             mix(hash(i + vec2(0.0, 1.0)), hash(i + vec2(1.0, 1.0)), u.x), u.y);',
       '}',
 
-      // Three octaves, not five. At this blur scale the last two were
-      // invisible and cost roughly 40% of the fragment work.
       'float fbm(vec2 p){',
       '  float v = 0.0, a = 0.5;',
-      '  for (int i = 0; i < 3; i++) { v += a * noise(p); p *= 2.03; a *= 0.5; }',
+      '  for (int i = 0; i < 5; i++) { v += a * noise(p); p *= 2.03; a *= 0.5; }',
       '  return v;',
       '}',
 
@@ -764,40 +422,32 @@
       return s;
     }
 
-    var uRes, uTime, uMouse;
+    var vs = compile(gl.VERTEX_SHADER, VERT);
+    var fs = compile(gl.FRAGMENT_SHADER, FRAG);
+    if (!vs || !fs) return;
 
-    function build() {
-      var vs = compile(gl.VERTEX_SHADER, VERT);
-      var fs = compile(gl.FRAGMENT_SHADER, FRAG);
-      if (!vs || !fs) return false;
+    var prog = gl.createProgram();
+    gl.attachShader(prog, vs);
+    gl.attachShader(prog, fs);
+    gl.linkProgram(prog);
+    if (!gl.getProgramParameter(prog, gl.LINK_STATUS)) return;
+    gl.useProgram(prog);
 
-      var prog = gl.createProgram();
-      gl.attachShader(prog, vs);
-      gl.attachShader(prog, fs);
-      gl.linkProgram(prog);
-      if (!gl.getProgramParameter(prog, gl.LINK_STATUS)) return false;
-      gl.useProgram(prog);
+    // One oversized triangle covers the clip volume with no seam.
+    var buf = gl.createBuffer();
+    gl.bindBuffer(gl.ARRAY_BUFFER, buf);
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 3, -1, -1, 3]), gl.STATIC_DRAW);
+    var loc = gl.getAttribLocation(prog, 'a');
+    gl.enableVertexAttribArray(loc);
+    gl.vertexAttribPointer(loc, 2, gl.FLOAT, false, 0, 0);
 
-      // One oversized triangle covers the clip volume with no seam.
-      var buf = gl.createBuffer();
-      gl.bindBuffer(gl.ARRAY_BUFFER, buf);
-      gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 3, -1, -1, 3]), gl.STATIC_DRAW);
-      var loc = gl.getAttribLocation(prog, 'a');
-      gl.enableVertexAttribArray(loc);
-      gl.vertexAttribPointer(loc, 2, gl.FLOAT, false, 0, 0);
-
-      uRes = gl.getUniformLocation(prog, 'u_res');
-      uTime = gl.getUniformLocation(prog, 'u_time');
-      uMouse = gl.getUniformLocation(prog, 'u_mouse');
-      return true;
-    }
-
-    if (!build()) return;
+    var uRes = gl.getUniformLocation(prog, 'u_res');
+    var uTime = gl.getUniformLocation(prog, 'u_time');
+    var uMouse = gl.getUniformLocation(prog, 'u_mouse');
 
     var mx = 0, my = 0, tmx = 0, tmy = 0;
     var painted = false;
     var visible = true;
-    var lost = false;
 
     function resize() {
       var dpr = Math.min(window.devicePixelRatio || 1, 1.5);
@@ -809,12 +459,13 @@
       gl.viewport(0, 0, w, h);
     }
 
-    window.addEventListener('pointermove', function (e) {
-      if (!finePointer()) return;
-      var r = canvas.getBoundingClientRect();
-      tmx = ((e.clientX - r.left) / r.width) * 2 - 1;
-      tmy = 1 - ((e.clientY - r.top) / r.height) * 2;
-    }, { passive: true });
+    if (finePointer) {
+      window.addEventListener('pointermove', function (e) {
+        var r = canvas.getBoundingClientRect();
+        tmx = ((e.clientX - r.left) / r.width) * 2 - 1;
+        tmy = 1 - ((e.clientY - r.top) / r.height) * 2;
+      }, { passive: true });
+    }
 
     if ('IntersectionObserver' in window) {
       new IntersectionObserver(function (entries) {
@@ -822,37 +473,10 @@
       }, { threshold: 0 }).observe(canvas);
     }
 
-    // A GPU process restart mid-session is routine on Windows laptops with
-    // hybrid graphics. Without this the canvas keeps .is-live and stops
-    // painting, leaving a dead black rectangle on top of the gradient that
-    // would otherwise have covered for it. Dropping the class reverts to that
-    // gradient, which is the graceful degradation the design already has.
-    canvas.addEventListener('webglcontextlost', function (e) {
-      e.preventDefault();
-      lost = true;
-      painted = false;
-      canvas.classList.remove('is-live');
-    });
-
-    canvas.addEventListener('webglcontextrestored', function () {
-      canvas.width = 0;           // force resize() to rebuild the viewport
-      if (build()) lost = false;
-    });
-
-    // Reduce Motion turned on mid-session stops the animation and hands the
-    // hero back to the static gradient.
-    var stopped = false;
-    onMediaChange(mqMotion, function (e) {
-      if (!e.matches) return;
-      stopped = true;
-      canvas.classList.remove('is-live');
-    });
-
     var start = performance.now();
     function frame(now) {
-      if (stopped) return;
       requestAnimationFrame(frame);
-      if (!visible || lost || document.hidden) return;
+      if (!visible || document.hidden) return;
 
       resize();
       mx += (tmx - mx) * 0.05;
@@ -869,5 +493,23 @@
       }
     }
     requestAnimationFrame(frame);
+  }
+
+  /* ---------- Cross-page transitions ---------- */
+  function initViewTransitions() {
+    if (!document.startViewTransition || reduceMotion) return;
+
+    document.addEventListener('click', function (e) {
+      var link = e.target.closest && e.target.closest('a[href]');
+      if (!link) return;
+      if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0) return;
+      if (link.target === '_blank' || link.hasAttribute('download')) return;
+
+      var href = link.getAttribute('href');
+      if (!href || href.charAt(0) === '#' || /^[a-z]+:/i.test(href)) return;
+
+      e.preventDefault();
+      document.startViewTransition(function () { window.location.href = href; });
+    });
   }
 })();
