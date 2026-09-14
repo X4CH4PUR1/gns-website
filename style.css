@@ -113,13 +113,21 @@ h1, h2, h3, h4 {
   color: var(--ink);
   line-height: 0.98;
   letter-spacing: -0.025em;
+  /* At this size a bad break is very visible: the gap heading was leaving
+     "it." alone on a third line, and every heading that wraps has a width
+     where it does something similar. Balance evens the lines instead of
+     filling each one to the margin. Forced <br> still wins, and browsers
+     without support just wrap as before. */
+  text-wrap: balance;
 }
 
 h1 { font-size: clamp(3rem, 9.4vw, 9.25rem); line-height: 0.87; letter-spacing: -0.033em; }
 h2 { font-size: clamp(2.2rem, 4.6vw, 4rem); }
 h3 { font-size: clamp(1.35rem, 2.1vw, 1.9rem); line-height: 1.1; }
 
-p { max-width: 66ch; }
+/* Body copy is not balanced -- that would make long paragraphs ragged.
+   'pretty' only pulls a word down to save a one-word last line. */
+p { max-width: 66ch; text-wrap: pretty; }
 
 .metal {
   background: var(--metal);
