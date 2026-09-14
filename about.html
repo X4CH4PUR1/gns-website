@@ -3,23 +3,51 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Studio — GN Scales</title>
-  <meta name="description" content="GN Scales is Gn and George Lomidze — two designers out of automotive and industrial B2B who learned to buy media, running design and performance under one roof.">
+  <title>About GN Scales — Two Designers Who Buy Media</title>
+  <meta name="description" content="GN Scales is two founders: one on creative and brand, one on media and performance. No account managers, no subcontractors, and a roster capped at ten so the work stays good.">
+  <meta name="author" content="GN Scales">
+  <meta name="format-detection" content="telephone=no">
   <meta name="theme-color" content="#00081a">
+  <link rel="canonical" href="https://gnscales.com/about.html">
 
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Schibsted+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <!-- Set before the stylesheets load, so the reveal animations only ever hide
+       content on a page that has JavaScript to bring it back. Without this one
+       line a failed script leaves most of the page permanently invisible. -->
+  <script>document.documentElement.className += ' js';</script>
 
-  <link rel="stylesheet" href="style.css">
-  <link rel="stylesheet" href="about.css">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="GN Scales">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:url" content="https://gnscales.com/about.html">
+  <meta property="og:title" content="The GN Scales studio — two people, no account managers">
+  <meta property="og:description" content="GN Scales is two founders: one on creative and brand, one on media and performance. No account managers, no subcontractors, and a roster capped at ten so the work stays good.">
+  <meta property="og:image" content="https://gnscales.com/assets/og/og-default.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="GN Scales — Design-led performance marketing">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <link rel="icon" href="/favicon.ico" sizes="32x32">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <link rel="manifest" href="/site.webmanifest">
+
+  <!-- Fonts are served from this origin: no DNS or TLS handshake to a third
+       party on the critical path, and nothing to disclose in the privacy page.
+       The two faces above the fold are preloaded; the rest arrive with the CSS. -->
+  <link rel="preload" href="/assets/fonts/instrument-serif-400.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/assets/fonts/schibsted-grotesk-var.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="/assets/fonts/fonts.css?v=ec00ecde">
+
+  <link rel="stylesheet" href="/style.css?v=dd966d93">
+  <link rel="stylesheet" href="/about.css?v=aca44895">
+
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to main content</a>
-
   <header class="site-header">
     <div class="shell header-inner">
-      <a class="brand" href="index.html" aria-label="GN Scales — home">
+      <a class="brand" href="/" aria-label="GN Scales — home">
         <svg class="brand-mark" viewBox="19 0 42 93" aria-hidden="true" focusable="false">
           <path d="M37.4 1H42.6V4.6H48.6V8.8H42.6V13.2H37.4V8.8H31.4V4.6H37.4Z"/>
           <path d="M23 17C24.5 22 27 25.6 28 30H52C53 25.6 55.5 22 57 17C53 18 50 20.6 49 23.6C47.5 17.6 44 14.1 40 14.1C36 14.1 32.5 17.6 31 23.6C30 20.6 27 18 23 17Z"/>
@@ -28,8 +56,7 @@
           <path d="M31.8 42.4H48.2C48.2 55 50.6 63.6 55 69H25C29.4 63.6 31.8 55 31.8 42.4Z"/>
           <path d="M26.4 71H53.6L57.2 82.4H22.8Z"/>
           <path d="M20.6 85H59.4V91.4H20.6Z"/>
-        </svg>
-        <span class="brand-type">
+        </svg>        <span class="brand-type">
           <span class="brand-gn">GN</span>
           <span class="brand-scales">Scales</span>
         </span>
@@ -43,18 +70,17 @@
 
       <nav class="site-nav" id="site-nav" aria-label="Primary">
         <ul class="nav-list">
-          <li><a href="index.html">Home</a></li>
-          <li><a href="services.html">Services</a></li>
-          <li><a href="pricing.html">Pricing</a></li>
-          <li><a href="about.html" aria-current="page">Studio</a></li>
-          <li><a href="contact.html">Contact</a></li>
+          <li><a href="/">Home</a></li>
+          <li><a href="/services.html">Services</a></li>
+          <li><a href="/pricing.html">Pricing</a></li>
+          <li><a href="/work.html">Work</a></li>
+          <li><a href="/about.html" aria-current="page">Studio</a></li>
+          <li><a href="/contact.html">Contact</a></li>
         </ul>
         <div class="nav-end">
-          <span class="spots">3 / 10 spots</span>
-          <a class="btn btn-primary btn-sm" href="contact.html">
-            Book a call
-            <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M2.5 8h11M9 3.5 13.5 8 9 12.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          </a>
+          <span class="spots">10 founding spots</span>
+          <a class="btn btn-primary btn-sm" href="/contact.html">
+            Book a call            <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M2.5 8h11M9 3.5 13.5 8 9 12.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>          </a>
         </div>
       </nav>
     </div>
@@ -79,7 +105,8 @@
           <p class="eyebrow eyebrow-stack">01 — Origin</p>
         </div>
         <div class="story-copy reveal">
-          <h2 id="origin-heading" class="story-lede">GN Scales started with an observation neither of us could unsee: most performance agencies are excellent at buying media and mediocre at design — and most design studios will not go near a live ad account.</h2>
+          <h2 id="origin-heading" class="sr-only">Why the studio exists</h2>
+          <p class="story-lede">GN Scales started with an observation neither of us could unsee: most performance agencies are excellent at buying media and mediocre at design — and most design studios will not go near a live ad account.</p>
           <p>We spent years designing for automotive and industrial B2B companies. That is work where a millimetre matters, where the client knows more about their product than you ever will, and where “make it pop” is not an accepted brief. It teaches you to sell complexity clearly — which turns out to be exactly the skill a performance campaign needs and rarely has.</p>
           <p>So we built the thing that was missing: one team that designs the asset and spends against it. When the creative underperforms, we do not file a ticket with a freelancer and wait a week. We redraw it.</p>
           <p class="note-rule">We are early. We are building toward our first ten clients and choosing them deliberately rather than taking everyone who can pay — partly out of principle, mostly because two people can only do this properly for ten businesses at once.</p>
@@ -100,21 +127,18 @@
 
         <div class="founder-grid stagger">
           <article class="card card-gold founder-card">
-            <div class="portrait-lg" role="img" aria-label="Portrait of Gn Lomidze — pending">
-              <span aria-hidden="true">GL</span>
-              <em aria-hidden="true">Portrait pending</em>
+            <div class="portrait-lg portrait-warm" role="img" aria-label="Nick Lomidze">
+              <span aria-hidden="true">NL</span>
             </div>
             <div class="founder-body">
-              <h3>Gn Lomidze</h3>
+              <h3>Nick Lomidze</h3>
               <p class="founder-role">Co-founder — Creative &amp; brand</p>
               <p>Came up through industrial and automotive design. Sets creative and brand direction — how a campaign looks, sounds and feels before a dollar of media goes out the door. If an ad stops working, this is the person who redraws it.</p>
             </div>
           </article>
-
           <article class="card card-gold founder-card">
-            <div class="portrait-lg" role="img" aria-label="Portrait of George Lomidze — pending">
+            <div class="portrait-lg portrait-cool" role="img" aria-label="George Lomidze">
               <span aria-hidden="true">GL</span>
-              <em aria-hidden="true">Portrait pending</em>
             </div>
             <div class="founder-body">
               <h3>George Lomidze</h3>
@@ -153,7 +177,7 @@
           <article class="principle">
             <p class="principle-num">04</p>
             <h3>No invented proof</h3>
-            <p>We have no case studies yet and we will not dress a planning scenario up as one. When we have real results, you will see real numbers with the client's name on them.</p>
+            <p>We have no case studies yet and we will not dress a planning scenario up as one. When we have real results, you will see real numbers with the client’s name on them.</p>
           </article>
         </div>
       </div>
@@ -162,14 +186,15 @@
     <section class="closing">
       <div class="grain" aria-hidden="true"></div>
       <div class="shell">
-        <p class="hero-flag-solo">3 of 10 founding spots remaining</p>
+        <p class="hero-flag">
+          <span class="pulse" aria-hidden="true"></span>
+          <span>Taking 10 founding partners</span>
+        </p>
         <h2>Come and be one of <span class="metal">the first ten.</span></h2>
         <p class="lead">Early clients get disproportionate attention, and we are honest about why: we need the work to be good more than you need us to be busy.</p>
         <div class="btn-row btn-row-center">
-          <a class="btn btn-primary btn-lg" href="contact.html">
-            Book a strategy call
-            <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M2.5 8h11M9 3.5 13.5 8 9 12.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          </a>
+          <a class="btn btn-primary btn-lg" href="/contact.html">
+            Book a strategy call            <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M2.5 8h11M9 3.5 13.5 8 9 12.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>          </a>
         </div>
       </div>
     </section>
@@ -179,7 +204,7 @@
     <div class="shell">
       <div class="footer-grid">
         <div class="footer-brand">
-          <a class="brand" href="index.html" aria-label="GN Scales — home">
+          <a class="brand" href="/" aria-label="GN Scales — home">
             <svg class="brand-mark" viewBox="19 0 42 93" aria-hidden="true" focusable="false">
               <path d="M37.4 1H42.6V4.6H48.6V8.8H42.6V13.2H37.4V8.8H31.4V4.6H37.4Z"/>
               <path d="M23 17C24.5 22 27 25.6 28 30H52C53 25.6 55.5 22 57 17C53 18 50 20.6 49 23.6C47.5 17.6 44 14.1 40 14.1C36 14.1 32.5 17.6 31 23.6C30 20.6 27 18 23 17Z"/>
@@ -188,42 +213,52 @@
               <path d="M31.8 42.4H48.2C48.2 55 50.6 63.6 55 69H25C29.4 63.6 31.8 55 31.8 42.4Z"/>
               <path d="M26.4 71H53.6L57.2 82.4H22.8Z"/>
               <path d="M20.6 85H59.4V91.4H20.6Z"/>
-            </svg>
-            <span class="brand-type">
+            </svg>            <span class="brand-type">
               <span class="brand-gn">GN</span>
               <span class="brand-scales">Scales</span>
             </span>
           </a>
           <p>Design-led performance marketing for automotive aftermarket and jewelry brands.</p>
         </div>
+
         <div class="footer-col">
-          <h2>Studio</h2>
-          <a href="index.html">Home</a>
-          <a href="services.html">Services</a>
-          <a href="pricing.html">Pricing</a>
-          <a href="about.html">About</a>
+          <h2>Pages</h2>
+          <a href="/">Home</a>
+          <a href="/services.html">Services</a>
+          <a href="/pricing.html">Pricing</a>
+          <a href="/work.html">Work</a>
+          <a href="/about.html">Studio</a>
+          <a href="/contact.html">Contact</a>
         </div>
+
         <div class="footer-col">
           <h2>Capabilities</h2>
-          <a href="services.html">Meta &amp; Instagram</a>
-          <a href="services.html">Google Search</a>
-          <a href="services.html">TikTok</a>
-          <a href="services.html">Landing pages</a>
+          <a href="/services.html#meta">Meta &amp; Instagram</a>
+          <a href="/services.html#google">Google Search</a>
+          <a href="/services.html#more">TikTok</a>
+          <a href="/services.html#pages">Landing pages</a>
         </div>
+
         <div class="footer-col">
           <h2>Get in touch</h2>
-          <a class="footer-mail" href="mailto:hello@yourdomain.com">[hello@yourdomain.com]</a>
-          <a href="contact.html">Book a strategy call</a>
+          <a class="footer-mail" href="mailto:hello@gnscales.com">hello@gnscales.com</a>
+          <a href="/contact.html">Book a strategy call</a>
           <span>Serving U.S. brands · Remote-first</span>
         </div>
       </div>
+
       <div class="footer-base">
         <p>© <span id="year">2026</span> GN Scales. All rights reserved.</p>
+        <p class="footer-legal">
+          <a href="/privacy.html">Privacy</a>
+          <span aria-hidden="true">·</span>
+          <a href="/terms.html">Terms</a>
+        </p>
         <p>Ad spend is paid by clients directly to ad platforms — never routed or marked up by GN Scales.</p>
       </div>
     </div>
   </footer>
 
-  <script src="main.js"></script>
+  <script src="/main.js?v=9811df31" defer></script>
 </body>
 </html>

@@ -1,0 +1,10 @@
+User-agent: *
+Allow: /
+
+# The admin is ours, not Google's. It is also password protected —
+# this line is tidiness, not a security control.
+Disallow: /admin/
+Disallow: /data/
+Disallow: /thanks.html
+
+Sitemap: https://gnscales.com/sitemap.xml

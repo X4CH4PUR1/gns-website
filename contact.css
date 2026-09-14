@@ -89,7 +89,9 @@
   transition: border-color var(--t-micro), box-shadow var(--t-micro);
 }
 .field textarea { resize: vertical; min-height: 108px; line-height: 1.55; }
-.field ::placeholder { color: var(--ink-4); }
+/* --ink-4 now clears 4.7:1 against every ground we paint, so placeholders
+   are legible rather than a suggestion of text. */
+.field ::placeholder { color: var(--ink-4); opacity: 1; }
 
 .field input:hover, .field textarea:hover { border-color: rgba(210, 173, 92, 0.34); }
 .field input:focus, .field textarea:focus {
@@ -118,14 +120,52 @@
 .chip input:checked + span { border-color: var(--gold-500); background: rgba(210, 173, 92, 0.12); color: var(--gold-500); }
 .chip input:focus-visible + span { outline: 3px solid var(--focus); outline-offset: 3px; }
 
+/* The honeypot. Off-screen rather than display:none, because some bots skip
+   hidden inputs but almost all of them fill in everything they can reach. */
+.form-trap {
+  position: absolute; left: -9999px; top: auto;
+  width: 1px; height: 1px; overflow: hidden;
+}
+
+/* Submission feedback for the progressively-enhanced path. Empty and silent
+   until something has actually happened. */
+.form-status {
+  display: none; gap: 0.6rem; align-items: flex-start;
+  font-size: 0.9rem; line-height: 1.55; max-width: none;
+  border-left: 2px solid var(--gold-500); padding: 0.75rem 0 0.75rem 1rem;
+  color: var(--ink-2);
+}
+.form-status.is-shown { display: flex; }
+.form-status.is-error { border-left-color: var(--danger); color: var(--danger-ink); }
+.form-status.is-busy { border-left-color: var(--ink-3); color: var(--ink-3); }
+
 .form-privacy {
   display: flex; align-items: center; justify-content: center; gap: 0.6rem;
   font-family: var(--font-mono); font-size: 0.625rem;
   color: var(--ink-4); max-width: none; text-align: center;
 }
 .form-privacy svg { width: 13px; height: 13px; flex-shrink: 0; }
+.form-privacy a { color: var(--gold-500); border-bottom: 1px solid rgba(210, 173, 92, 0.4); }
 
-@media (max-width: 960px) {
+/* ---------- Scheduler ----------
+   Only rendered when a booking link is set in the admin, and the iframe is
+   only created when somebody presses the button: a calendar nobody opens
+   should not cost every visitor a third-party connection. */
+.scheduler {
+  position: relative; z-index: 1; margin-top: clamp(3rem, 6vw, 5rem);
+  border: 1px solid var(--line-gold); border-top: 2px solid var(--gold-500);
+  background: var(--navy-900); padding: clamp(1.75rem, 3.5vw, 2.75rem);
+  display: flex; flex-direction: column; gap: 1.5rem;
+}
+.scheduler-head { display: flex; flex-direction: column; gap: 0.6rem; }
+.scheduler-head h2 { font-size: clamp(1.6rem, 3vw, 2.25rem); }
+.scheduler-head p { color: var(--ink-2); font-size: 0.96rem; }
+.scheduler-embed { display: flex; }
+.scheduler-embed iframe {
+  width: 100%; min-height: 660px; border: 1px solid var(--line); background: #fff;
+}
+
+@media (max-width: 900px) {
   .contact-grid { grid-template-columns: 1fr; }
 }
 

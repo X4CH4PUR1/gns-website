@@ -1,0 +1,106 @@
+/* =========================================================
+   GN SCALES — WORK
+   Alternating piece / commentary rows for the studio's own work,
+   plus an optional client grid that only appears once there is a
+   client happy to be named.
+   ========================================================= */
+
+.work-list { display: flex; flex-direction: column; gap: clamp(3rem, 6vw, 5.5rem); }
+
+.work-item {
+  display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+  gap: clamp(2rem, 5vw, 4rem); align-items: center;
+}
+.work-item.is-reversed .work-visual { order: 2; }
+.work-item.is-reversed .work-copy { order: 1; }
+
+.work-visual { position: relative; padding: clamp(1.5rem, 3vw, 2.25rem); overflow: hidden; }
+.work-visual img { width: 100%; height: auto; display: block; }
+
+.work-label {
+  margin-top: 1.1rem;
+  font-family: var(--font-mono); font-size: 0.5625rem;
+  letter-spacing: 0.16em; text-transform: uppercase; color: var(--ink-4);
+}
+
+.work-copy { display: flex; flex-direction: column; gap: 1.5rem; }
+.work-copy h3 { font-size: clamp(1.6rem, 2.8vw, 2.25rem); max-width: 18ch; }
+
+.work-block { display: flex; flex-direction: column; gap: 0.5rem; }
+.work-block-label {
+  font-family: var(--font-mono); font-size: 0.625rem;
+  letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold-500);
+}
+.work-block p { color: var(--ink-2); font-size: 0.98rem; line-height: 1.68; max-width: 54ch; }
+
+/* ---------- The illustrative ad ---------- */
+.work-ad {
+  background: linear-gradient(150deg, rgba(210, 173, 92, 0.16), transparent 58%), var(--navy-900);
+  border: 1px solid var(--line-gold);
+  padding: clamp(1.75rem, 4vw, 3rem);
+  display: flex; flex-direction: column; gap: 1.5rem; min-height: 280px;
+  justify-content: space-between;
+}
+.work-ad-kicker {
+  font-family: var(--font-mono); font-size: 0.5625rem;
+  letter-spacing: 0.22em; text-transform: uppercase; color: var(--gold-500);
+}
+.work-ad-head {
+  font-family: var(--font-display); font-size: clamp(1.75rem, 3.6vw, 2.75rem);
+  line-height: 1.04; letter-spacing: -0.02em; color: var(--ink);
+}
+.work-ad-actions { display: flex; align-items: center; flex-wrap: wrap; gap: 1rem; }
+.work-ad-btn {
+  background: var(--gold-500); color: var(--navy-900);
+  font-size: 0.72rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase;
+  padding: 0.85rem 1.4rem;
+}
+.work-ad-meta {
+  font-family: var(--font-mono); font-size: 0.625rem;
+  letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-3);
+}
+
+.work-serp { display: flex; flex-direction: column; gap: 0.7rem; }
+
+/* ---------- The honesty line ----------
+   Load-bearing, not decoration: the studio has said publicly it will not
+   dress illustrative work up as a result, and this is where the page keeps
+   that promise. */
+.work-honesty {
+  display: flex; align-items: flex-start; gap: 0.9rem;
+  margin-top: clamp(3rem, 6vw, 5rem);
+  border: 1px solid var(--line-gold); background: rgba(210, 173, 92, 0.05);
+  padding: clamp(1.25rem, 2.4vw, 1.75rem);
+  font-size: 0.9375rem; line-height: 1.66; color: var(--ink-2); max-width: none;
+}
+.work-honesty svg { width: 17px; height: 17px; flex-shrink: 0; color: var(--gold-500); margin-top: 0.22rem; }
+
+/* ---------- Client work ---------- */
+.client-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.25rem; }
+.client-card { display: flex; flex-direction: column; padding: 0 !important; }
+.client-shot { width: 100%; height: auto; display: block; border-bottom: 1px solid var(--line); }
+.client-body { padding: clamp(1.75rem, 2.6vw, 2.25rem); display: flex; flex-direction: column; gap: 0.9rem; align-items: flex-start; }
+.client-kicker {
+  font-family: var(--font-mono); font-size: 0.625rem;
+  letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold-500);
+}
+.client-body h3 { font-size: clamp(1.5rem, 2.4vw, 2rem); }
+
+/* ---------- Responsive: the four shared breakpoints ---------- */
+@media (max-width: 900px) {
+  .work-item, .work-item.is-reversed { grid-template-columns: 1fr; }
+  /* Visual first on every row once stacked, so the reading order stops
+     alternating halfway down the page. */
+  .work-item.is-reversed .work-visual { order: 1; }
+  .work-item.is-reversed .work-copy { order: 2; }
+}
+
+@media (max-width: 700px) {
+  .client-grid { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 560px) {
+  .work-ad { min-height: 0; }
+  .work-ad-actions { flex-direction: column; align-items: stretch; }
+  .work-ad-btn { text-align: center; }
+}
