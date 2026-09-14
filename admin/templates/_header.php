@@ -12,7 +12,7 @@ $spots = gns_spots_line($c, false);
 ?>
   <header class="site-header">
     <div class="shell header-inner">
-      <a class="brand" href="/" aria-label="<?= e(gns_get($c, 'site.name', 'GN Scales')) ?> — home">
+      <a class="brand" href="<?= e(gns_href('/')) ?>" aria-label="<?= e(gns_get($c, 'site.name', 'GN Scales')) ?> — home">
         <?= gns_brand_mark('brand-mark') ?>
         <span class="brand-type">
           <span class="brand-gn">GN</span>

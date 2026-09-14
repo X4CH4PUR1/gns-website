@@ -19,11 +19,11 @@ include GNS_TEMPLATES . '/_header.php';
         <h1><?= rich($page['h1']) ?></h1>
         <p class="lead"><?= rich($page['lead']) ?></p>
         <div class="btn-row">
-          <a class="btn btn-primary btn-lg" href="/">
+          <a class="btn btn-primary btn-lg" href="<?= e(gns_href('/')) ?>">
             <?= rich($page['primary']) ?>
             <?= gns_icon_arrow() ?>
           </a>
-          <a class="btn btn-ghost btn-lg" href="/contact.html">
+          <a class="btn btn-ghost btn-lg" href="<?= e(gns_href('contact.html')) ?>">
             <?= rich($page['secondary']) ?>
             <?= gns_icon_arrow() ?>
           </a>

@@ -13,7 +13,7 @@ $consent = !empty(gns_get($c, 'integrations.consent_banner', false));
     <div class="shell">
       <div class="footer-grid">
         <div class="footer-brand">
-          <a class="brand" href="/" aria-label="<?= e(gns_get($c, 'site.name', 'GN Scales')) ?> — home">
+          <a class="brand" href="<?= e(gns_href('/')) ?>" aria-label="<?= e(gns_get($c, 'site.name', 'GN Scales')) ?> — home">
             <?= gns_brand_mark('brand-mark', '            ') ?>
             <span class="brand-type">
               <span class="brand-gn">GN</span>
@@ -57,9 +57,9 @@ $consent = !empty(gns_get($c, 'integrations.consent_banner', false));
       <div class="footer-base">
         <p>© <span id="year"><?= e(gmdate('Y')) ?></span> <?= e(gns_get($c, 'site.legal_name', 'GN Scales')) ?>. All rights reserved.</p>
         <p class="footer-legal">
-          <a href="/privacy.html">Privacy</a>
+          <a href="<?= e(gns_href('privacy.html')) ?>">Privacy</a>
           <span aria-hidden="true">·</span>
-          <a href="/terms.html">Terms</a>
+          <a href="<?= e(gns_href('terms.html')) ?>">Terms</a>
         </p>
         <p><?= rich(gns_get($c, 'site.footer.note', '')) ?></p>
       </div>
@@ -68,7 +68,7 @@ $consent = !empty(gns_get($c, 'integrations.consent_banner', false));
 
 <?php if ($consent): ?>
   <div class="consent" id="consent" hidden>
-    <p><?= rich(gns_get($c, 'integrations.consent_text', '')) ?> <a href="/privacy.html">Privacy</a></p>
+    <p><?= rich(gns_get($c, 'integrations.consent_text', '')) ?> <a href="<?= e(gns_href('privacy.html')) ?>">Privacy</a></p>
     <div class="consent-actions">
       <button type="button" class="btn btn-ghost btn-sm" data-consent="no">Decline</button>
       <button type="button" class="btn btn-primary btn-sm" data-consent="yes">Accept</button>
