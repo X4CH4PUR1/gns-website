@@ -71,7 +71,12 @@ c("2.3 robots.txt keeps crawlers out of the admin", "Disallow: /admin/" in robot
 c("2.4 canonical on every indexable page",
   all('rel="canonical"' in docs[p] for p in PAGES if p not in ("thanks.html", "404.html")))
 c("2.4 no internal links to index.html", 'href="index.html"' not in allsrc)
-c("2.4 the home page is linked as /", allsrc.count('href="/"') >= 20)
+c("2.4 the home page is linked as ./", allsrc.count('href="./"') >= 20)
+# Root-relative URLs ("/style.css") resolve above the site whenever it is not
+# at a domain root, which is what left the GitHub Pages copy unstyled with dead
+# navigation. 404.html carries the one deliberate exception, a <base>.
+c("2.4 no root-relative links, so the site works in a subdirectory",
+  not re.search(r'(?:href|src)="/', allsrc.replace('<base href="/">', '')))
 c("2.5 Open Graph on every page", every(lambda d: 'property="og:image"' in d))
 c("2.5 Twitter card on every page", every(lambda d: 'name="twitter:card"' in d))
 c("2.5 share images exist",
@@ -118,7 +123,7 @@ c("4.2 'Remaining services' placeholder gone", "Remaining services" not in allsr
 c("4.2 the 04-06 group has a real heading",
   "TikTok, lifecycle email and the full retainer" in docs["services.html"])
 c("4.3 a work page exists and is in the nav",
-  os.path.isfile("work.html") and 'href="/work.html"' in docs["index.html"])
+  os.path.isfile("work.html") and 'href="work.html"' in docs["index.html"])
 c("4.4 breakpoints reduced to the agreed ladder",
   sorted(set(re.findall(r"max-width: (\d+)px", css)), key=int) == ["380", "560", "700", "900", "1080"])
 c("4.5 the two orphaned classes are styled", ".faq-list {" in css and ".order-col {" in css)
@@ -133,7 +138,7 @@ c("5.5 WebGL context loss handled",
   "webglcontextlost" in js and "webglcontextrestored" in js)
 c("5.7 calculator results are announced", 'aria-live="polite"' in docs["index.html"])
 c("5.7 sliders expose aria-valuetext", "aria-valuetext" in docs["index.html"])
-c("5.8 scripts deferred", every(lambda d: 'src="/main.js' in d and "defer" in d))
+c("5.8 scripts deferred", every(lambda d: 'src="main.js' in d and "defer" in d))
 c("5.9 drag starts only near the handle", "function isGrab(e)" in js)
 
 print("\nP5 — performance")
@@ -157,7 +162,7 @@ c("7.5 collapsed FAQ panels are hidden from AT",
   docs["index.html"].count('role="region" hidden') >= 4 and "panel.hidden = true" in js)
 c("skip link on every page", every(lambda d: 'class="skip-link"' in d))
 c("aria-current marks the right nav item",
-  'href="/services.html" aria-current="page"' in docs["services.html"])
+  'href="services.html" aria-current="page"' in docs["services.html"])
 
 print("\nP7 — server, deploy and legal")
 c("8.1 the deploy can ship dotfiles", "rsync" in cpanel)
@@ -171,7 +176,7 @@ c("8.4 404 page exists and is wired up",
 c("8.5 measurement hooks exist, unset until filled in",
   "'ga4_id'" in defaults and "'meta_pixel_id'" in defaults)
 c("9.1 privacy policy exists and is linked from every page",
-  os.path.isfile("privacy.html") and every(lambda d: 'href="/privacy.html"' in d))
+  os.path.isfile("privacy.html") and every(lambda d: 'href="privacy.html"' in d))
 c("9.1 terms exist", os.path.isfile("terms.html"))
 c("9.4 thank-you page carries the conversion marker",
   'data-conversion="lead"' in docs["thanks.html"])

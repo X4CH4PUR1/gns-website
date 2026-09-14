@@ -12,6 +12,32 @@ $customCss = trim((string)gns_get($c, 'custom.css', '')) !== '';
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<?php if ($meta['key'] === 'notfound'): ?>
+
+  <!-- 404.html is the one page served at a URL we do not control: whatever the
+       visitor mistyped. Every other link on the site is document-relative, which
+       on /collections/all would resolve to /collections/style.css. Pin them to
+       the site root instead. The static value is correct wherever the site is a
+       domain root; the script corrects it for a GitHub Pages project site, where
+       the first path segment is the repository name. -->
+  <base href="/">
+  <script>
+    (function () {
+      if (location.hostname.slice(-10) === '.github.io') {
+        var seg = location.pathname.split('/');
+        if (seg.length > 2) {
+          document.getElementsByTagName('base')[0].href = '/' + seg[1] + '/';
+        }
+      }
+      /* A <base> also re-points fragment-only links, which would send the skip
+         link to the home page rather than down this one. Put it back. */
+      document.addEventListener('DOMContentLoaded', function () {
+        var skip = document.querySelector('.skip-link');
+        if (skip) { skip.setAttribute('href', location.pathname + location.search + '#main'); }
+      });
+    })();
+  </script>
+<?php endif; ?>
   <title><?= e($meta['title']) ?></title>
   <meta name="description" content="<?= e($meta['description']) ?>">
   <meta name="author" content="<?= e($siteName) ?>">
@@ -46,16 +72,16 @@ $customCss = trim((string)gns_get($c, 'custom.css', '')) !== '';
   <meta name="twitter:site" content="<?= e($twitter) ?>">
 <?php endif; ?>
 
-  <link rel="icon" href="/favicon.ico" sizes="32x32">
-  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
-  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
-  <link rel="manifest" href="/site.webmanifest">
+  <link rel="icon" href="favicon.ico" sizes="32x32">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+  <link rel="manifest" href="site.webmanifest">
 
   <!-- Fonts are served from this origin: no DNS or TLS handshake to a third
        party on the critical path, and nothing to disclose in the privacy page.
        The two faces above the fold are preloaded; the rest arrive with the CSS. -->
-  <link rel="preload" href="/assets/fonts/instrument-serif-400.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="preload" href="/assets/fonts/schibsted-grotesk-var.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="assets/fonts/instrument-serif-400.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="assets/fonts/schibsted-grotesk-var.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="<?= e(gns_asset('assets/fonts/fonts.css')) ?>">
 
   <link rel="stylesheet" href="<?= e(gns_asset('style.css')) ?>">

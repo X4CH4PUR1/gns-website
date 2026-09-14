@@ -34,6 +34,11 @@ function gns_pages()
  * .htaccess tells browsers to cache CSS, JS and fonts for a year. Without this
  * a returning visitor would keep the old stylesheet after a redesign, so the
  * URL has to change when the bytes do.
+ *
+ * The URL is document-relative rather than root-relative, for the reason given
+ * on gns_href(): one build has to work at a domain root and inside a
+ * subdirectory. Every page lives at the site root, so the two forms are
+ * equivalent there and only the subdirectory case differs.
  */
 function gns_asset($path)
 {
@@ -43,31 +48,45 @@ function gns_asset($path)
         $full = GNS_ROOT . '/' . $rel;
         $cache[$rel] = is_file($full) ? substr(md5_file($full), 0, 8) : '';
     }
-    return '/' . $rel . ($cache[$rel] === '' ? '' : '?v=' . $cache[$rel]);
+    return $rel . ($cache[$rel] === '' ? '' : '?v=' . $cache[$rel]);
 }
 
 /**
- * Normalise an internal link to a root-relative one.
+ * Normalise an internal link to a document-relative one.
  *
- * Two reasons. 404.html is served at whatever URL the visitor mistyped, so a
- * relative href there would resolve against a directory that does not exist.
- * And it settles the duplicate-content question the old markup created, where
- * every nav link pointed at /index.html while the outside world linked to /.
+ * These used to be root-relative ("/about.html"). That is correct only when the
+ * site is served from a domain root, and it breaks silently anywhere the site
+ * sits in a subdirectory -- a GitHub Pages project site, a staging path, a
+ * client preview -- where "/style.css" resolves above the site and 404s. Every
+ * page here lives at the site root, so a plain "about.html" is identical at a
+ * domain root and correct in a subdirectory as well.
+ *
+ * The home link stays "./" rather than "index.html", which keeps the
+ * duplicate-content fix that put every nav link on one URL instead of
+ * splitting it between / and /index.html.
+ *
+ * 404.html is the one page this does not settle on its own: it is served at
+ * whatever URL the visitor mistyped, so a relative href there resolves against
+ * a directory that may not exist. _head.php gives that page a <base> element.
  */
 function gns_href($href)
 {
     $href = trim((string)$href);
-    if ($href === '') {
-        return '/';
+    if ($href === '' || $href === '/') {
+        return './';
     }
-    if ($href === '/' || $href[0] === '/' || $href[0] === '#'
-        || preg_match('#^(https?:|mailto:|tel:)#i', $href)) {
+    if ($href[0] === '#' || preg_match('#^(https?:|mailto:|tel:)#i', $href)) {
         return $href;
     }
-    if (strpos($href, 'index.html') === 0) {
-        return '/' . substr($href, strlen('index.html'));
+    $href = ltrim($href, '/');
+    if ($href === '') {
+        return './';
     }
-    return '/' . $href;
+    if (strpos($href, 'index.html') === 0) {
+        $rest = substr($href, strlen('index.html'));
+        return $rest === '' ? './' : './' . $rest;
+    }
+    return $href;
 }
 
 /** Absolute URL for a site-relative path. */

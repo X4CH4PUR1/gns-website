@@ -582,7 +582,7 @@
         .then(function (data) {
           if (!data || !data.ok) throw new Error(data && data.error ? data.error : 'send failed');
           say('Sent. Redirecting…', '');
-          window.location.href = data.redirect || '/thanks.html';
+          window.location.href = data.redirect || 'thanks.html';
         })
         .catch(function () {
           if (button) button.disabled = false;
