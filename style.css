@@ -65,6 +65,40 @@
   --t-micro: 160ms ease-out;
   --t-hover: 280ms cubic-bezier(0.22, 1, 0.36, 1);
   --t-reveal: 720ms cubic-bezier(0.16, 1, 0.3, 1);
+
+  /* ---------- Liquid glass ----------
+   * A surface is glass when four things happen at once: it samples and
+   * blurs what is behind it, it saturates that sample so colour survives
+   * the blur, it carries a bright rim that is strongest where light would
+   * land, and it sits on a soft shadow so it reads as floating rather than
+   * painted on. Miss any one and it looks like a flat translucent box.
+   *
+   * The tint is navy rather than neutral white: over this palette a white
+   * scrim greys everything underneath, and the page loses its temperature.
+   */
+  --glass-tint: rgba(13, 30, 66, 0.52);
+  --glass-tint-strong: rgba(7, 20, 49, 0.74);
+  --glass-tint-gold: rgba(210, 173, 92, 0.07);
+  --glass-blur: 20px;
+  --glass-sat: 165%;
+
+  /* The rim. Brightest at the top edge, fading by the bottom, which is what
+     sells the curvature — a rim of even weight reads as a plain border. */
+  --glass-rim: rgba(237, 230, 211, 0.16);
+  --glass-rim-lit: rgba(255, 253, 246, 0.42);
+  --glass-rim-gold: rgba(232, 200, 131, 0.55);
+
+  --glass-lift: 0 26px 60px -32px rgba(0, 0, 0, 0.8);
+  --glass-lift-gold: 0 30px 70px -34px rgba(210, 173, 92, 0.42);
+
+  /* Radii. The page was uniformly square before; glass needs curvature to
+     catch the rim highlight, so these are deliberately restrained — enough
+     to round the light, not enough to turn an editorial layout into a
+     collection of pills. */
+  --r-lg: 18px;
+  --r-md: 12px;
+  --r-sm: 8px;
+  --r-pill: 999px;
 }
 
 /* ---------- Reset ---------- */
@@ -96,6 +130,30 @@ body {
   line-height: 1.65;
   min-width: 320px;
   -webkit-font-smoothing: antialiased;
+}
+
+/*
+ * Ambient field.
+ *
+ * Glass is only visible when there is something behind it to bend. Over a
+ * flat fill a blurred panel and an opaque one look identical, and every
+ * backdrop-filter on the page is wasted GPU time. These four very wide,
+ * very low-contrast blooms give the panels something to sample: the tint
+ * under a card shifts as the page scrolls past them, which is the whole
+ * effect.
+ *
+ * One fixed element, no animation, painted once — it costs a composite
+ * layer and nothing else.
+ */
+body::before {
+  content: '';
+  position: fixed; inset: 0; z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(60rem 40rem at 12% 8%,  rgba(210, 173, 92, 0.1),  transparent 60%),
+    radial-gradient(50rem 38rem at 88% 26%, rgba(22, 41, 79, 0.75),   transparent 62%),
+    radial-gradient(46rem 34rem at 20% 72%, rgba(13, 30, 66, 0.72),   transparent 64%),
+    radial-gradient(52rem 36rem at 82% 92%, rgba(210, 173, 92, 0.07), transparent 62%);
 }
 
 ::selection { background-color: var(--gold-500); color: var(--navy-900); }
@@ -224,13 +282,34 @@ p { max-width: 66ch; text-wrap: pretty; }
  */
 .site-header::before {
   content: ''; position: absolute; inset: 0; z-index: -1;
-  background: rgba(0, 8, 26, 0.72);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
+  background: rgba(0, 8, 26, 0.6);
+  backdrop-filter: blur(22px) saturate(var(--glass-sat));
+  -webkit-backdrop-filter: blur(22px) saturate(var(--glass-sat));
   opacity: 0; transition: opacity var(--t-micro);
 }
-.site-header.is-scrolled::before { opacity: 1; }
-.site-header.is-scrolled { border-bottom-color: var(--line); }
+/* The bar's own lit edge. A plain 1px border reads as a rule drawn under the
+   header; a highlight that brightens toward the middle reads as the bottom
+   edge of a pane of glass catching the light of the page sliding beneath. */
+.site-header::after {
+  content: ''; position: absolute; left: 0; right: 0; bottom: 0; height: 1px;
+  background: linear-gradient(90deg,
+    rgba(237, 230, 211, 0) 0%,
+    rgba(237, 230, 211, 0.18) 22%,
+    rgba(210, 173, 92, 0.38) 50%,
+    rgba(237, 230, 211, 0.18) 78%,
+    rgba(237, 230, 211, 0) 100%);
+  opacity: 0; transition: opacity var(--t-micro);
+  pointer-events: none;
+}
+.site-header.is-scrolled::before,
+.site-header.is-scrolled::after { opacity: 1; }
+
+@media (prefers-reduced-transparency: reduce) {
+  .site-header::before {
+    backdrop-filter: none; -webkit-backdrop-filter: none;
+    background: var(--navy-900);
+  }
+}
 
 .header-inner {
   display: flex; align-items: center; justify-content: space-between;
@@ -275,6 +354,7 @@ p { max-width: 66ch; text-wrap: pretty; }
   display: inline-flex; align-items: center; justify-content: center; gap: 0.7rem;
   font-size: 0.8125rem; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase;
   padding: 1.05rem 2rem; border: 1px solid transparent; white-space: nowrap;
+  border-radius: var(--r-md);
   transition: background-color var(--t-hover), border-color var(--t-hover),
               color var(--t-hover), transform var(--t-hover),
               box-shadow var(--t-hover), letter-spacing var(--t-hover);
@@ -374,11 +454,41 @@ p { max-width: 66ch; text-wrap: pretty; }
 .section-head-split .lead { max-width: 40ch; margin-bottom: 0.5rem; }
 
 /* ---------- Cards ---------- */
+/* Every card is a glass panel. The class list below is what .glass applies;
+   it is repeated here rather than added to the markup of ten pages, and the
+   two are kept in step by sitting next to each other in this file. */
 .card {
   position: relative; isolation: isolate; overflow: hidden;
-  background: var(--navy-700); border: 1px solid var(--line);
+  border-radius: var(--r-lg);
+  background: var(--glass-tint); border: 1px solid var(--glass-rim);
+  box-shadow: var(--glass-lift);
   padding: clamp(1.75rem, 2.4vw, 2.125rem);
   transition: transform var(--t-hover), border-color var(--t-hover), box-shadow var(--t-hover), background-color var(--t-hover);
+}
+@supports ((-webkit-backdrop-filter: blur(1px)) or (backdrop-filter: blur(1px))) {
+  .card {
+    -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-sat));
+    backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-sat));
+  }
+}
+@supports not ((-webkit-backdrop-filter: blur(1px)) or (backdrop-filter: blur(1px))) {
+  .card { background: var(--navy-700); }
+}
+/* The lit rim. Above the card's own content (z-index 3) so it stays a crisp
+   hairline rather than being softened by the blur underneath it. */
+.card::after {
+  content: ''; position: absolute; inset: 0; border-radius: inherit; padding: 1px;
+  background: linear-gradient(180deg,
+    var(--glass-rim-lit) 0%,
+    rgba(237, 230, 211, 0.10) 28%,
+    rgba(237, 230, 211, 0.04) 62%,
+    rgba(237, 230, 211, 0.12) 100%);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+          mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+          mask-composite: exclude;
+  pointer-events: none; z-index: 3;
+  transition: background var(--t-hover), opacity var(--t-hover);
 }
 /* Cursor-tracked spotlight; --mx/--my set from pointermove in main.js */
 .card::before {
@@ -388,13 +498,42 @@ p { max-width: 66ch; text-wrap: pretty; }
 }
 .card:hover::before { opacity: 1; }
 .card:hover {
-  transform: translateY(-4px); background: var(--navy-600);
+  transform: translateY(-4px);
   border-color: rgba(210, 173, 92, 0.42);
-  box-shadow: 0 30px 60px -34px rgba(210, 173, 92, 0.5);
+  box-shadow: 0 34px 70px -34px rgba(210, 173, 92, 0.45);
 }
+/* On hover the rim warms and brightens, which is the whole tell that the
+   surface is lit rather than drawn. */
+.card:hover::after {
+  background: linear-gradient(180deg,
+    var(--glass-rim-gold) 0%,
+    rgba(210, 173, 92, 0.22) 30%,
+    rgba(210, 173, 92, 0.07) 64%,
+    rgba(210, 173, 92, 0.2) 100%);
+}
+
+/* The gold variant marks the one panel per view that matters most. It used
+   to declare itself with a 2px slab across the top edge, which read as an
+   unfinished border rather than emphasis; the warmth and the rim carry it
+   now, and the corner stays uninterrupted. */
 .card-gold {
-  background: linear-gradient(150deg, rgba(210, 173, 92, 0.09), rgba(210, 173, 92, 0) 58%), var(--navy-700);
-  border-color: var(--line-gold); border-top: 2px solid var(--gold-500);
+  background: linear-gradient(150deg, var(--glass-tint-gold), rgba(210, 173, 92, 0) 58%), var(--glass-tint);
+  border-color: var(--line-gold);
+  box-shadow: var(--glass-lift-gold);
+}
+@supports not ((-webkit-backdrop-filter: blur(1px)) or (backdrop-filter: blur(1px))) {
+  .card-gold { background: linear-gradient(150deg, rgba(210, 173, 92, 0.1), rgba(210, 173, 92, 0) 58%), var(--navy-700); }
+}
+.card-gold::after {
+  background: linear-gradient(180deg,
+    var(--glass-rim-gold) 0%,
+    rgba(210, 173, 92, 0.18) 30%,
+    rgba(210, 173, 92, 0.06) 64%,
+    rgba(210, 173, 92, 0.16) 100%);
+}
+@media (prefers-reduced-transparency: reduce) {
+  .card { -webkit-backdrop-filter: none; backdrop-filter: none; background: var(--navy-700); }
+  .card-gold { background: linear-gradient(150deg, rgba(210, 173, 92, 0.1), rgba(210, 173, 92, 0) 58%), var(--navy-700); }
 }
 .card h3 { margin-bottom: 0.15rem; }
 /*
@@ -436,7 +575,10 @@ p { max-width: 66ch; text-wrap: pretty; }
 .result.is-ghost span + span { height: 6px; background: rgba(237, 230, 211, 0.14); }
 
 /* Browser mock */
-.browser { border: 1px solid rgba(210, 173, 92, 0.25); background: var(--navy-800); }
+.browser {
+  border: 1px solid rgba(210, 173, 92, 0.25); background: var(--navy-800);
+  border-radius: var(--r-md); overflow: hidden;
+}
 .browser-bar { display: flex; align-items: center; gap: 6px; padding: 0.7rem 0.9rem; border-bottom: 1px solid var(--line); }
 .browser-bar span { width: 7px; height: 7px; border-radius: 50%; background: rgba(237, 230, 211, 0.16); }
 .browser-bar span:first-child { background: rgba(210, 173, 92, 0.55); }
@@ -448,7 +590,7 @@ p { max-width: 66ch; text-wrap: pretty; }
 .browser-btn {
   background: var(--gold-500); color: var(--navy-900);
   font-size: 0.66rem; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase;
-  padding: 0.65rem 1.1rem;
+  padding: 0.65rem 1.1rem; border-radius: var(--r-sm);
 }
 .browser-btn.is-ghost { background: transparent; border: 1px solid var(--line-2); color: var(--ink-2); }
 .browser-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0.7rem; }
@@ -492,6 +634,97 @@ p { max-width: 66ch; text-wrap: pretty; }
 .closing .shell { position: relative; display: flex; flex-direction: column; align-items: center; gap: 1.75rem; }
 .closing h2 { font-size: clamp(2.6rem, 6.4vw, 5.75rem); line-height: 0.94; max-width: 16ch; }
 .closing p { max-width: 54ch; }
+
+/* ---------- Liquid glass ----------
+   One surface treatment, used by every panel that floats: cards, the
+   pricing tiers, the calculator, the comparison columns, the header.
+
+   .glass paints the tint and the blur. The rim is a separate ::after so it
+   can sit above the panel's own content and stay crisp — a border on the
+   element itself gets blurred along with everything else on some engines,
+   and a 1px rim that goes soft is the difference between glass and fog. */
+.glass {
+  position: relative;
+  isolation: isolate;
+  border-radius: var(--r-lg);
+  background: var(--glass-tint);
+  border: 1px solid var(--glass-rim);
+  box-shadow: var(--glass-lift);
+}
+
+/* backdrop-filter is the expensive part, so it is only asked for where the
+   browser can actually do it. Without it the tint alone would be too thin to
+   read as a surface, so the fallback above stays opaque enough to hold text. */
+@supports ((-webkit-backdrop-filter: blur(1px)) or (backdrop-filter: blur(1px))) {
+  .glass {
+    background: var(--glass-tint);
+    -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-sat));
+    backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-sat));
+  }
+}
+@supports not ((-webkit-backdrop-filter: blur(1px)) or (backdrop-filter: blur(1px))) {
+  .glass { background: var(--navy-700); }
+}
+
+/* The rim: a hairline that is lit along the top edge and fades out by the
+   shoulders, plus a faint inner floor so the bottom edge has weight. */
+.glass::after {
+  content: '';
+  position: absolute; inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(
+    180deg,
+    var(--glass-rim-lit) 0%,
+    rgba(237, 230, 211, 0.10) 28%,
+    rgba(237, 230, 211, 0.04) 62%,
+    rgba(237, 230, 211, 0.12) 100%);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+          mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+          mask-composite: exclude;
+  pointer-events: none;
+  z-index: 3;
+}
+
+/* Gold variant: same glass, warmer tint and a gold rim. Used for the thing
+   on the page we actually want looked at. */
+.glass-gold {
+  background: linear-gradient(150deg, var(--glass-tint-gold), rgba(210, 173, 92, 0) 58%), var(--glass-tint);
+  border-color: var(--line-gold);
+  box-shadow: var(--glass-lift-gold);
+}
+@supports ((-webkit-backdrop-filter: blur(1px)) or (backdrop-filter: blur(1px))) {
+  .glass-gold {
+    background: linear-gradient(150deg, var(--glass-tint-gold), rgba(210, 173, 92, 0) 58%), var(--glass-tint);
+  }
+}
+@supports not ((-webkit-backdrop-filter: blur(1px)) or (backdrop-filter: blur(1px))) {
+  .glass-gold { background: linear-gradient(150deg, rgba(210, 173, 92, 0.1), rgba(210, 173, 92, 0) 58%), var(--navy-700); }
+}
+.glass-gold::after {
+  background: linear-gradient(
+    180deg,
+    var(--glass-rim-gold) 0%,
+    rgba(210, 173, 92, 0.18) 30%,
+    rgba(210, 173, 92, 0.06) 64%,
+    rgba(210, 173, 92, 0.16) 100%);
+}
+
+/*
+ * Two accessibility escapes. Transparency is a comfort setting on macOS,
+ * iOS and Windows alike, and a blurred backdrop behind text is exactly what
+ * people who turn it off are turning off. Motion-sensitive visitors keep the
+ * glass but lose the travel on hover.
+ */
+@media (prefers-reduced-transparency: reduce) {
+  .glass, .glass-gold {
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+    background: var(--navy-700);
+  }
+  .glass-gold { background: linear-gradient(150deg, rgba(210, 173, 92, 0.1), rgba(210, 173, 92, 0) 58%), var(--navy-700); }
+}
 
 /* ---------- Atmosphere ---------- */
 .grain {
@@ -595,6 +828,7 @@ p { max-width: 66ch; text-wrap: pretty; }
   background: var(--navy-900); border: 1px solid var(--line-gold);
   font-family: var(--font-display); color: var(--gold-500);
   aspect-ratio: 4 / 5; width: 100%; object-fit: cover;
+  border-radius: var(--r-md);
 }
 .portrait { font-size: clamp(2.4rem, 6vw, 3.4rem); letter-spacing: 0.06em; }
 .portrait-lg { font-size: clamp(3rem, 8vw, 4.6rem); letter-spacing: 0.06em; }

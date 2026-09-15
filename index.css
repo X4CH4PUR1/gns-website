@@ -81,7 +81,7 @@
 /* .order-col had no rule either, which mattered: on a phone the two columns
    stack, and without an explicit order the "typical agency" list could end up
    underneath ours, reversing the argument the section is making. */
-.order-compare { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.9rem; }
+.order-compare { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; align-items: stretch; }
 .order-col { display: flex; flex-direction: column; min-width: 0; }
 .order-col:first-child { order: 1; }
 .order-col:last-child { order: 2; }
@@ -92,27 +92,78 @@
 }
 .order-label.is-gold { color: var(--gold-500); }
 
-.order-list { display: flex; flex-direction: column; padding: 1.6rem 1.5rem; height: calc(100% - 2rem); }
-.order-list.is-muted { background: var(--navy-800); border: 1px solid var(--line); }
-.order-list.is-live {
-  background: linear-gradient(180deg, rgba(210, 173, 92, 0.07), transparent);
-  border: 1px solid var(--line-gold); border-top: 2px solid var(--gold-500);
+/*
+ * The padding here has to be `ol.order-list`, not `.order-list`.
+ *
+ * The reset carries `ul[class], ol[class] { padding: 0 }`, which is
+ * specificity (0,1,1) and quietly outranked the (0,1,0) class rule that used
+ * to set it. The list therefore had no side padding at all: the rows ran
+ * edge to edge against the border, and the two highlighted rows — which
+ * pulled themselves 0.75rem wider with negative inline margins to sit proud
+ * of that padding — ended up 11px outside the panel on both sides, which is
+ * the overhang visible in the old build.
+ *
+ * The negative margins are gone with it. Rows now carry their own inline
+ * padding, so a highlighted row fills the panel exactly and is clipped by
+ * the corner radius rather than escaping it.
+ */
+ol.order-list {
+  display: flex; flex-direction: column;
+  flex: 1;                       /* both columns end level, whatever the copy */
+  padding: 0.5rem 0;
+  overflow: hidden;
+  border-radius: var(--r-lg);
 }
+.order-list.is-muted { background: var(--glass-tint-strong); border: 1px solid var(--glass-rim); }
+.order-list.is-live {
+  background: linear-gradient(180deg, var(--glass-tint-gold), rgba(210, 173, 92, 0) 60%), var(--glass-tint);
+  border: 1px solid var(--line-gold);
+  box-shadow: var(--glass-lift-gold);
+}
+@supports ((-webkit-backdrop-filter: blur(1px)) or (backdrop-filter: blur(1px))) {
+  ol.order-list {
+    -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-sat));
+    backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-sat));
+  }
+}
+@supports not ((-webkit-backdrop-filter: blur(1px)) or (backdrop-filter: blur(1px))) {
+  .order-list.is-muted { background: var(--navy-800); }
+  .order-list.is-live { background: linear-gradient(180deg, rgba(210, 173, 92, 0.1), rgba(210, 173, 92, 0) 60%), var(--navy-700); }
+}
+
+/* Grid, not flex: the number sits in a column of its own, so every line of
+   a wrapped row hangs against the same left edge instead of the number
+   pushing the first line across. */
+/* The rows share whatever height the taller column sets, so neither panel
+   ends on a band of empty glass. */
 .order-list li {
-  display: flex; align-items: flex-start; gap: 0.8rem;
-  font-size: 0.9rem; line-height: 1.45; color: var(--ink-2);
-  padding-block: 0.5rem;
+  display: grid; grid-template-columns: 1.6rem minmax(0, 1fr); gap: 0.75rem;
+  align-items: baseline; align-content: center; flex: 1;
+  font-size: 0.9rem; line-height: 1.5; color: var(--ink-2);
+  padding: 0.7rem 1.35rem;
 }
 .order-list li span {
   font-family: var(--font-mono); font-size: 0.625rem; color: var(--ink-4);
-  flex-shrink: 0; padding-top: 0.2em;
+  font-variant-numeric: tabular-nums;
 }
 .order-list li + li { border-top: 1px solid var(--line); }
-.order-list.is-muted li { opacity: 0.55; }
+.order-list.is-muted li { color: var(--ink-3); }
 .order-list.is-live li { color: var(--ink); }
 .order-list.is-live li span { color: var(--gold-500); }
-.order-list li.is-dead { background: rgba(237, 230, 211, 0.04); margin-inline: -0.75rem; padding-inline: 0.75rem; }
-.order-list li.is-hot { background: rgba(210, 173, 92, 0.1); margin-inline: -0.75rem; padding-inline: 0.75rem; }
+
+/* The fourth row is the punchline in both columns, so it gets weight rather
+   than the almost-invisible 4% wash it had. */
+.order-list li.is-dead,
+.order-list li.is-hot { position: relative; }
+.order-list li.is-dead {
+  background: rgba(237, 230, 211, 0.05);
+  box-shadow: inset 2px 0 0 rgba(237, 230, 211, 0.22);
+}
+.order-list li.is-hot {
+  background: rgba(210, 173, 92, 0.12);
+  box-shadow: inset 2px 0 0 var(--gold-500);
+  color: var(--ink);
+}
 
 /* ---------- Bento ---------- */
 .bento { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1rem; }
@@ -123,27 +174,55 @@
 .bento .card { display: flex; flex-direction: column; gap: 0.85rem; }
 .bento .card .icon { margin-bottom: 0.4rem; }
 
-.funnel { display: flex; flex-direction: column; gap: 0.35rem; margin-top: auto; padding-top: 1.1rem; }
-.funnel-row { display: flex; align-items: center; gap: 0.8rem; }
-.funnel-bar {
-  height: 15px; width: var(--w, 100%);
-  background: linear-gradient(90deg, var(--c), transparent);
-  transition: width var(--t-reveal);
-}
+/* ---------- Funnel bars ----------
+   Shared by the Meta card here and the calculator further down.
+
+   These used to be a bare gradient from the stage colour to transparent,
+   laid out as [bar][label] in a flex row. Two things went wrong with that.
+   The fade meant no bar had an end, so a 66% bar and a 100% bar were not
+   visibly different — the quantity the chart exists to show was the one
+   thing it did not encode. And because the label followed a bar of varying
+   width, the three labels landed at three different x positions and the
+   block read as debris rather than a chart.
+
+   Now: label first in a fixed column, then a track that shows the full
+   width available, then a solid fill that ends where the value ends. */
+.funnel { display: flex; flex-direction: column; gap: 0.55rem; margin-top: auto; padding-top: 1.1rem; }
+.funnel-row { display: grid; grid-template-columns: 4.5rem minmax(0, 1fr); align-items: center; gap: 0.85rem; }
 .funnel-key {
   font-family: var(--font-mono); font-size: 0.5625rem;
   letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-3);
-  width: 62px; flex-shrink: 0;
+}
+.funnel-track {
+  position: relative; height: 10px; border-radius: var(--r-pill);
+  background: rgba(237, 230, 211, 0.07);
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.35);
+  overflow: hidden;
+}
+.funnel-bar {
+  position: relative;   /* so the highlight below tracks the fill, not the track */
+  display: block; height: 100%; width: var(--w, 100%);
+  border-radius: inherit;
+  background: var(--c, var(--gold-500));
+  transition: width var(--t-reveal);
+}
+/* A single highlight run along the top of the fill: the same trick as the
+   panel rims, at the scale of a 10px bar. */
+.funnel-bar::after {
+  content: ''; position: absolute; inset: 0 0 auto 0; height: 50%;
+  border-radius: inherit;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.22), rgba(255, 255, 255, 0));
+  pointer-events: none;
 }
 
 .serp { display: flex; flex-direction: column; gap: 0.45rem; margin-top: auto; padding-top: 1.1rem; }
-.serp-row { display: flex; align-items: center; gap: 0.65rem; padding: 0.55rem 0.75rem; }
+.serp-row { display: flex; align-items: center; gap: 0.65rem; padding: 0.55rem 0.75rem; border-radius: var(--r-sm); }
 .serp-row.is-ad { border: 1px solid rgba(210, 173, 92, 0.3); background: rgba(210, 173, 92, 0.05); }
 .serp-tag {
   font-family: var(--font-mono); font-size: 0.5rem; letter-spacing: 0.12em; text-transform: uppercase;
   background: var(--gold-500); color: var(--navy-900); padding: 0.15rem 0.4rem;
 }
-.serp-line { height: 6px; width: var(--w); background: rgba(237, 230, 211, 0.42); }
+.serp-line { height: 6px; width: var(--w); border-radius: var(--r-pill); background: rgba(237, 230, 211, 0.42); }
 .serp-line.is-dim { background: rgba(237, 230, 211, 0.16); }
 .serp-line.is-faint { background: rgba(237, 230, 211, 0.08); }
 
@@ -170,22 +249,47 @@
 
 /* ---------- Process ---------- */
 .process { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: clamp(1.5rem, 3vw, 2.2rem); position: relative; }
+/* The rail used to fade from gold to nearly nothing across its width, and
+   the four markers carried three different states between them — two solid
+   gold, one outline, one at 75% opacity. Together they read as a progress
+   bar stopped halfway rather than as four stages of equal standing, which
+   is what the section is describing. Both are even now. */
 .process::before {
   content: ''; position: absolute; left: 0; right: 0; top: 21px; height: 1px;
-  background: linear-gradient(90deg, var(--gold-500) 0%, rgba(210, 173, 92, 0.55) 42%, var(--line-2) 100%);
+  background: linear-gradient(90deg,
+    rgba(210, 173, 92, 0) 0%, var(--line-gold) 8%,
+    var(--line-gold) 92%, rgba(210, 173, 92, 0) 100%);
 }
 .process > li { display: flex; flex-direction: column; align-items: flex-start; gap: 0.7rem; position: relative; }
 .process-num {
+  position: relative;
   width: 42px; height: 42px; border-radius: 50%; display: grid; place-items: center;
   font-family: var(--font-display); font-size: 1.25rem; line-height: 1;
-  background: var(--navy-900); border: 1px solid var(--line-2); color: var(--ink-3);
+  color: var(--gold-200);
+  background: var(--glass-tint);
+  border: 1px solid var(--line-gold);
+  box-shadow: 0 0 0 6px rgba(210, 173, 92, 0.07), var(--glass-lift);
   margin-bottom: 0.9rem;
 }
-.process-num.is-on {
-  background: var(--gold-500); border-color: var(--gold-500); color: var(--navy-900);
-  box-shadow: 0 0 0 7px rgba(210, 173, 92, 0.12);
+@supports ((-webkit-backdrop-filter: blur(1px)) or (backdrop-filter: blur(1px))) {
+  .process-num {
+    -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-sat));
+    backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-sat));
+  }
 }
-.process-num.is-off { opacity: 0.75; }
+@supports not ((-webkit-backdrop-filter: blur(1px)) or (backdrop-filter: blur(1px))) {
+  .process-num { background: var(--navy-800); }
+}
+/* A disc catches light at the top, so its rim is brightest there. */
+.process-num::after {
+  content: ''; position: absolute; inset: 0; border-radius: 50%; padding: 1px;
+  background: linear-gradient(180deg, var(--glass-rim-gold), rgba(210, 173, 92, 0.05) 70%);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+          mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+          mask-composite: exclude;
+  pointer-events: none;
+}
 .process > li > h3 { margin-bottom: 0.15rem; }
 .process-when {
   font-family: var(--font-mono); font-size: 0.625rem;
@@ -201,11 +305,46 @@
 .maths-copy { display: flex; flex-direction: column; gap: 1.4rem; }
 .maths-copy p { color: var(--ink-2); }
 
+/* The calculator is the heaviest panel on the page, so it is the one that
+   most needed the 2px gold slab across its top edge taken off: at this size
+   the slab read as a tab that had lost its tab. Glass and a gold rim do the
+   same job of marking it as the live thing on the page. */
 .calc {
-  background: var(--navy-900); border: 1px solid var(--line-gold);
-  border-top: 2px solid var(--gold-500);
+  position: relative; isolation: isolate;
+  border-radius: var(--r-lg);
+  background: linear-gradient(160deg, var(--glass-tint-gold), rgba(210, 173, 92, 0) 46%), var(--glass-tint-strong);
+  border: 1px solid var(--line-gold);
+  box-shadow: var(--glass-lift-gold);
   padding: clamp(1.5rem, 3vw, 2.5rem);
   display: flex; flex-direction: column; gap: clamp(1.5rem, 2.6vw, 2rem);
+}
+@supports ((-webkit-backdrop-filter: blur(1px)) or (backdrop-filter: blur(1px))) {
+  .calc {
+    -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-sat));
+    backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-sat));
+  }
+}
+@supports not ((-webkit-backdrop-filter: blur(1px)) or (backdrop-filter: blur(1px))) {
+  .calc { background: linear-gradient(160deg, rgba(210, 173, 92, 0.1), rgba(210, 173, 92, 0) 46%), var(--navy-900); }
+}
+.calc::after {
+  content: ''; position: absolute; inset: 0; border-radius: inherit; padding: 1px;
+  background: linear-gradient(180deg,
+    var(--glass-rim-gold) 0%,
+    rgba(210, 173, 92, 0.16) 30%,
+    rgba(210, 173, 92, 0.05) 64%,
+    rgba(210, 173, 92, 0.14) 100%);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+          mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+          mask-composite: exclude;
+  pointer-events: none; z-index: 3;
+}
+@media (prefers-reduced-transparency: reduce) {
+  .calc {
+    -webkit-backdrop-filter: none; backdrop-filter: none;
+    background: linear-gradient(160deg, rgba(210, 173, 92, 0.1), rgba(210, 173, 92, 0) 46%), var(--navy-900);
+  }
 }
 
 .calc-tier { display: flex; align-items: center; flex-wrap: wrap; gap: 1rem; }
@@ -217,6 +356,7 @@
 .tier-btn {
   font-size: 0.78rem; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase;
   padding: 0.7rem 1.25rem; border: 1px solid var(--line-2); color: var(--ink-2);
+  border-radius: var(--r-md);
   transition: color var(--t-micro), border-color var(--t-micro), background-color var(--t-micro);
 }
 .tier-btn:hover { color: var(--gold-500); border-color: rgba(210, 173, 92, 0.5); }
@@ -263,21 +403,25 @@
   letter-spacing: 0.16em; text-transform: uppercase; color: var(--ink-3);
 }
 .stat-value { font-family: var(--font-display); font-size: clamp(2rem, 3.4vw, 2.875rem); line-height: 1; color: var(--ink); }
+/* .metal leans its type, which is right for a headline word and wrong for one
+   figure standing in a row of four: the other three stayed upright and the
+   odd one out read as a slip rather than as emphasis. It keeps the gold. */
+.stat-value.metal { font-style: normal; }
 .stat-note { font-family: var(--font-mono); font-size: 0.625rem; line-height: 1.6; color: var(--ink-4); }
 
-.calc-funnel { display: flex; flex-direction: column; gap: 0.45rem; }
-.funnel-bar.is-lg {
-  height: 30px; display: flex; align-items: center; padding-left: 0.9rem;
-  min-width: 96px;
-}
-.funnel-bar.is-lg em {
+.calc-funnel { display: flex; flex-direction: column; gap: 0.7rem; }
+.calc-funnel .funnel-row { grid-template-columns: 4.5rem minmax(0, 1fr) 5.5rem; }
+.calc-funnel .funnel-track { height: 14px; }
+.funnel-val {
   font-family: var(--font-mono); font-style: normal; font-size: 0.65rem;
-  letter-spacing: 0.12em; text-transform: uppercase; color: var(--navy-900); white-space: nowrap;
+  letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-2);
+  text-align: right; white-space: nowrap;
 }
 
 .calc-verdict {
   display: flex; align-items: flex-start; gap: 0.85rem; max-width: none;
   background: rgba(210, 173, 92, 0.07); border: 1px solid rgba(210, 173, 92, 0.18);
+  border-radius: var(--r-md);
   padding: 0.95rem 1.15rem; font-size: 0.9rem; line-height: 1.55; color: var(--ink-2);
 }
 .calc-verdict svg { width: 16px; height: 16px; flex-shrink: 0; color: var(--gold-500); margin-top: 0.15rem; }
@@ -301,6 +445,7 @@
   position: relative; overflow: hidden;
   aspect-ratio: 16 / 6.5; min-height: 360px;
   border: 1px solid var(--line); background: var(--navy-900);
+  border-radius: var(--r-lg);
   /* pan-y, not none: horizontal drags reveal the panel, vertical ones
      still scroll the page past it on touch. */
   touch-action: pan-y; user-select: none;

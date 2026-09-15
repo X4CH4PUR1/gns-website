@@ -26,16 +26,22 @@
 /* Both tiers carry a badge now. Growth says what it is rather than claiming
    customers we have not had yet, and Launch says where to start — which is
    what the FAQ underneath has always advised. */
+/* Pinned to the corner it used to cover: at top/right 0 the badge sat on the
+   card's own border and clipped the new corner radius, which looked like a
+   sticker peeling off. Inset, it reads as a tag resting on the glass. */
 .tier-flag {
-  position: absolute; top: 0; right: 0;
+  position: absolute; top: 0.85rem; right: 0.85rem;
   background: var(--gold-500); color: var(--navy-900);
   font-family: var(--font-mono); font-size: 0.5625rem;
   letter-spacing: 0.18em; text-transform: uppercase;
-  padding: 0.45rem 1rem;
+  padding: 0.4rem 0.85rem;
+  border-radius: var(--r-pill);
+  box-shadow: 0 6px 18px -8px rgba(210, 173, 92, 0.8);
 }
 .tier-flag.is-quiet {
-  background: transparent; color: var(--gold-500);
-  border-left: 1px solid var(--line-gold); border-bottom: 1px solid var(--line-gold);
+  background: rgba(210, 173, 92, 0.08); color: var(--gold-500);
+  border: 1px solid var(--line-gold);
+  box-shadow: none;
 }
 
 .tier-head { display: flex; flex-direction: column; gap: 0.7rem; }
@@ -90,11 +96,16 @@
 
 /* ---------- Setup breakdown ---------- */
 .setup-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1rem; }
-.setup-step { display: flex; flex-direction: column; gap: 0.8rem; border-top: 2px solid var(--gold-500); }
-.setup-grid > *:nth-child(2) { border-top-color: rgba(210, 173, 92, 0.55); }
-.setup-grid > *:nth-child(3) { border-top-color: rgba(210, 173, 92, 0.34); }
-.setup-grid > *:nth-child(4) { border-top-color: rgba(210, 173, 92, 0.18); }
-.setup-num { font-family: var(--font-display); font-size: 2.4rem; line-height: 1; color: rgba(210, 173, 92, 0.4); }
+/* These four are the steps of one setup, all of them included and all of
+   them paid for. They used to be marked by a gold slab across the top that
+   faded 100 / 55 / 34 / 18 per cent across the row, which read as a stack
+   losing signal — the fourth step looked switched off rather than last. The
+   marker is the same on all four now, and the big numeral carries the order. */
+.setup-step { display: flex; flex-direction: column; gap: 0.8rem; }
+.setup-num {
+  font-family: var(--font-display); font-size: 2.4rem; line-height: 1;
+  color: var(--gold-500);
+}
 
 /* ---------- FAQ layout ---------- */
 .pricing-faq {

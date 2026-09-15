@@ -56,11 +56,38 @@
 
 /* ---------- Form ---------- */
 .form {
-  background: var(--navy-700); border: 1px solid var(--line-gold);
-  border-top: 2px solid var(--gold-500);
+  position: relative; isolation: isolate;
+  border-radius: var(--r-lg);
+  background: linear-gradient(160deg, var(--glass-tint-gold), rgba(210, 173, 92, 0) 46%), var(--glass-tint-strong);
+  border: 1px solid var(--line-gold);
   padding: clamp(1.75rem, 3.2vw, 2.75rem);
   display: flex; flex-direction: column; gap: 1.5rem;
-  box-shadow: 0 50px 100px -60px rgba(0, 0, 0, 0.9);
+  box-shadow: var(--glass-lift-gold), 0 50px 100px -60px rgba(0, 0, 0, 0.9);
+}
+@supports ((-webkit-backdrop-filter: blur(1px)) or (backdrop-filter: blur(1px))) {
+  .form {
+    -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-sat));
+    backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-sat));
+  }
+}
+@supports not ((-webkit-backdrop-filter: blur(1px)) or (backdrop-filter: blur(1px))) {
+  .form { background: linear-gradient(160deg, rgba(210, 173, 92, 0.1), rgba(210, 173, 92, 0) 46%), var(--navy-700); }
+}
+.form::after {
+  content: ''; position: absolute; inset: 0; border-radius: inherit; padding: 1px;
+  background: linear-gradient(180deg,
+    var(--glass-rim-gold) 0%,
+    rgba(210, 173, 92, 0.16) 30%,
+    rgba(210, 173, 92, 0.05) 64%,
+    rgba(210, 173, 92, 0.14) 100%);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+          mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+          mask-composite: exclude;
+  pointer-events: none; z-index: 3;
+}
+@media (prefers-reduced-transparency: reduce) {
+  .form { -webkit-backdrop-filter: none; backdrop-filter: none; background: linear-gradient(160deg, rgba(210, 173, 92, 0.1), rgba(210, 173, 92, 0) 46%), var(--navy-700); }
 }
 .form-head { display: flex; align-items: baseline; justify-content: space-between; gap: 1rem; }
 .form-head h2 { font-size: clamp(1.6rem, 2.4vw, 2rem); }
@@ -85,6 +112,7 @@
 .field textarea {
   width: 100%; background: var(--navy-900);
   border: 1px solid var(--line-2); color: var(--ink);
+  border-radius: var(--r-md);
   font-size: 0.96rem; padding: 0.9rem 1rem;
   transition: border-color var(--t-micro), box-shadow var(--t-micro);
 }
@@ -113,7 +141,8 @@
 .chip span {
   display: block; border: 1px solid var(--line-2); color: var(--ink-2);
   font-family: var(--font-ui); font-size: 0.85rem;
-  letter-spacing: 0; text-transform: none; padding: 0.65rem 1rem;
+  border-radius: var(--r-pill);
+  letter-spacing: 0; text-transform: none; padding: 0.65rem 1.1rem;
   transition: color var(--t-micro), border-color var(--t-micro), background-color var(--t-micro);
 }
 .chip:hover span { border-color: rgba(210, 173, 92, 0.4); color: var(--ink); }
@@ -152,10 +181,39 @@
    only created when somebody presses the button: a calendar nobody opens
    should not cost every visitor a third-party connection. */
 .scheduler {
-  position: relative; z-index: 1; margin-top: clamp(3rem, 6vw, 5rem);
-  border: 1px solid var(--line-gold); border-top: 2px solid var(--gold-500);
-  background: var(--navy-900); padding: clamp(1.75rem, 3.5vw, 2.75rem);
+  position: relative; z-index: 1; isolation: isolate;
+  margin-top: clamp(3rem, 6vw, 5rem);
+  border: 1px solid var(--line-gold);
+  border-radius: var(--r-lg);
+  background: linear-gradient(160deg, var(--glass-tint-gold), rgba(210, 173, 92, 0) 46%), var(--glass-tint-strong);
+  box-shadow: var(--glass-lift-gold);
+  padding: clamp(1.75rem, 3.5vw, 2.75rem);
   display: flex; flex-direction: column; gap: 1.5rem;
+}
+@supports ((-webkit-backdrop-filter: blur(1px)) or (backdrop-filter: blur(1px))) {
+  .scheduler {
+    -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-sat));
+    backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-sat));
+  }
+}
+@supports not ((-webkit-backdrop-filter: blur(1px)) or (backdrop-filter: blur(1px))) {
+  .scheduler { background: linear-gradient(160deg, rgba(210, 173, 92, 0.1), rgba(210, 173, 92, 0) 46%), var(--navy-900); }
+}
+.scheduler::after {
+  content: ''; position: absolute; inset: 0; border-radius: inherit; padding: 1px;
+  background: linear-gradient(180deg,
+    var(--glass-rim-gold) 0%,
+    rgba(210, 173, 92, 0.16) 30%,
+    rgba(210, 173, 92, 0.05) 64%,
+    rgba(210, 173, 92, 0.14) 100%);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+          mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+          mask-composite: exclude;
+  pointer-events: none; z-index: 3;
+}
+@media (prefers-reduced-transparency: reduce) {
+  .scheduler { -webkit-backdrop-filter: none; backdrop-filter: none; background: linear-gradient(160deg, rgba(210, 173, 92, 0.1), rgba(210, 173, 92, 0) 46%), var(--navy-900); }
 }
 .scheduler-head { display: flex; flex-direction: column; gap: 0.6rem; }
 .scheduler-head h2 { font-size: clamp(1.6rem, 3vw, 2.25rem); }
@@ -163,6 +221,7 @@
 .scheduler-embed { display: flex; }
 .scheduler-embed iframe {
   width: 100%; min-height: 660px; border: 1px solid var(--line); background: #fff;
+  border-radius: var(--r-md);
 }
 
 @media (max-width: 900px) {
