@@ -135,7 +135,15 @@
         </div>
 
         <!-- FORM -->
-        <form class="form" id="form" action="submit.php" method="post" data-ajax="1">
+        <!-- No server behind this site: GitHub Pages serves files and nothing
+             else. The form composes the enquiry as an email by default, which
+             needs no backend at all. To have it posted straight through
+             instead, add data-endpoint="https://formspree.io/f/xxxxxxxx" (or
+             any form service that answers JSON) to the tag below — main.js
+             picks that path up on its own, no other change needed. -->
+        <form class="form" id="form"
+              action="mailto:hello@gnscales.com" method="post" enctype="text/plain"
+              data-mailto="hello@gnscales.com">
           <div class="form-head">
             <h2>Start here</h2>
             <span class="form-time">2 minutes</span>

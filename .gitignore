@@ -1,16 +1,6 @@
-# Live state. These exist on the server and must never be overwritten by
-# a deploy: content.php is everything the admin has edited, users.php is
-# the password hashes, leads.php is every enquiry the site has received.
-/data/
-
-# Images uploaded through the admin. Real files, but they belong to the
-# running site rather than to the source.
-/assets/uploads/*
-!/assets/uploads/.gitkeep
-
-# Note: the favicons and the social share cards in assets/og are generated
-# but deliberately NOT ignored. They are committed, so a fresh deploy serves
-# a correct icon and share card before anything has been rebuilt.
+# The favicons and the social share cards in assets/og are generated but
+# deliberately NOT ignored. They are committed, so GitHub Pages serves a
+# correct icon and share card the moment the site goes up.
 
 # Local noise
 *.log

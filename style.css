@@ -587,7 +587,7 @@ p { max-width: 66ch; text-wrap: pretty; }
 /* ---------- Founder portraits ----------
    Two distinct monograms rather than two identical grey squares, so the one
    section whose job is "there are only two of us" does not render the two of
-   us as the same person. A photograph uploaded in the admin replaces this
+   us as the same person. A photograph dropped into assets/ replaces this
    entirely, which is the outcome we actually want. */
 .portrait, .portrait-lg {
   position: relative; overflow: hidden;
@@ -653,7 +653,7 @@ p { max-width: 66ch; text-wrap: pretty; }
 }
 
 /* ---------- Cookie consent ----------
-   Only rendered when the banner is switched on in the admin. Off by default,
+   Only rendered when the banner markup is present. Off by default,
    which is the right answer for a United States audience. */
 .consent {
   position: fixed; left: var(--shell); right: var(--shell); bottom: 1.25rem; z-index: 200;

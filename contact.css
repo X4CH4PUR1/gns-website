@@ -148,7 +148,7 @@
 .form-privacy a { color: var(--gold-500); border-bottom: 1px solid rgba(210, 173, 92, 0.4); }
 
 /* ---------- Scheduler ----------
-   Only rendered when a booking link is set in the admin, and the iframe is
+   Only rendered when a booking link is set on the page, and the iframe is
    only created when somebody presses the button: a calendar nobody opens
    should not cost every visitor a third-party connection. */
 .scheduler {

@@ -327,11 +327,7 @@
      The model works in gross profit, not revenue. Dividing total cost by job
      value answers "how much revenue covers the bill", which is not the same
      question and understates the work required by roughly the inverse of the
-     margin — better than two to one at the numbers these trades run at.
-
-     gns_calc() in admin/lib/store.php is a line-for-line twin of this, so the
-     statically rendered page and the live widget always agree. Change one and
-     you must change the other; tools/check-calc.php asserts they match. */
+     margin — better than two to one at the numbers these trades run at. */
   function calcModel(o) {
     var spend = Math.max(0, o.spend);
     var job = Math.max(1, o.job);
@@ -536,10 +532,21 @@
   }
 
   /* ---------- Contact form ----------
-     Progressive enhancement only. Without JavaScript the form posts normally
-     and submit.php redirects to the thank-you page; with it, the submission
-     happens in place and the visitor never loses what they typed if something
-     goes wrong. */
+     There is no server behind this site any more: GitHub Pages serves files
+     and nothing else. So the form has two modes, and the markup picks one.
+
+       data-endpoint="https://…"   POST the fields to a form service that
+                                   answers JSON — Formspree, Basin, Getform.
+                                   Set it on the <form> in contact.html and
+                                   this path takes over automatically.
+
+       no data-endpoint            Compose the enquiry as an email in the
+                                   visitor's own mail client. Nothing is
+                                   lost, it just needs one more click from
+                                   them to send.
+
+     Without JavaScript the form falls back to its plain `action`, which is a
+     mailto: — every browser handles that, and the enquiry still reaches us. */
   function initForm() {
     var form = document.getElementById('form');
     if (!form) return;
@@ -554,10 +561,13 @@
       form.addEventListener('submit', function () { replyto.value = emailEl.value; });
     }
 
-    if (!form.dataset.ajax || !window.fetch || !window.FormData) return;
+    if (!window.fetch || !window.FormData) return;
 
-    var status = document.getElementById('form-status');
-    var button = form.querySelector('button[type="submit"]');
+    var status   = document.getElementById('form-status');
+    var button   = form.querySelector('button[type="submit"]');
+    var endpoint = form.getAttribute('data-endpoint') || '';
+    var mailto   = form.getAttribute('data-mailto') || '';
+    var next     = (form.querySelector('input[name="_next"]') || {}).value || 'thanks.html';
 
     function say(message, state) {
       if (!status) return;
@@ -565,29 +575,94 @@
       status.className = 'form-status is-shown' + (state ? ' is-' + state : '');
     }
 
-    form.addEventListener('submit', function (e) {
-      if (!form.checkValidity()) return;   // let the browser show its own messages
-      e.preventDefault();
+    /* Labels the founders read in the inbox, not the field names the markup
+       uses. The order is the order of the form. */
+    var LABELS = {
+      name:     'Name',
+      business: 'Business',
+      email:    'Email',
+      sector:   'Sector',
+      spend:    'Monthly ad spend',
+      message:  'What they want fixed'
+    };
 
+    function transcript() {
+      var lines = [];
+      for (var key in LABELS) {
+        if (!Object.prototype.hasOwnProperty.call(LABELS, key)) continue;
+        var field = form.elements[key];
+        var value = '';
+        if (!field) {
+          value = '';
+        } else if (field.length && !field.tagName) {       // radio group
+          for (var i = 0; i < field.length; i++) {
+            if (!field[i].checked) continue;
+            /* The words on the chip, not the value behind it: "PPF / coating"
+               is what the founders want to read, "ppf" is for the markup. */
+            var chip = field[i].closest('label');
+            value = chip ? chip.textContent.trim() : field[i].value;
+          }
+        } else {
+          value = field.value || '';
+        }
+        lines.push(LABELS[key] + ': ' + value);
+      }
+      return lines.join('\n');
+    }
+
+    function sendByMail() {
+      var who  = (form.elements.business && form.elements.business.value) || 'a new enquiry';
+      var href = 'mailto:' + mailto +
+                 '?subject=' + encodeURIComponent('Website enquiry — ' + who) +
+                 '&body='    + encodeURIComponent(transcript());
+
+      say('Opening your email app — press send there and it reaches both founders.', '');
+      window.location.href = href;
+
+      /* The mail client opens in a separate window, so this page stays put.
+         Move it on, but slowly enough that the visitor reads the line above. */
+      window.setTimeout(function () { window.location.href = next; }, 2500);
+    }
+
+    function sendByFetch() {
       say('Sending…', 'busy');
       if (button) button.disabled = true;
 
-      fetch(form.action, {
+      fetch(endpoint, {
         method: 'POST',
         body: new FormData(form),
-        headers: { Accept: 'application/json' },
-        credentials: 'same-origin'
+        headers: { Accept: 'application/json' }
       })
-        .then(function (res) { return res.json().catch(function () { return { ok: res.ok }; }); })
+        .then(function (res) {
+          return res.json()
+            .catch(function () { return { ok: res.ok }; })
+            .then(function (data) {
+              if (!res.ok) throw new Error('send failed');
+              return data;
+            });
+        })
         .then(function (data) {
-          if (!data || !data.ok) throw new Error(data && data.error ? data.error : 'send failed');
           say('Sent. Redirecting…', '');
-          window.location.href = data.redirect || 'thanks.html';
+          window.location.href = (data && data.redirect) || next;
         })
         .catch(function () {
           if (button) button.disabled = false;
           say('That did not send. Try again, or email us directly — the address is in the footer.', 'error');
         });
+    }
+
+    form.addEventListener('submit', function (e) {
+      if (!form.checkValidity()) return;   // let the browser show its own messages
+
+      // The spam trap is filled in, so a bot is driving. Swallow it silently:
+      // telling it what gave it away only helps the next one through.
+      var trap = form.elements.website;
+      if (trap && trap.value) { e.preventDefault(); window.location.href = next; return; }
+
+      if (!endpoint && !mailto) return;    // no handler wired up: let it post
+      e.preventDefault();
+
+      if (endpoint) sendByFetch(); else sendByMail();
     });
   }
 
@@ -612,7 +687,7 @@
   }
 
   /* ---------- Cookie consent ----------
-     Only present when the banner is switched on in the admin. */
+     Only present on pages that ship the banner markup. */
   function initConsent() {
     var bar = document.getElementById('consent');
     if (!bar) return;

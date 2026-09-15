@@ -1,238 +1,181 @@
 # GN Scales — how this site works
 
-A static website with a private admin behind it. The public pages are plain
-`.html` files that Apache serves directly; the admin is PHP that regenerates
-those files whenever content changes.
+A static website. Every page is a plain `.html` file, hand-edited and committed;
+GitHub Pages serves it. There is no PHP, no database and no build step — what is
+in the repository is exactly what visitors get.
 
-That split is deliberate. The site is the fastest thing we can ship, it matches
-what the studio sells, and if PHP or the admin ever falls over the website keeps
-serving exactly as before.
-
----
-
-## 1. First run — do this immediately after deploying
-
-1. Open **`https://gnscales.com/admin/`**.
-2. You will get a one-time setup screen. Create your account.
-3. That screen is then dead for good. Anyone who reaches `/admin/` afterwards
-   needs your password.
-
-**Do this before you tell anyone the site is live.** Until an account exists,
-whoever finds `/admin/` first can claim it.
-
-Then:
-
-- Go to **Account** and add a second login for the other founder. Two accounts,
-  not one shared password.
-- Go to **Site & brand** and fill in the postal address. CAN-SPAM requires one
-  in cold outreach, and the privacy page publishes it once it is set.
-- Go to **Integrations** and paste in the GA4 and Meta Pixel IDs. The pixel is
-  worth installing before you need it: a retargeting audience takes weeks to
-  warm and you cannot backfill one.
+It used to be different. A PHP admin on cPanel generated these pages from a
+content store, and the site was deployed by an `rsync` hook. That whole layer is
+gone: no `admin/`, no `submit.php`, no `.htaccess`, no `.cpanel.yml`. If you are
+reading an older copy of this file that describes them, this one supersedes it.
 
 ---
 
-## 2. Where everything lives
+## 1. Where everything lives
 
 ```
-/                        the public site — generated, do not hand-edit
+/                        the public site
   index.html services.html pricing.html work.html about.html
   contact.html thanks.html privacy.html terms.html 404.html
   sitemap.xml robots.txt site.webmanifest
   favicon.* icon-*.png apple-touch-icon.png
-  style.css + one stylesheet per page       hand-written
-  main.js                                   hand-written
-  submit.php               the contact form handler
-  .htaccess                canonical host, caching, security headers
-  .cpanel.yml              git deploy
+  .nojekyll                stops GitHub Pages running the pages through Jekyll
+
+  style.css                the design system: tokens, header, footer, buttons
+  index.css services.css pricing.css work.css about.css contact.css legal.css
+                           one stylesheet per page, loaded on top of style.css
+  main.js                  everything interactive, one file
 
   assets/fonts/            self-hosted webfonts
-  assets/og/               generated social share cards
-  assets/uploads/          images added through the admin
-  assets/site.css          generated from the admin's Custom CSS box
+  assets/og/               social share cards
 
-/admin/                  the private panel
-  index.php                every screen, one router
-  api.php                  uploads, lead actions, exports
-  rebuild.php              regenerates the whole site
-  lib/                     the engine (see below)
-  views/                   the admin's own screens
-  templates/               the PUBLIC site's page templates
-  assets/                  admin CSS and JS, plus TTFs for image generation
-
-/data/                   live state — never in git, never served
-  content.php              every word on the site
-  users.php                password hashes
-  leads.php                every enquiry received
-  backups/                 the last 40 saves
-
-/tools/                  checks; not deployed
-/docs/                   this file; not deployed
+/tools/                  checks; not part of the site
+/docs/                   this file; not part of the site
 ```
 
-### The engine, in the order it runs
+---
 
-| File | Does |
-|---|---|
-| `lib/boot.php` | Paths, session, loads everything else |
-| `lib/default-content.php` | The shipped copy for every page |
-| `lib/store.php` | Loads and saves content, backups, the break-even model |
-| `lib/schema.php` | Describes every editable field — this is what builds the admin forms |
-| `lib/render.php` | Turns content + templates into `.html` |
-| `lib/ogimage.php` | Draws the favicons and the social share cards |
-| `lib/media.php` | Uploads, with validation by file content rather than filename |
-| `lib/leads.php` | The enquiry inbox and its notification email |
-| `lib/auth.php` | Login, CSRF, throttling |
+## 2. Editing
+
+Open the `.html` file and edit it. That is the whole workflow.
+
+Two things are worth knowing before you do:
+
+**Gold text.** `<span class="metal">…</span>` gives the metallic treatment. Use
+it on a word or two per heading, not a sentence.
+
+**Repeated copy.** The header and footer are duplicated in all ten pages,
+because nothing assembles them any more. Change one and you have changed one —
+grep for the old wording and fix every copy, or the nav will disagree with
+itself from page to page.
+
+**Assets are cache-busted by hand.** Stylesheet and font links carry `?v=…`.
+GitHub Pages sets long cache lifetimes, so if you edit a `.css` file and do not
+change its `?v=` in every page that links it, returning visitors keep the old
+one. Any new value works; it only has to differ from the last.
+
+### Links
+
+Every internal link is document-relative — `services.html`, `./` for home —
+never `/services.html`. That matters: the site is served from
+`x4ch4pur1.github.io/gns-website/`, a subdirectory, and a root-relative link
+would resolve to `x4ch4pur1.github.io/services.html`, which does not exist. This
+is what left an earlier deploy unstyled with dead navigation.
+
+`404.html` is the one deliberate exception. GitHub Pages serves it at whatever
+URL the visitor mistyped, so document-relative links in it would resolve against
+that made-up path. It carries a `<base href="/">` plus three lines of script
+that correct the base to `/gns-website/` on a `github.io` host.
+
+`tools/check-audit.py` asserts both of these, so a regression fails the check
+rather than the site.
 
 ---
 
-## 3. Editing the site
+## 3. Deploying
 
-Everything is in the admin under **Content**. Each save writes
-`data/content.php`, snapshots the previous version, and rebuilds every affected
-page immediately. There is no separate publish step.
+Push to `main`. GitHub Pages publishes the branch root; there is no workflow and
+nothing to build. A change is live in a minute or so.
 
-A few things worth knowing:
+`.nojekyll` must stay. Without it GitHub runs the tree through Jekyll, which
+silently drops files and folders whose names begin with an underscore.
 
-**Gold text.** Wrap words in `<span class="metal">…</span>` to get the metallic
-treatment. `<br>` forces a line break. Those are the only tags that survive in a
-content field — anything else is escaped and shows as literal text, which is
-deliberate: a stray `<script>` typed into a headline should be visible, not live.
+### Moving to gnscales.com
 
-**The founding-spots line.** Two numbers under Site & brand drive it everywhere.
-While *Spots taken* is `0` the site says "Taking 10 founding partners". Raise it
-only when somebody has actually signed, and the copy changes to "N of 10
-remaining" on its own. Do not type that sentence anywhere by hand — that is how
-the old version ended up claiming seven clients that did not exist.
+The canonical tags, `sitemap.xml`, `robots.txt` and the Open Graph URLs all
+already name `https://gnscales.com/`, which is correct for the custom domain and
+wrong for the `github.io` URL. Nothing breaks in the meantime — canonical tags
+affect search engines, not browsers — but do not submit the `github.io` URL to
+Search Console while they say that.
 
-**Prices.** The pricing tiers feed three things at once: the pricing page, the
-home page calculator's tier buttons, and the `Offer` structured data search
-engines read. Change the number in one place.
-
-**Adding a page** needs a developer: one entry in `gns_pages()`
-(`lib/render.php`), one template in `admin/templates/`, one screen in
-`lib/schema.php`. Everything else — sitemap, canonical, nav, social tags — follows.
+To switch: add a `CNAME` file containing `gnscales.com` at the repository root,
+point the DNS at GitHub Pages, and enable HTTPS in the repository's Pages
+settings. The links inside the site need no change at all, because they are
+relative.
 
 ---
 
-## 4. Deploying
+## 4. Where enquiries go
 
-`.cpanel.yml` runs on every push to the branch cPanel is watching:
+The contact form has no server behind it. `main.js` handles it in one of two
+modes, chosen by the attributes on the `<form>` in `contact.html`:
 
-1. `rsync -a --delete` the repository into `public_html`,
-   excluding `data/`, `assets/uploads/`, `docs/` and `tools/`.
-2. `php admin/rebuild.php`, which writes the **live** content back over the
-   repository's copies of the `.html` files.
+**Compose an email** (what it does today). `data-mailto="hello@gnscales.com"`
+assembles the answers into a labelled message and opens the visitor's own mail
+client with it filled in. Nothing is stored anywhere, and it works with no
+account and no third party — but it costs the visitor one more click, and it
+fails quietly for anyone browsing without a mail client configured. Without
+JavaScript the form's plain `action` is that same `mailto:`, so the enquiry
+still reaches you.
 
-Step 2 matters. A deploy overwrites every generated page with whatever was last
-committed; the rebuild puts the admin's current content back. Content itself is
-never at risk — it lives in `data/`, which the deploy does not touch.
+**Post to a form service** (better, when you want it). Sign up with Formspree,
+Basin or Getform, then add their endpoint to the form tag:
 
-**Before the first deploy**, open cPanel's Terminal and run `which rsync`. If it
-is missing, use the fallback block commented at the bottom of `.cpanel.yml`.
+```html
+<form class="form" id="form" data-endpoint="https://formspree.io/f/xxxxxxxx" …>
+```
 
-If you want the repository to hold the current content as well, use
-**Versions → Download content.json** in the admin and commit that file.
+`main.js` picks that up on its own — it POSTs the fields, reads the JSON reply
+and redirects to `thanks.html`. No other change is needed. Keep `data-mailto`
+alongside it as the no-JavaScript fallback.
 
----
-
-## 5. Where enquiries go
-
-The contact form posts to `submit.php`, which:
-
-1. Drops silent spam — a honeypot field, a minimum time-to-complete, and six
-   submissions per IP per hour.
-2. Validates, including checking that the two qualifying answers are real
-   options rather than whatever was posted.
-3. **Writes the lead to `data/leads.php` first**, then emails it.
-
-That order is on purpose. Shared-host `mail()` fails often enough that a lead
-which exists only in an email is a lead you can lose without ever knowing it
-arrived. The admin's **Enquiries** screen flags any lead that did not email.
-
-The notification is sent *from* `website@gnscales.com` with the visitor's
-address in `Reply-To`. Sending as the visitor would fail SPF and land in spam.
-
-To use an external service instead — Formspree, say — switch **Integrations →
-Where the form posts** to *external* and paste the endpoint.
+The honeypot field (`name="website"`) and the `_started` timestamp are still in
+the markup either way; the form services use both, and the mail path drops a
+submission that fills the honeypot in.
 
 ---
 
-## 6. Checks
+## 5. Checks
 
 ```bash
-php tools/check-calc.php      # the break-even model agrees between PHP and JS
 python tools/check-audit.py   # every finding in the audit is still fixed
 python tools/check-html.py    # no broken links, duplicate ids or stray tags
-bash tools/check-live.sh      # the live server: TLS, redirects, headers
 ```
 
-The first three run against the generated site and take a second. Worth wiring
-into the deploy once you are comfortable.
+Both run against the shipped files and take about a second. Run them before you
+push — `check-audit.py` is the thing that catches a root-relative link or a
+missing cache-bust before GitHub Pages does.
 
 ---
 
-## 7. Still to do — things no amount of code can fix
+## 6. Still to do — things no amount of code can fix
 
 **Two founder photographs.** The highest-trust hour available. They do not need
 a studio: consistent background, consistent crop, natural light, graded toward
-the navy and gold. Upload them under Founders and they replace the monograms
-everywhere. A prospect in Indianapolis being asked to wire $3,000 to two people
-they have never seen is being asked for a lot.
+the navy and gold. Drop them in `assets/` and replace the monogram markup in
+`about.html`. A prospect in Indianapolis being asked to wire $3,000 to two
+people they have never seen is being asked for a lot.
 
-**LinkedIn links** for both founders, same screen. A named person with a
-findable profile is worth more than any amount of copy about honesty.
+**LinkedIn links** for both founders. A named person with a findable profile is
+worth more than any amount of copy about honesty.
 
-**Google Search Console.** Verify the domain, submit `/sitemap.xml`, then
-request indexing on all nine public URLs — home last, so the fresh crawl
-overwrites whatever is cached. Check the coverage report for leftover Shopify
-URLs (`/collections/*`, `/products/*`, `/cart`) and let them 404 cleanly; the
-custom 404 page is already wired up. Bing Webmaster Tools imports from Search
-Console in about five minutes.
+**A real form endpoint.** See section 4. The mailto path works, but it loses the
+enquiries where the visitor opens their mail client and then thinks better of
+it — and you never learn that it happened.
 
-**Client work.** The Work page currently shows studio pieces, each labelled as
-illustrative. Add real client work under Work → Client work once each client has
-agreed to be named. That section stays hidden until you do.
+**Google Search Console.** After the custom domain is live, not before: verify
+the domain, submit `/sitemap.xml`, then request indexing on all nine public
+URLs — home last, so the fresh crawl overwrites whatever is cached. Check the
+coverage report for leftover Shopify URLs (`/collections/*`, `/products/*`,
+`/cart`) and let them 404 cleanly; the custom 404 page is already wired up.
 
-**UTM tags on outreach.** Link to
-`gnscales.com/?utm_source=…&utm_medium=email&utm_campaign=…&utm_content=day6`.
-`submit.php` records those against the lead, so you can tell which email did the
-work rather than guessing.
+**Client work.** The Work page shows studio pieces, each labelled as
+illustrative. Add real client work once each client has agreed to be named.
 
 ---
 
-## 8. Decisions made on your behalf
+## 7. Decisions made on your behalf
 
 These were open questions in the audit. Each was answered with the most
-defensible option and each is one field in the admin if you disagree.
+defensible option, and each is a straightforward edit if you disagree.
 
-| Question | What the site now says | Where to change it |
+| Question | What the site says | Where to change it |
 |---|---|---|
-| Is "3 of 10 spots" real? | Treated as not real. Spots taken = 0, so the site says "Taking 10 founding partners". | Site & brand → Founding cohort |
-| Founder's published name | **Nick Lomidze**, monogram `NL`. "Gn Lomidze" read like a truncated database field next to "George Lomidze". | Founders |
-| Does Growth include TikTok? | Yes — "Two ad platforms of your choice — Meta, Google or TikTok". The ambiguity in "both of three" is gone. | Pricing → Tiers |
-| Can you name Logimotors? | Not assumed. No client is named anywhere until you add one. | Work → Client work |
-| Real gross margin | 45% is the shipped default for the calculator. Replace it with your own estimate. | Home page → The break-even model |
-| Calendar or form? | Form, with a calendar slot ready. Paste a Cal.com or Calendly link and the contact page grows a scheduler that only loads when somebody opens it. | Integrations → Scheduler |
-| Does `rsync` exist on the box? | Assumed yes; a fallback is commented in `.cpanel.yml`. | Run `which rsync` |
-| Cookie banner? | Off. The audience is United States, where a consent wall costs measurement without adding a requirement. Turn it on before advertising into the EU or UK. | Integrations → Measurement |
-
----
-
-## 9. Keeping the admin quiet
-
-Nothing on the public site links to it, `robots.txt` disallows it, and every
-admin page sends `noindex`. That is obscurity, not security — the password is
-what protects it.
-
-Two things worth doing:
-
-- **Rename the folder.** `admin` → anything you like, in cPanel's File Manager.
-  Every path inside is relative, so it keeps working, and
-  `php <newname>/rebuild.php` still rebuilds. Update the `Disallow` line in
-  `robots.txt` to match, or drop it.
-- **Add a second lock.** cPanel's *Directory Privacy* puts an HTTP password on
-  the folder. Two prompts is mildly annoying and genuinely harder to get past.
-
-Sessions expire after two hours idle. Six failed logins from one address locks
-it out for fifteen minutes. Every change is written to `data/audit.log`.
+| Is "3 of 10 spots" real? | Treated as not real. The site says "Taking 10 founding partners" and names no count of clients. | Search the pages for "founding" |
+| Founder's published name | **Nick Lomidze**, monogram `NL`. "Gn Lomidze" read like a truncated database field next to "George Lomidze". | `about.html`, `index.html` |
+| Does Growth include TikTok? | Yes — "Two ad platforms of your choice — Meta, Google or TikTok". The ambiguity in "both of three" is gone. | `pricing.html` |
+| Can you name Logimotors? | Not assumed. No client is named anywhere. | `work.html` |
+| Real gross margin | 45% is the calculator's default. Replace it with your own estimate. | `index.html`, the margin slider |
+| Calendar or form? | Form. A scheduler slot is ready: put a Cal.com or Calendly link in the `data-scheduler` attribute on the contact page and it loads only when somebody opens it. | `contact.html` |
+| Cookie banner? | Off. The audience is United States, where a consent wall costs measurement without adding a requirement. Turn it on before advertising into the EU or UK. | `style.css`, `#consent` markup |
+| Analytics? | None installed. `main.js` has the consent plumbing ready for GA4 or a Meta pixel when you want one. | `initConsent` in `main.js` |

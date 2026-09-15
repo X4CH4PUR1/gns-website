@@ -23,10 +23,7 @@ docs = {p: open(p, encoding="utf-8").read() for p in PAGES}
 allsrc = "\n".join(docs.values())
 css = "\n".join(open(f, encoding="utf-8").read() for f in sorted(glob.glob("*.css")))
 js = open("main.js", encoding="utf-8").read()
-htaccess = open(".htaccess", encoding="utf-8").read()
-cpanel = open(".cpanel.yml", encoding="utf-8").read()
 robots = open("robots.txt", encoding="utf-8").read()
-defaults = open("admin/lib/default-content.php", encoding="utf-8").read()
 
 fails = []
 
@@ -43,8 +40,8 @@ def every(fn):
 
 print("P0 — actively broken")
 c("1.1 no dead Formspree placeholder", "YOUR_FORM_ID" not in allsrc)
-c("1.1 form posts to a real handler",
-  'action="submit.php"' in docs["contact.html"] and os.path.isfile("submit.php"))
+c("1.1 form has a handler that works without a server",
+  'data-mailto=' in docs["contact.html"] or 'data-endpoint="https://' in docs["contact.html"])
 c("1.1 thank-you page exists and is the form target",
   os.path.isfile("thanks.html") and 'name="_next" value="thanks.html"' in docs["contact.html"])
 c("1.1 honeypot present", 'name="website"' in docs["contact.html"])
@@ -67,7 +64,8 @@ c("5.6 both qualifying groups required",
 print("\nP1 — SEO and sharing")
 c("2.2 sitemap.xml exists", os.path.isfile("sitemap.xml"))
 c("2.3 robots.txt names the sitemap", "Sitemap:" in robots)
-c("2.3 robots.txt keeps crawlers out of the admin", "Disallow: /admin/" in robots)
+c("2.3 robots.txt keeps the thank-you page out of the index",
+  "Disallow: /thanks.html" in robots)
 c("2.4 canonical on every indexable page",
   all('rel="canonical"' in docs[p] for p in PAGES if p not in ("thanks.html", "404.html")))
 c("2.4 no internal links to index.html", 'href="index.html"' not in allsrc)
@@ -101,8 +99,6 @@ c("3.1 no invented social proof", "Most chosen" not in allsrc)
 c("3.1 both tiers carry an honest badge",
   "Best place to start" in docs["pricing.html"] and "Most complete" in docs["pricing.html"])
 c("3.2 no fabricated scarcity count", "3 of 10" not in allsrc and "3 / 10" not in allsrc)
-c("3.2 scarcity derived from one pair of numbers",
-  "'spots_total' => 10" in defaults and "'spots_taken' => 0" in defaults)
 c("3.3 'Both ad platforms' ambiguity gone", "Both ad platforms" not in allsrc)
 c("3.3 platform scope stated explicitly", "Two ad platforms of your choice" in docs["pricing.html"])
 c("3.4 calculator has a gross-margin slider", 'id="calc-margin"' in docs["index.html"])
@@ -151,8 +147,8 @@ c("6.1 font payload trimmed to four files",
 c("6.2 shader deferred until idle", "requestIdleCallback" in js)
 c("6.2 fbm reduced to three octaves", "i < 3; i++" in js)
 c("6.2 shader skipped on small screens", "mqWide.matches" in js)
-c("6.4 compression and caching configured",
-  "mod_deflate" in htaccess and "mod_expires" in htaccess)
+# Compression and cache headers are GitHub Pages' to set, not ours. What is
+# still ours is the cache-busting query on every asset we hand it.
 c("6.4 cache busting on every hashed asset", every(lambda d: "?v=" in d))
 
 print("\nP6 — accessibility")
@@ -164,17 +160,18 @@ c("skip link on every page", every(lambda d: 'class="skip-link"' in d))
 c("aria-current marks the right nav item",
   'href="services.html" aria-current="page"' in docs["services.html"])
 
-print("\nP7 — server, deploy and legal")
-c("8.1 the deploy can ship dotfiles", "rsync" in cpanel)
-c("8.2 the deploy removes deleted files", "--delete" in cpanel)
-c("8.2 the deploy protects live content", "--exclude 'data/'" in cpanel)
-c("8.3 .htaccess present with security headers",
-  "X-Content-Type-Options" in htaccess and "Referrer-Policy" in htaccess)
-c("8.3 source control is not served", "/\\.git" in htaccess)
-c("8.4 404 page exists and is wired up",
-  os.path.isfile("404.html") and "ErrorDocument 404" in htaccess)
-c("8.5 measurement hooks exist, unset until filled in",
-  "'ga4_id'" in defaults and "'meta_pixel_id'" in defaults)
+print("\nP7 — deploy and legal")
+# GitHub Pages serves files and nothing else: no PHP, no .htaccess, and a
+# Jekyll pass that would eat anything beginning with an underscore unless
+# .nojekyll is there to switch it off.
+c("8.1 Jekyll is switched off", os.path.isfile(".nojekyll"))
+c("8.1 nothing left that needs a server to run",
+  not glob.glob("*.php") and not glob.glob("admin/**/*.php", recursive=True))
+c("8.4 404 page exists", os.path.isfile("404.html"))
+# GitHub Pages serves 404.html at whatever URL the visitor mistyped, so its
+# own links have to be pinned rather than document-relative.
+c("8.4 the 404 page pins its links to the site root",
+  '<base href="/">' in docs["404.html"] and ".github.io" in docs["404.html"])
 c("9.1 privacy policy exists and is linked from every page",
   os.path.isfile("privacy.html") and every(lambda d: 'href="privacy.html"' in d))
 c("9.1 terms exist", os.path.isfile("terms.html"))
