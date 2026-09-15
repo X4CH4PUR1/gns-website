@@ -1,0 +1,139 @@
+# =========================================================
+# GN SCALES — APACHE CONFIGURATION
+#
+# Canonical host and scheme, compression, cache headers, a real
+# 404, security headers, and locks on everything that is not
+# meant to be served.
+#
+# Note: a shell glob does not match dotfiles, so a deploy task of
+# `cp -R * $DEPLOYPATH/` would never ship this file. .cpanel.yml
+# uses rsync for exactly that reason.
+# =========================================================
+
+Options -Indexes
+DirectoryIndex index.html index.php
+AddDefaultCharset UTF-8
+
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+
+  # --- One canonical origin: https, no www --------------------------
+  # Two URLs serving one page splits every ranking signal between them.
+  # If the certificate does not yet cover www, fix that first — a browser
+  # hits the TLS error before it ever sees this redirect.
+  RewriteCond %{HTTPS} off [OR]
+  RewriteCond %{HTTP_HOST} ^www\. [NC]
+  RewriteRule ^(.*)$ https://gnscales.com/$1 [R=301,L]
+
+  # --- Clean URLs: OFF by default ------------------------------------
+  # Turning this on means /services instead of /services.html. Before you
+  # uncomment it, three things have to change together or every click costs
+  # a redirect: the canonical tags, the sitemap, and every internal link.
+  # The renderer already writes links root-relative, so the work is in
+  # admin/lib/render.php (gns_pages) rather than in the HTML.
+  #
+  # Do it in the same window as a Search Console re-indexing push, not on
+  # its own — the 301s will spend a little of whatever indexing equity the
+  # domain has built up.
+  #
+  # RewriteCond %{REQUEST_FILENAME}.html -f
+  # RewriteCond %{REQUEST_URI} !/$
+  # RewriteRule ^(.*)$ $1.html [L]
+  # RewriteCond %{THE_REQUEST} \s/([^.]+)\.html[\s?] [NC]
+  # RewriteRule ^ /%1 [R=301,L]
+</IfModule>
+
+# --- Custom error pages --------------------------------------------
+# Every stale Shopify URL still sitting in Google's index lands here
+# rather than on a bare Apache error page.
+ErrorDocument 404 /404.html
+ErrorDocument 403 /404.html
+
+# --- Compression ----------------------------------------------------
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/css text/plain text/xml
+  AddOutputFilterByType DEFLATE application/javascript application/x-javascript
+  AddOutputFilterByType DEFLATE application/json application/manifest+json
+  AddOutputFilterByType DEFLATE image/svg+xml
+  # WOFF2 is already compressed; running it through deflate costs CPU
+  # and gains nothing.
+</IfModule>
+
+<IfModule mod_brotli.c>
+  AddOutputFilterByType BROTLI_COMPRESS text/html text/css text/plain text/xml
+  AddOutputFilterByType BROTLI_COMPRESS application/javascript application/json
+  AddOutputFilterByType BROTLI_COMPRESS image/svg+xml
+</IfModule>
+
+# --- Caching --------------------------------------------------------
+# Long lives are safe because the renderer stamps a content hash onto
+# every CSS, JS and font URL: change the bytes and the URL changes with
+# them. HTML is never cached, so a content edit is live immediately.
+<IfModule mod_expires.c>
+  ExpiresActive On
+  ExpiresDefault                        "access plus 1 week"
+  ExpiresByType text/css                "access plus 1 year"
+  ExpiresByType application/javascript  "access plus 1 year"
+  ExpiresByType font/woff2              "access plus 1 year"
+  ExpiresByType image/webp              "access plus 1 year"
+  ExpiresByType image/jpeg              "access plus 1 year"
+  ExpiresByType image/png               "access plus 1 year"
+  ExpiresByType image/svg+xml           "access plus 1 year"
+  ExpiresByType image/x-icon            "access plus 1 year"
+  ExpiresByType text/html               "access plus 0 seconds"
+  ExpiresByType application/xml         "access plus 0 seconds"
+</IfModule>
+
+<IfModule mod_headers.c>
+  <FilesMatch "\.(css|js|woff2|webp|jpg|jpeg|png|svg|ico)$">
+    Header set Cache-Control "public, max-age=31536000, immutable"
+  </FilesMatch>
+  <FilesMatch "\.(html|xml|json|webmanifest|txt)$">
+    Header set Cache-Control "no-cache, must-revalidate"
+  </FilesMatch>
+
+  # --- Security headers ---------------------------------------------
+  Header always set X-Content-Type-Options "nosniff"
+  Header always set Referrer-Policy "strict-origin-when-cross-origin"
+  Header always set X-Frame-Options "SAMEORIGIN"
+  Header always set Permissions-Policy "geolocation=(), microphone=(), camera=(), interest-cohort=()"
+  Header always set Cross-Origin-Opener-Policy "same-origin"
+
+  # Uncomment once you are certain everything is served over https and
+  # you are happy to commit: browsers honour this for a year and it
+  # cannot be taken back early.
+  # Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains"
+
+  # Fonts are same-origin, but the preload in <head> requests them with
+  # crossorigin, so they need this to be usable.
+  <FilesMatch "\.woff2$">
+    Header set Access-Control-Allow-Origin "*"
+  </FilesMatch>
+</IfModule>
+
+<IfModule mod_mime.c>
+  AddType font/woff2 .woff2
+  AddType application/manifest+json .webmanifest
+  AddType image/webp .webp
+  AddType image/svg+xml .svg
+</IfModule>
+
+# --- Nothing here is meant to be served ------------------------------
+# data/ holds the site content, the admin password hashes and every
+# enquiry ever received. It also carries its own deny-all .htaccess, and
+# the files in it are PHP that print nothing — three locks on one door,
+# because one of them being missed is how these things leak.
+RedirectMatch 404 (?i)/\.git
+RedirectMatch 404 (?i)^/data(/|$)
+RedirectMatch 404 (?i)^/admin/(lib|views|templates|assets/fonts)(/|$)
+RedirectMatch 404 (?i)\.(yml|yaml|md|log|bak|sql|ini|sh)$
+
+<FilesMatch "^\.">
+  <IfModule mod_authz_core.c>
+    Require all denied
+  </IfModule>
+  <IfModule !mod_authz_core.c>
+    Order allow,deny
+    Deny from all
+  </IfModule>
+</FilesMatch>
