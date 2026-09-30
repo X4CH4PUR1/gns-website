@@ -197,7 +197,7 @@ of them slips, so a new page has to follow them too:
 Every line on the site is GN Scales talking to a prospective client: "we" is
 Nick and George, "you" is the business reading. Short sentences, contractions,
 plain words ("paid ads", not "media"; "plans", not "tiers"). No invented
-experience, clients or results — the site says plainly that the first ten
+experience, clients or results — the site says plainly that the first five
 clients are being taken on now.
 
 ### Share images
@@ -246,7 +246,7 @@ defensible option, and each is a straightforward edit if you disagree.
 | Which industries? | All of them. The site says "businesses in every industry" and the Industries page lists nine common shapes. Automotive and jewelry stay as examples, not a limit. | `industries.html`, footer tagline on every page |
 | Who is the audience? | English-speaking businesses anywhere. The footer says "Remote-first · Clients worldwide" and the structured data says `areaServed: Worldwide`. Prices stay in USD. | footer on every page, `index.html` and `pricing.html` JSON-LD |
 | "Studio" or "About"? | About. "Studio" read as a design studio; GN Scales is a marketing agency. | header and footer on every page |
-| Is "3 of 10 spots" real? | Treated as not real. The site says "Taking 10 founding partners" and names no count of clients. | Search the pages for "founding" |
+| Is "3 of 5 spots" real? | Treated as not real. The site says "Taking 5 founding partners" and names no count of clients. | Search the pages for "founding" |
 | Founder's published name | **Nick Lomidze**, monogram `NL`. "Gn Lomidze" read like a truncated database field next to "George Lomidze". | `about.html`, `index.html` |
 | Does Growth include TikTok? | Yes — "Two ad platforms of your choice — Meta, Google or TikTok". The ambiguity in "both of three" is gone. | `pricing.html` |
 | Can you name Logimotors? | Not assumed. No client is named anywhere. | `work.html` |
