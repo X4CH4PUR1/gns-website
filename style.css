@@ -245,6 +245,19 @@ p { max-width: 66ch; text-wrap: pretty; }
 }
 .eyebrow-fill::after { flex: 1 1 auto; width: auto; }
 
+/* The eyebrow above a page headline sits inside the <h1>, so the heading
+   carries the words people search for ("Performance marketing agency")
+   and not only the display line. .eyebrow already sets its own face, size,
+   case and colour; this undoes what the h1 would otherwise hand down, and
+   puts back the gap the intro column used to put between the two. */
+h1 .eyebrow {
+  margin-bottom: 1.4rem;
+  font-style: normal; line-height: 1.65; text-wrap: wrap;
+}
+/* On the home hero it sits on the brightest part of the gold glow, where gold
+   type all but disappears; it takes the pale tone of the flag above instead. */
+.hero h1 .eyebrow { margin-bottom: clamp(1rem, 2vw, 1.4rem); color: var(--ink-2); }
+
 /* ---------- Brand lockup ---------- */
 .brand { display: inline-flex; align-items: center; gap: 0.8rem; }
 
@@ -393,6 +406,8 @@ p { max-width: 66ch; text-wrap: pretty; }
 }
 .link-arrow:hover { color: var(--gold-200); border-color: var(--gold-200); gap: 1.1rem; }
 .link-arrow svg { width: 14px; height: 14px; }
+/* Cards are flex columns, which would stretch the underline edge to edge. */
+.card > .link-arrow { align-self: flex-start; }
 
 .btn-row { display: flex; flex-wrap: wrap; align-items: center; gap: 1.1rem; }
 .btn-row-center { justify-content: center; }

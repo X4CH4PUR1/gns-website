@@ -12,11 +12,13 @@ import re
 import os
 import sys
 import glob
+import html
+import json
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 os.chdir(ROOT)
 
-PAGES = ["index.html", "services.html", "pricing.html", "work.html", "about.html",
+PAGES = ["index.html", "services.html", "industries.html", "pricing.html", "work.html", "about.html",
          "contact.html", "thanks.html", "privacy.html", "terms.html", "404.html"]
 
 docs = {p: open(p, encoding="utf-8").read() for p in PAGES}
@@ -87,8 +89,47 @@ c("2.7 FAQPage on home and pricing",
   '"FAQPage"' in docs["index.html"] and '"FAQPage"' in docs["pricing.html"])
 c("2.7 Offer structured data on pricing", '"@type": "Offer"' in docs["pricing.html"])
 c("2.8 titles carry searchable terms",
-  "Auto Aftermarket" in docs["index.html"] and "Landing Pages" in docs["services.html"]
-  and "$1,500" in docs["pricing.html"])
+  "Performance Marketing Agency" in docs["index.html"] and "Landing Pages" in docs["services.html"]
+  and "$1,500" in docs["pricing.html"] and "Industries We Serve" in docs["industries.html"])
+
+# The SEO pass of Sept 2026. Search results cut titles at about 60 characters
+# and descriptions at about 160, so anything longer is text nobody sees.
+INDEXED = [p for p in PAGES if p not in ("thanks.html", "404.html")]
+def meta(d, pat):
+    m = re.search(pat, d)
+    return html.unescape(m.group(1)) if m else ""
+long_titles = [p for p in INDEXED if len(meta(docs[p], r"<title>(.*?)</title>")) > 62]
+c("2.10 titles fit in a search result", not long_titles, ", ".join(long_titles))
+long_desc = [p for p in INDEXED if not 50 <= len(meta(docs[p], r'name="description" content="([^"]*)"')) <= 165]
+c("2.10 descriptions fit in a search result", not long_desc, ", ".join(long_desc))
+# The small label above each headline is inside the <h1>, so the heading says
+# what the page is about in the words people search for.
+c("2.11 main-page headlines carry a keyword",
+  all(re.search(r"<h1><span class=\"eyebrow[^\"]*\">[^<]+</span>", docs[p]) for p in
+      ["index.html", "services.html", "industries.html", "pricing.html", "work.html", "about.html"]))
+sitemap = open("sitemap.xml", encoding="utf-8").read()
+c("2.12 every indexed page is in the sitemap, with a lastmod",
+  all(("https://gnscales.com/" + ("" if p == "index.html" else p) + "</loc><lastmod>") in sitemap for p in INDEXED))
+c("2.13 breadcrumbs on the inner pages",
+  all('"BreadcrumbList"' in docs[p] for p in INDEXED if p not in ("index.html", "privacy.html", "terms.html")))
+# Every JSON-LD block must parse, and every FAQ answer marked up for Google
+# must be on the page word for word, or the rich result is withheld.
+bad_ld, faq_drift = [], []
+for p in PAGES:
+    for block in re.findall(r'<script type="application/ld\+json">(.*?)</script>', docs[p], re.S):
+        try:
+            data = json.loads(block)
+        except ValueError:
+            bad_ld.append(p); continue
+        if data.get("@type") == "FAQPage":
+            visible = html.unescape(re.sub(r"\s+", " ", docs[p]))
+            for q in data["mainEntity"]:
+                if q["acceptedAnswer"]["text"] not in visible:
+                    faq_drift.append(p + ": " + q["name"])
+c("2.14 all structured data parses", not bad_ld, ", ".join(bad_ld))
+c("2.14 FAQ markup matches the visible answers", not faq_drift, "; ".join(faq_drift))
+c("2.15 the industries page is linked from every page",
+  every(lambda d: 'href="industries.html"' in d))
 c("2.8 the 40-word h2 is a paragraph again",
   'class="story-lede"' in docs["about.html"] and "<h2 id=\"origin-heading\" class=\"sr-only\"" in docs["about.html"])
 c("2.9 author and format-detection everywhere",
@@ -96,6 +137,11 @@ c("2.9 author and format-detection everywhere",
 
 print("\nP2 — copy that contradicted itself")
 c("3.1 no invented social proof", "Most chosen" not in allsrc)
+# The studio takes every kind of business now; the old two-niche wording must
+# not survive anywhere a visitor or a search engine reads it.
+c("3.9 positioning is every industry, not two niches",
+  not re.search(r"(?i)automotive aftermarket and jewelry|only automotive and jewelry|outside automotive and jewelry", allsrc)
+  and "automotive aftermarket and jewelry" not in open("site.webmanifest", encoding="utf-8").read())
 c("3.1 both tiers carry an honest badge",
   "Best place to start" in docs["pricing.html"] and "Most complete" in docs["pricing.html"])
 c("3.2 no fabricated scarcity count", "3 of 10" not in allsrc and "3 / 10" not in allsrc)

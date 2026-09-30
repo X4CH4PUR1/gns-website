@@ -597,8 +597,8 @@
         } else if (field.length && !field.tagName) {       // radio group
           for (var i = 0; i < field.length; i++) {
             if (!field[i].checked) continue;
-            /* The words on the chip, not the value behind it: "PPF / coating"
-               is what the founders want to read, "ppf" is for the markup. */
+            /* The words on the chip, not the value behind it: "Local service"
+               is what the founders want to read, "local" is for the markup. */
             var chip = field[i].closest('label');
             value = chip ? chip.textContent.trim() : field[i].value;
           }

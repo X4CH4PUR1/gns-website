@@ -131,7 +131,7 @@ for name in pages:
                 problems.append(f"{name}: link to {href} at line {line} has no target on this page")
             continue
         path = href.split("#")[0].split("?")[0].lstrip("/")
-        if path == "":
+        if path in ("", "./"):     # the home page is linked as ./
             path = "index.html"
         if not os.path.exists(path):
             problems.append(f"{name}: link to \"{href}\" at line {line} has no file behind it")

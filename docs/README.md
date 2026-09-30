@@ -17,7 +17,7 @@ which only Apache reads.
 
 ```
 /                        the public site
-  index.html services.html pricing.html work.html about.html
+  index.html services.html industries.html pricing.html work.html about.html
   contact.html thanks.html privacy.html terms.html 404.html
   sitemap.xml robots.txt site.webmanifest
   favicon.* icon-*.png apple-touch-icon.png
@@ -46,7 +46,7 @@ Two things are worth knowing before you do:
 **Gold text.** `<span class="metal">…</span>` gives the metallic treatment. Use
 it on a word or two per heading, not a sentence.
 
-**Repeated copy.** The header and footer are duplicated in all ten pages,
+**Repeated copy.** The header and footer are duplicated in all eleven pages,
 because nothing assembles them any more. Change one and you have changed one —
 grep for the old wording and fix every copy, or the nav will disagree with
 itself from page to page.
@@ -166,6 +166,33 @@ Both run against the shipped files and take about a second. Run them before you
 push — `check-audit.py` is the thing that catches a root-relative link or a
 missing cache-bust before GitHub Pages does.
 
+### SEO rules the checks enforce
+
+These came out of the SEO pass in September 2026. `check-audit.py` fails if any
+of them slips, so a new page has to follow them too:
+
+- **Title under ~60 characters, description 50–165.** Longer is cut off in
+  search results.
+- **A keyword inside every main `<h1>`.** The small gold label above each
+  headline is a `<span class="eyebrow">` *inside* the `<h1>` ("Performance
+  marketing agency", "Digital marketing services"…), so the heading says what the
+  page is about, not only the display line. It looks exactly like the old
+  separate label.
+- **Every indexed page in `sitemap.xml` with a `<lastmod>`.** Update the date
+  when a page changes meaningfully.
+- **FAQ structured data matches the visible answer word for word.** Edit a FAQ
+  answer and you must edit the JSON-LD copy in the `<head>` too, or Google drops
+  the rich result.
+- **Breadcrumb JSON-LD on inner pages**, and the Industries page linked from
+  every page.
+- **Positioning is every industry.** The old "automotive aftermarket and
+  jewelry" wording is checked for and must not come back.
+
+Share image: `assets/og/og-default.jpg`'s bottom line was repainted in place
+with the original font (Schibsted Grotesk, 20px, `#969389`, baseline y=552), so
+it matches the rest of the card. To change the card properly, rebuild it at
+1200×630 with the same layout.
+
 ---
 
 ## 6. Still to do — things no amount of code can fix
@@ -184,7 +211,7 @@ enquiries where the visitor opens their mail client and then thinks better of
 it — and you never learn that it happened.
 
 **Google Search Console.** After the custom domain is live, not before: verify
-the domain, submit `/sitemap.xml`, then request indexing on all nine public
+the domain, submit `/sitemap.xml`, then request indexing on all nine indexed
 URLs — home last, so the fresh crawl overwrites whatever is cached. Check the
 coverage report for leftover Shopify URLs (`/collections/*`, `/products/*`,
 `/cart`) and let them 404 cleanly; the custom 404 page is already wired up.
@@ -201,6 +228,7 @@ defensible option, and each is a straightforward edit if you disagree.
 
 | Question | What the site says | Where to change it |
 |---|---|---|
+| Which industries? | All of them. The site says "businesses in every industry" and the Industries page lists nine common shapes. Automotive and jewelry stay as examples, not a limit. | `industries.html`, footer tagline on every page |
 | Is "3 of 10 spots" real? | Treated as not real. The site says "Taking 10 founding partners" and names no count of clients. | Search the pages for "founding" |
 | Founder's published name | **Nick Lomidze**, monogram `NL`. "Gn Lomidze" read like a truncated database field next to "George Lomidze". | `about.html`, `index.html` |
 | Does Growth include TikTok? | Yes — "Two ad platforms of your choice — Meta, Google or TikTok". The ambiguity in "both of three" is gone. | `pricing.html` |

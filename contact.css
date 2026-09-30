@@ -225,7 +225,9 @@
 }
 
 @media (max-width: 900px) {
-  .contact-grid { grid-template-columns: 1fr; }
+  /* minmax(0, …), not a bare 1fr: 1fr will not shrink below its widest
+     child, which pushed the whole page past the edge of a phone screen. */
+  .contact-grid { grid-template-columns: minmax(0, 1fr); }
 }
 
 @media (max-width: 560px) {
