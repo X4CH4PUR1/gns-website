@@ -142,6 +142,11 @@ c("3.1 no invented social proof", "Most chosen" not in allsrc)
 c("3.9 positioning is every industry, not two niches",
   not re.search(r"(?i)automotive aftermarket and jewelry|only automotive and jewelry|outside automotive and jewelry", allsrc)
   and "automotive aftermarket and jewelry" not in open("site.webmanifest", encoding="utf-8").read())
+# Nick and George are marketers. The old copy called them designers who had
+# learned to buy media, with an industrial-design background they do not have.
+c("3.10 the founders are presented as marketers, not designers",
+  not re.search(r"(?i)designers who|learned to buy media|industrial and automotive design|"
+                r"design background|design-led|designing for automotive", allsrc))
 c("3.1 both tiers carry an honest badge",
   "Best place to start" in docs["pricing.html"] and "Most complete" in docs["pricing.html"])
 c("3.2 no fabricated scarcity count", "3 of 10" not in allsrc and "3 / 10" not in allsrc)
@@ -152,7 +157,9 @@ c("3.4 break-even framed in profit, not revenue",
   "profit per job" in docs["index.html"] and "Jobs to cover cost" in docs["index.html"])
 c("3.4 verdict bands scale with job value", "benchmark" in js and "job * 0.045" in js)
 c("3.5 the unmet sub-second claim is gone", "0.8s" not in allsrc)
-c("3.6 nav and footer agree on Studio", ">About<" not in allsrc)
+# The page was "Studio" in one place and "About" in another; it is "About"
+# everywhere now, because GN Scales is a marketing agency, not a design studio.
+c("3.6 nav and footer agree on About", ">Studio<" not in allsrc and every(lambda d: d.count(">About<") >= 2))
 c("3.7 Contact appears in the footer", docs["index.html"].count(">Contact<") >= 2)
 c("3.8 founder name resolved", "Gn Lomidze" not in allsrc and "Nick Lomidze" in allsrc)
 c("3.8 monograms are distinguishable",
@@ -163,7 +170,7 @@ c("4.1 'Portrait pending' never reaches a visitor",
   "Portrait pending" not in allsrc and "— pending" not in allsrc)
 c("4.2 'Remaining services' placeholder gone", "Remaining services" not in allsrc)
 c("4.2 the 04-06 group has a real heading",
-  "TikTok, lifecycle email and the full retainer" in docs["services.html"])
+  "TikTok ads, email marketing and the full retainer" in docs["services.html"])
 c("4.3 a work page exists and is in the nav",
   os.path.isfile("work.html") and 'href="work.html"' in docs["index.html"])
 c("4.4 breakpoints reduced to the agreed ladder",

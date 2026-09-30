@@ -377,7 +377,7 @@
         + ' job. Achievable in most local markets, but not a given.';
     }
     return 'At ' + cpl + ' per lead you have real headroom — we would plan around ' + bm
-      + ' for a job this size. High job values are where design-led creative pays for itself fastest.';
+      + ' for a job this size. High job values are where strong creative pays for itself fastest.';
   }
 
   function initCalculator() {
@@ -616,7 +616,7 @@
                  '?subject=' + encodeURIComponent('Website enquiry — ' + who) +
                  '&body='    + encodeURIComponent(transcript());
 
-      say('Opening your email app — press send there and it reaches both founders.', '');
+      say('Opening your email app — press send there and it reaches Nick and George.', '');
       window.location.href = href;
 
       /* The mail client opens in a separate window, so this page stays put.

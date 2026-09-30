@@ -188,10 +188,25 @@ of them slips, so a new page has to follow them too:
 - **Positioning is every industry.** The old "automotive aftermarket and
   jewelry" wording is checked for and must not come back.
 
-Share image: `assets/og/og-default.jpg`'s bottom line was repainted in place
-with the original font (Schibsted Grotesk, 20px, `#969389`, baseline y=552), so
-it matches the rest of the card. To change the card properly, rebuild it at
-1200×630 with the same layout.
+- **The founders are marketers.** Nick (strategy & creative) and George (paid
+  media & performance) are never described as designers; `check-audit.py`
+  fails on the old "designers who learned to buy media" framing.
+
+### Voice
+
+Every line on the site is GN Scales talking to a prospective client: "we" is
+Nick and George, "you" is the business reading. Short sentences, contractions,
+plain words ("paid ads", not "media"; "plans", not "tiers"). No invented
+experience, clients or results — the site says plainly that the first ten
+clients are being taken on now.
+
+### Share images
+
+`python tools/og/make-og.py` redraws `assets/og/og-default.jpg` and
+`og-pricing.jpg` (needs `pip install pillow`). The headline, label and footer
+line for each card are in `CARDS` at the bottom of the script. After changing
+them, bump the `?v=` on `og:image` in every page, or LinkedIn and Facebook keep
+showing the old picture.
 
 ---
 
@@ -229,11 +244,13 @@ defensible option, and each is a straightforward edit if you disagree.
 | Question | What the site says | Where to change it |
 |---|---|---|
 | Which industries? | All of them. The site says "businesses in every industry" and the Industries page lists nine common shapes. Automotive and jewelry stay as examples, not a limit. | `industries.html`, footer tagline on every page |
+| Who is the audience? | English-speaking businesses anywhere. The footer says "Remote-first · Clients worldwide" and the structured data says `areaServed: Worldwide`. Prices stay in USD. | footer on every page, `index.html` and `pricing.html` JSON-LD |
+| "Studio" or "About"? | About. "Studio" read as a design studio; GN Scales is a marketing agency. | header and footer on every page |
 | Is "3 of 10 spots" real? | Treated as not real. The site says "Taking 10 founding partners" and names no count of clients. | Search the pages for "founding" |
 | Founder's published name | **Nick Lomidze**, monogram `NL`. "Gn Lomidze" read like a truncated database field next to "George Lomidze". | `about.html`, `index.html` |
 | Does Growth include TikTok? | Yes — "Two ad platforms of your choice — Meta, Google or TikTok". The ambiguity in "both of three" is gone. | `pricing.html` |
 | Can you name Logimotors? | Not assumed. No client is named anywhere. | `work.html` |
 | Real gross margin | 45% is the calculator's default. Replace it with your own estimate. | `index.html`, the margin slider |
 | Calendar or form? | Form. A scheduler slot is ready: put a Cal.com or Calendly link in the `data-scheduler` attribute on the contact page and it loads only when somebody opens it. | `contact.html` |
-| Cookie banner? | Off. The audience is United States, where a consent wall costs measurement without adding a requirement. Turn it on before advertising into the EU or UK. | `style.css`, `#consent` markup |
+| Cookie banner? | Off. Turn it on before advertising into the EU or UK, where consent is required before analytics or pixels load. | `style.css`, `#consent` markup |
 | Analytics? | None installed. `main.js` has the consent plumbing ready for GA4 or a Meta pixel when you want one. | `initConsent` in `main.js` |
