@@ -21,7 +21,7 @@ deployment:
 
     - >-
       if [ -x /usr/bin/rsync ]; then
-      /usr/bin/rsync -a --delete
+      /usr/bin/rsync -rlpt --chmod=D755,F644 --delete
       --exclude '.git'
       --exclude '.gitattributes'
       --exclude '.gitignore'
@@ -45,3 +45,18 @@ deployment:
       $DEPLOYPATH/.cpanel.yml $DEPLOYPATH/.nojekyll $DEPLOYPATH/docs $DEPLOYPATH/tools
       $DEPLOYPATH/admin $DEPLOYPATH/submit.php ;
       fi
+
+    # The repository clone lives in a private folder (700/600). Copying its
+    # permissions across is what produced "Server unable to read htaccess
+    # file": Apache runs as another user and could not read public_html.
+    # Web files must be readable by everyone — folders 755, files 644.
+    # data/ keeps its own locked-down permissions.
+    - chmod 755 $DEPLOYPATH
+    - >-
+      find $DEPLOYPATH
+      \( -path $DEPLOYPATH/data -o -path $DEPLOYPATH/cgi-bin -o -path $DEPLOYPATH/.well-known \) -prune
+      -o -type d -exec chmod 755 {} +
+    - >-
+      find $DEPLOYPATH
+      \( -path $DEPLOYPATH/data -o -path $DEPLOYPATH/cgi-bin -o -path $DEPLOYPATH/.well-known \) -prune
+      -o -type f -exec chmod 644 {} +

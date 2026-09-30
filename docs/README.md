@@ -91,6 +91,12 @@ cPanel pulls the same repository from GitHub. After pushing:
 3. **Deploy HEAD Commit** — runs `.cpanel.yml`, which copies the site into
    `/home/gnscales/public_html` with `rsync --delete`
 
+The deploy also sets folders to 755 and files to 644. cPanel's clone of the
+repository is private (700/600), and copying those permissions into
+`public_html` locks Apache out: every page answers "Forbidden — Server unable
+to read htaccess file". If that ever reappears, fix it in File Manager
+(`public_html` → 755, `.htaccess` → 644) and check `.cpanel.yml`.
+
 `.cpanel.yml` must stay committed. Without it cPanel refuses to deploy — that is
 exactly what broke when it was deleted in `cec25f6`. It excludes `data/` (past
 enquiries from the old admin), `.well-known/` (SSL renewal), `cgi-bin/` and

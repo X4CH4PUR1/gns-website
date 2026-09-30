@@ -172,6 +172,10 @@ cpanel = open(".cpanel.yml", encoding="utf-8").read() if os.path.isfile(".cpanel
 c("8.2 cPanel deploy config exists and has tasks",
   "deployment:" in cpanel and "tasks:" in cpanel and "DEPLOYPATH" in cpanel)
 c("8.2 cPanel deploy runs no PHP", "bin/php" not in cpanel)
+# rsync -a copied the clone's private 700/600 permissions onto public_html, and
+# Apache answered every request with "Server unable to read htaccess file".
+c("8.2 cPanel deploy leaves the web root readable by Apache",
+  "rsync -a " not in cpanel and "--chmod=D755,F644" in cpanel and "chmod 755 $DEPLOYPATH" in cpanel)
 c("8.2 cPanel deploy never deletes server-only files",
   all("--exclude '%s'" % x in cpanel for x in ["data/", ".well-known/", "cgi-bin/"]))
 c("8.3 Apache serves the custom 404", os.path.isfile(".htaccess")
