@@ -1,0 +1,47 @@
+---
+# =========================================================
+# GN SCALES — CPANEL GIT DEPLOY
+#
+# cPanel → Git Version Control → Manage → Pull or Deploy:
+#   1. "Update from Remote"  pulls main from GitHub
+#   2. "Deploy HEAD Commit"  runs the tasks below
+#
+# cPanel refuses to deploy a repository without this file, so it must stay
+# committed at the repository root even though GitHub Pages ignores it.
+#
+# The site is static: this only copies files. rsync --delete keeps the web
+# root identical to the repository (a page renamed here disappears there),
+# and the excludes stop it deleting things that only live on the server —
+# AutoSSL's .well-known, search-engine verification files, and data/ from
+# the old PHP admin, which still holds past enquiries.
+# =========================================================
+deployment:
+  tasks:
+    - export DEPLOYPATH=/home/gnscales/public_html
+
+    - >-
+      if [ -x /usr/bin/rsync ]; then
+      /usr/bin/rsync -a --delete
+      --exclude '.git'
+      --exclude '.gitattributes'
+      --exclude '.gitignore'
+      --exclude '.cpanel.yml'
+      --exclude '.nojekyll'
+      --exclude 'docs/'
+      --exclude 'tools/'
+      --exclude 'data/'
+      --exclude 'assets/uploads/'
+      --exclude '.well-known/'
+      --exclude 'cgi-bin/'
+      --exclude '.user.ini'
+      --exclude 'php.ini'
+      --exclude 'error_log'
+      --exclude 'google*.html'
+      --exclude 'BingSiteAuth.xml'
+      ./ $DEPLOYPATH/ ;
+      else
+      /bin/cp -R . $DEPLOYPATH/ &&
+      /bin/rm -rf $DEPLOYPATH/.git $DEPLOYPATH/.gitattributes $DEPLOYPATH/.gitignore
+      $DEPLOYPATH/.cpanel.yml $DEPLOYPATH/.nojekyll $DEPLOYPATH/docs $DEPLOYPATH/tools
+      $DEPLOYPATH/admin $DEPLOYPATH/submit.php ;
+      fi

@@ -161,12 +161,21 @@ c("aria-current marks the right nav item",
   'href="services.html" aria-current="page"' in docs["services.html"])
 
 print("\nP7 — deploy and legal")
-# GitHub Pages serves files and nothing else: no PHP, no .htaccess, and a
-# Jekyll pass that would eat anything beginning with an underscore unless
-# .nojekyll is there to switch it off.
+# The same static files go to two hosts. GitHub Pages serves them as they are,
+# with a Jekyll pass that would eat anything beginning with an underscore unless
+# .nojekyll switches it off. cPanel copies them into public_html, and refuses to
+# deploy at all when .cpanel.yml is missing — which is how it last broke.
 c("8.1 Jekyll is switched off", os.path.isfile(".nojekyll"))
 c("8.1 nothing left that needs a server to run",
   not glob.glob("*.php") and not glob.glob("admin/**/*.php", recursive=True))
+cpanel = open(".cpanel.yml", encoding="utf-8").read() if os.path.isfile(".cpanel.yml") else ""
+c("8.2 cPanel deploy config exists and has tasks",
+  "deployment:" in cpanel and "tasks:" in cpanel and "DEPLOYPATH" in cpanel)
+c("8.2 cPanel deploy runs no PHP", ".php" not in cpanel)
+c("8.2 cPanel deploy never deletes server-only files",
+  all("--exclude '%s'" % x in cpanel for x in ["data/", ".well-known/", "cgi-bin/"]))
+c("8.3 Apache serves the custom 404", os.path.isfile(".htaccess")
+  and "ErrorDocument 404 /404.html" in open(".htaccess", encoding="utf-8").read())
 c("8.4 404 page exists", os.path.isfile("404.html"))
 # GitHub Pages serves 404.html at whatever URL the visitor mistyped, so its
 # own links have to be pinned rather than document-relative.

@@ -1,13 +1,15 @@
 # GN Scales — how this site works
 
-A static website. Every page is a plain `.html` file, hand-edited and committed;
-GitHub Pages serves it. There is no PHP, no database and no build step — what is
-in the repository is exactly what visitors get.
+A static website. Every page is a plain `.html` file, hand-edited and committed.
+The same files are served in two places: GitHub Pages (the preview at
+`x4ch4pur1.github.io/gns-website/`) and cPanel (`gnscales.com`). There is no
+PHP, no database and no build step — what is in the repository is exactly what
+visitors get.
 
 It used to be different. A PHP admin on cPanel generated these pages from a
-content store, and the site was deployed by an `rsync` hook. That whole layer is
-gone: no `admin/`, no `submit.php`, no `.htaccess`, no `.cpanel.yml`. If you are
-reading an older copy of this file that describes them, this one supersedes it.
+content store. That layer is gone: no `admin/`, no `submit.php`. What stays is
+`.cpanel.yml`, which cPanel needs to deploy anything at all, and `.htaccess`,
+which only Apache reads.
 
 ---
 
@@ -79,6 +81,28 @@ nothing to build. A change is live in a minute or so.
 
 `.nojekyll` must stay. Without it GitHub runs the tree through Jekyll, which
 silently drops files and folders whose names begin with an underscore.
+
+### cPanel (gnscales.com)
+
+cPanel pulls the same repository from GitHub. After pushing:
+
+1. cPanel → **Git Version Control** → **Manage** → **Pull or Deploy**
+2. **Update from Remote** — pulls `main` from GitHub
+3. **Deploy HEAD Commit** — runs `.cpanel.yml`, which copies the site into
+   `/home/gnscales/public_html` with `rsync --delete`
+
+`.cpanel.yml` must stay committed. Without it cPanel refuses to deploy — that is
+exactly what broke when it was deleted in `cec25f6`. It excludes `data/` (past
+enquiries from the old admin), `.well-known/` (SSL renewal), `cgi-bin/` and
+search-engine verification files, so the deploy never deletes them.
+
+**Never force-push `main`.** cPanel's copy of the repository can only move
+forward. If the history on GitHub is rewritten, "Update from Remote" fails
+until the cPanel copy is removed and cloned again.
+
+`.htaccess` redirects `http://` and `www.` to `https://gnscales.com`, serves
+`404.html` for missing pages, and sets compression and cache headers. GitHub
+Pages ignores it.
 
 ### Moving to gnscales.com
 
