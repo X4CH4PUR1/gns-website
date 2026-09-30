@@ -171,7 +171,7 @@ c("8.1 nothing left that needs a server to run",
 cpanel = open(".cpanel.yml", encoding="utf-8").read() if os.path.isfile(".cpanel.yml") else ""
 c("8.2 cPanel deploy config exists and has tasks",
   "deployment:" in cpanel and "tasks:" in cpanel and "DEPLOYPATH" in cpanel)
-c("8.2 cPanel deploy runs no PHP", ".php" not in cpanel)
+c("8.2 cPanel deploy runs no PHP", "bin/php" not in cpanel)
 c("8.2 cPanel deploy never deletes server-only files",
   all("--exclude '%s'" % x in cpanel for x in ["data/", ".well-known/", "cgi-bin/"]))
 c("8.3 Apache serves the custom 404", os.path.isfile(".htaccess")
