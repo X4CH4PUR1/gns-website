@@ -616,7 +616,7 @@
                  '?subject=' + encodeURIComponent('Website enquiry — ' + who) +
                  '&body='    + encodeURIComponent(transcript());
 
-      say('Opening your email app — press send there and it reaches Nick and George.', '');
+      say('Opening your email app — press send there and it reaches Nikoloz and George.', '');
       window.location.href = href;
 
       /* The mail client opens in a separate window, so this page stays put.

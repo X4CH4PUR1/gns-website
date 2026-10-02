@@ -812,6 +812,7 @@ h1 .eyebrow {
 }
 .footer-col a, .footer-col span { font-size: 0.9rem; color: var(--ink-2); transition: color var(--t-micro); }
 .footer-col a:hover { color: var(--gold-500); }
+.footer-address { font-style: normal; font-size: 0.9rem; line-height: 1.6; color: var(--ink-2); }
 .footer-mail { color: var(--gold-500) !important; border-bottom: 1px solid rgba(210, 173, 92, 0.35); padding-bottom: 3px; }
 
 .footer-social { display: flex; flex-wrap: wrap; gap: 1.1rem; }

@@ -50,7 +50,7 @@ c("1.1 honeypot present", 'name="website"' in docs["contact.html"])
 c("1.1 submit button no longer promises a booking it cannot make",
   "Send and book a time" not in docs["contact.html"])
 c("1.2 no placeholder email anywhere", "yourdomain.com" not in allsrc)
-c("1.2 a real address is published", allsrc.count("hello@gnscales.com") >= 10)
+c("1.2 a real address is published", allsrc.count("george@gnscales.com") >= 10)
 c("1.3 no internal notes in shipped source",
   not re.search(r"(?i)<!--(?:(?!-->).)*?(todo|outstanding items|portrait pending)", allsrc, re.S))
 c("1.4 .js guard on every page", every(lambda d: "documentElement.className += ' js'" in d))
@@ -142,7 +142,7 @@ c("3.1 no invented social proof", "Most chosen" not in allsrc)
 c("3.9 positioning is every industry, not two niches",
   not re.search(r"(?i)automotive aftermarket and jewelry|only automotive and jewelry|outside automotive and jewelry", allsrc)
   and "automotive aftermarket and jewelry" not in open("site.webmanifest", encoding="utf-8").read())
-# Nick and George are marketers. The old copy called them designers who had
+# Nikoloz and George are marketers. The old copy called them designers who had
 # learned to buy media, with an industrial-design background they do not have.
 c("3.10 the founders are presented as marketers, not designers",
   not re.search(r"(?i)designers who|learned to buy media|industrial and automotive design|"
@@ -161,9 +161,10 @@ c("3.5 the unmet sub-second claim is gone", "0.8s" not in allsrc)
 # everywhere now, because GN Scales is a marketing agency, not a design studio.
 c("3.6 nav and footer agree on About", ">Studio<" not in allsrc and every(lambda d: d.count(">About<") >= 2))
 c("3.7 Contact appears in the footer", docs["index.html"].count(">Contact<") >= 2)
-c("3.8 founder name resolved", "Gn Lomidze" not in allsrc and "Nick Lomidze" in allsrc)
+c("3.8 founder name resolved", "Gn Lomidze" not in allsrc and "Nikoloz Pheikrishvili" in allsrc
+  and not re.search(r"\bNick\b", allsrc))
 c("3.8 monograms are distinguishable",
-  ">NL<" in docs["about.html"] and ">GL<" in docs["about.html"])
+  ">NP<" in docs["about.html"] and ">GL<" in docs["about.html"])
 
 print("\nP3 — unfinished design")
 c("4.1 'Portrait pending' never reaches a visitor",

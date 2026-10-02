@@ -54,6 +54,8 @@
 }
 .contact-mail:hover { color: var(--gold-200); border-color: var(--gold-200); }
 
+.contact-address { font-style: normal; font-size: 1rem; line-height: 1.6; color: var(--ink-2); }
+
 /* ---------- Form ---------- */
 .form {
   position: relative; isolation: isolate;

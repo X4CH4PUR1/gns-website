@@ -130,7 +130,7 @@ relative.
 The contact form has no server behind it. `main.js` handles it in one of two
 modes, chosen by the attributes on the `<form>` in `contact.html`:
 
-**Compose an email** (what it does today). `data-mailto="hello@gnscales.com"`
+**Compose an email** (what it does today). `data-mailto="george@gnscales.com"`
 assembles the answers into a labelled message and opens the visitor's own mail
 client with it filled in. Nothing is stored anywhere, and it works with no
 account and no third party — but it costs the visitor one more click, and it
@@ -188,14 +188,14 @@ of them slips, so a new page has to follow them too:
 - **Positioning is every industry.** The old "automotive aftermarket and
   jewelry" wording is checked for and must not come back.
 
-- **The founders are marketers.** Nick (strategy & creative) and George (paid
+- **The founders are marketers.** Nikoloz (strategy & creative) and George (paid
   media & performance) are never described as designers; `check-audit.py`
   fails on the old "designers who learned to buy media" framing.
 
 ### Voice
 
 Every line on the site is GN Scales talking to a prospective client: "we" is
-Nick and George, "you" is the business reading. Short sentences, contractions,
+Nikoloz and George, "you" is the business reading. Short sentences, contractions,
 plain words ("paid ads", not "media"; "plans", not "tiers"). No invented
 experience, clients or results — the site says plainly that the first five
 clients are being taken on now.
@@ -247,7 +247,7 @@ defensible option, and each is a straightforward edit if you disagree.
 | Who is the audience? | English-speaking businesses anywhere. The footer says "Remote-first · Clients worldwide" and the structured data says `areaServed: Worldwide`. Prices stay in USD. | footer on every page, `index.html` and `pricing.html` JSON-LD |
 | "Studio" or "About"? | About. "Studio" read as a design studio; GN Scales is a marketing agency. | header and footer on every page |
 | Is "3 of 5 spots" real? | Treated as not real. The site says "Taking 5 founding partners" and names no count of clients. | Search the pages for "founding" |
-| Founder's published name | **Nick Lomidze**, monogram `NL`. "Gn Lomidze" read like a truncated database field next to "George Lomidze". | `about.html`, `index.html` |
+| Founder's published name | **Nikoloz Pheikrishvili**, monogram `NP`. Always "Nikoloz" in the copy, never "Nikoloz". | `about.html`, `index.html` |
 | Does Growth include TikTok? | Yes — "Two ad platforms of your choice — Meta, Google or TikTok". The ambiguity in "both of three" is gone. | `pricing.html` |
 | Can you name Logimotors? | Not assumed. No client is named anywhere. | `work.html` |
 | Real gross margin | 45% is the calculator's default. Replace it with your own estimate. | `index.html`, the margin slider |
