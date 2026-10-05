@@ -151,7 +151,7 @@ c("3.1 both tiers carry an honest badge",
   "Best place to start" in docs["pricing.html"] and "Most complete" in docs["pricing.html"])
 c("3.2 no fabricated scarcity count", "3 of 10" not in allsrc and "3 / 10" not in allsrc)
 c("3.3 'Both ad platforms' ambiguity gone", "Both ad platforms" not in allsrc)
-c("3.3 platform scope stated explicitly", "Two ad platforms of your choice" in docs["pricing.html"])
+c("3.3 platform scope stated explicitly", "Meta and Google, run as one funnel" in docs["pricing.html"])
 c("3.4 calculator has a gross-margin slider", 'id="calc-margin"' in docs["index.html"])
 c("3.4 break-even framed in profit, not revenue",
   "profit per job" in docs["index.html"] and "Jobs to cover cost" in docs["index.html"])
@@ -161,7 +161,7 @@ c("3.5 the unmet sub-second claim is gone", "0.8s" not in allsrc)
 # everywhere now, because GN Scales is a marketing agency, not a design studio.
 c("3.6 nav and footer agree on About", ">Studio<" not in allsrc and every(lambda d: d.count(">About<") >= 2))
 c("3.7 Contact appears in the footer", docs["index.html"].count(">Contact<") >= 2)
-c("3.8 founder name resolved", "Gn Lomidze" not in allsrc and "Nikoloz Pheikrishvili" in allsrc
+c("3.8 founder name resolved", "Gn Lomidze" not in allsrc and "Nikoloz Peikrishvili" in allsrc
   and not re.search(r"\bNick\b", allsrc))
 c("3.8 monograms are distinguishable",
   ">NP<" in docs["about.html"] and ">GL<" in docs["about.html"])
@@ -171,7 +171,7 @@ c("4.1 'Portrait pending' never reaches a visitor",
   "Portrait pending" not in allsrc and "— pending" not in allsrc)
 c("4.2 'Remaining services' placeholder gone", "Remaining services" not in allsrc)
 c("4.2 the 04-06 group has a real heading",
-  "TikTok ads, email marketing and the full retainer" in docs["services.html"])
+  "TikTok ads and the full retainer" in docs["services.html"])
 c("4.3 a work page exists and is in the nav",
   os.path.isfile("work.html") and 'href="work.html"' in docs["index.html"])
 c("4.4 breakpoints reduced to the agreed ladder",

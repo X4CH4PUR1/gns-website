@@ -14,7 +14,7 @@
 }
 
 /* ---------- Tiers ---------- */
-.tiers { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.4rem; align-items: stretch; }
+.tiers { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1.4rem; align-items: stretch; }
 
 .tier {
   display: flex; flex-direction: column; gap: 1.75rem;
@@ -23,9 +23,9 @@
 .tier:hover { transform: none; }
 .tier.is-featured { box-shadow: 0 40px 90px -50px rgba(210, 173, 92, 0.5); }
 
-/* Both tiers carry a badge now. Growth says what it is rather than claiming
-   customers we have not had yet, and Launch says where to start — which is
-   what the FAQ underneath has always advised. */
+/* Every tier carries a badge. Growth says what we recommend rather than
+   claiming customers we have not had yet, Crown says what it is, and Launch
+   says where to start — which is what the FAQ underneath has always advised. */
 /* Pinned to the corner it used to cover: at top/right 0 the badge sat on the
    card's own border and clipped the new corner radius, which looked like a
    sticker peeling off. Inset, it reads as a tag resting on the glass. */
@@ -69,6 +69,7 @@
 /* The animated clip needs its own inline box to paint at this size.
    Upright, not italic — a slanted price reads as a typo. */
 .metal-figure { display: inline-block; font-style: normal; }
+.tier-figure span.tier-from { margin-left: 0; margin-right: 0.35rem; }
 .tier-setup { font-family: var(--font-mono); font-size: 0.75rem; color: var(--ink-3); }
 
 .tier .ticks { flex: 1 1 auto; gap: 0.95rem; }
@@ -113,6 +114,14 @@
   gap: clamp(2.5rem, 6vw, 5.5rem); align-items: start;
 }
 .pricing-faq h2 { margin-top: 1.2rem; }
+
+/* Three across at this width the cards are narrow: the corner badge runs
+   into the label under it, so the card makes room for it. */
+@media (max-width: 1080px) {
+  .tier { padding-top: 3.4rem; }
+  /* "From $4,500 / month" no longer fits on one line; "From" goes above. */
+  .tier-figure span.tier-from { display: block; margin: 0 0 0.6rem; }
+}
 
 @media (max-width: 900px) {
   .tiers { grid-template-columns: 1fr; }

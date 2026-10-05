@@ -62,8 +62,9 @@
 /* ---------- Also in scope ----------
    Deliberately a smaller tier, not an unfinished one. Equal heights, matching
    card chrome and a visual motif each, so the size difference reads as
-   hierarchy rather than as three sections that ran out of time. */
+   hierarchy rather than as two sections that ran out of time. */
 .svc-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem; align-items: stretch; }
+.svc-grid-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 .svc-grid .card { display: flex; flex-direction: column; gap: 0.9rem; }
 .svc-mini p { flex: 1 1 auto; }
 
@@ -91,21 +92,6 @@
   position: absolute; left: 38%; top: 50%; transform: translate(-50%, -50%);
   width: 11px; height: 11px; border-radius: 50%; background: var(--gold-500);
   box-shadow: 0 0 0 4px rgba(210, 173, 92, 0.18);
-}
-
-/* Lifecycle email: a three-touch sequence, the last one still to send. */
-.mini-seq { display: flex; flex-direction: column; gap: 0.5rem; }
-.mini-seq-row { display: flex; align-items: center; gap: 0.6rem; }
-.mini-seq-dot {
-  width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0;
-  border: 1px solid rgba(210, 173, 92, 0.5);
-}
-.mini-seq-dot.is-on { background: var(--gold-500); border-color: var(--gold-500); }
-.mini-seq-line { height: 6px; width: var(--w); background: rgba(237, 230, 211, 0.16); }
-.mini-seq-row:first-child .mini-seq-line { background: rgba(210, 173, 92, 0.42); }
-.mini-seq-row em {
-  margin-left: auto; font-family: var(--font-mono); font-style: normal;
-  font-size: 0.5rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-4);
 }
 
 /* Full retainer: every discipline on one ring, one team in the middle. */

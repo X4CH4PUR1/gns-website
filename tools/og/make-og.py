@@ -124,8 +124,8 @@ OUT = os.path.join(HERE, "..", "..", "assets", "og")
 CARDS = {
     "og-default.jpg": ("Paid ads that bring\nreal customers.", "Performance marketing agency",
                        "Meta, Google & TikTok ads · creative · landing pages · gnscales.com"),
-    "og-pricing.jpg": ("Two plans. No hidden fees.", "Pricing",
-                       "$1,500-$2,500/month · month to month, no markup on ad spend"),
+    "og-pricing.jpg": ("Three plans. No hidden fees.", "Pricing",
+                       "From $1,700/month · 3-month minimum, no markup on ad spend"),
 }
 
 if __name__ == "__main__":
