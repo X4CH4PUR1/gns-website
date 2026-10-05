@@ -859,6 +859,10 @@ h1 .eyebrow {
   color: #a9bce4; border-color: rgba(103, 133, 196, 0.34);
 }
 .portrait-cool::after { background: radial-gradient(circle at 70% 22%, rgba(103, 133, 196, 0.3), transparent 62%); }
+/* A photograph in the slot: the box keeps its frame and aspect ratio, the
+   picture fills it, and a hard crop (the home card goes 16:7 on phones)
+   holds on the face rather than the middle of the frame. */
+.portrait-photo { display: block; height: auto; object-fit: cover; object-position: 50% 6%; }
 
 .founder-link {
   display: inline-flex; align-items: center; gap: 0.6rem; margin-top: 0.4rem;
