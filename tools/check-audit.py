@@ -163,8 +163,10 @@ c("3.6 nav and footer agree on About", ">Studio<" not in allsrc and every(lambda
 c("3.7 Contact appears in the footer", docs["index.html"].count(">Contact<") >= 2)
 c("3.8 founder name resolved", "Gn Lomidze" not in allsrc and "Nikoloz Peikrishvili" in allsrc
   and not re.search(r"\bNick\b", allsrc))
-c("3.8 monograms are distinguishable",
-  ">NP<" in docs["about.html"] and ">GL<" in docs["about.html"])
+# Each founder is a photograph or their own monogram, never two identical squares.
+c("3.8 founders are distinguishable", all(
+  any(m in docs[p] for m in marks) for p in ("about.html", "index.html")
+  for marks in ((">NP<", "nikoloz-peikrishvili-"), (">GL<", "george-lomidze-"))))
 
 print("\nP3 — unfinished design")
 c("4.1 'Portrait pending' never reaches a visitor",
