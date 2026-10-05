@@ -212,12 +212,6 @@ showing the old picture.
 
 ## 6. Still to do — things no amount of code can fix
 
-**Nikoloz's photograph.** George's is in (`assets/team/`, a 4:5-ish crop for the home card and a 5:4 for About); Nikoloz still shows the `NP` monogram. Founder photos are the highest-trust hour available. They do not need
-a studio: consistent background, consistent crop, natural light, graded toward
-the navy and gold. Drop them in `assets/` and replace the monogram markup in
-`about.html`. A prospect in Indianapolis being asked to wire $3,000 to two
-people they have never seen is being asked for a lot.
-
 **LinkedIn links** for both founders. A named person with a findable profile is
 worth more than any amount of copy about honesty.
 
