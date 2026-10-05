@@ -179,7 +179,9 @@ h1, h2, h3, h4 {
   text-wrap: balance;
 }
 
-h1 { font-size: clamp(3rem, 9.4vw, 9.25rem); line-height: 0.87; letter-spacing: -0.033em; }
+/* 0.87 let a descender on line one touch an ascender on line two ("plans" /
+   "hidden" on pricing). 1.0 keeps the set tight with clear air between them. */
+h1 { font-size: clamp(3rem, 9.4vw, 9.25rem); line-height: 1; letter-spacing: -0.033em; }
 h2 { font-size: clamp(2.2rem, 4.6vw, 4rem); }
 h3 { font-size: clamp(1.35rem, 2.1vw, 1.9rem); line-height: 1.1; }
 
@@ -196,6 +198,14 @@ p { max-width: 66ch; text-wrap: pretty; }
   animation: sheen 9s linear infinite;
   /* italic display type is where the metal ramp reads best */
   font-style: italic;
+  /* The gradient only paints inside the element's box, and italic glyphs lean
+     out of it: a line-final "No" lost the right edge of its "o". Pad the box
+     (on every line it wraps onto) and take the padding back with margin, so
+     the paint reaches the overhang without moving any text. */
+  padding: 0.06em 0.14em;
+  margin: 0 -0.14em;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
 }
 
 @keyframes sheen {
