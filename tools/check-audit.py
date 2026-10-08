@@ -142,7 +142,7 @@ c("3.1 no invented social proof", "Most chosen" not in allsrc)
 c("3.9 positioning is every industry, not two niches",
   not re.search(r"(?i)automotive aftermarket and jewelry|only automotive and jewelry|outside automotive and jewelry", allsrc)
   and "automotive aftermarket and jewelry" not in open("site.webmanifest", encoding="utf-8").read())
-# Nikoloz and George are marketers. The old copy called them designers who had
+# Nikoloz and Giorgi are marketers. The old copy called them designers who had
 # learned to buy media, with an industrial-design background they do not have.
 c("3.10 the founders are presented as marketers, not designers",
   not re.search(r"(?i)designers who|learned to buy media|industrial and automotive design|"
@@ -161,7 +161,7 @@ c("3.5 the unmet sub-second claim is gone", "0.8s" not in allsrc)
 # everywhere now, because GN Scales is a marketing agency, not a design studio.
 c("3.6 nav and footer agree on About", ">Studio<" not in allsrc and every(lambda d: d.count(">About<") >= 2))
 c("3.7 Contact appears in the footer", docs["index.html"].count(">Contact<") >= 2)
-c("3.8 founder name resolved", "Gn Lomidze" not in allsrc and "Nikoloz Peikrishvili" in allsrc
+c("3.8 founder name resolved", "Gn Lomidze" not in allsrc and "George" not in allsrc and "Nikoloz Peikrishvili" in allsrc
   and not re.search(r"\bNick\b", allsrc))
 # Each founder is a photograph or their own monogram, never two identical squares.
 c("3.8 founders are distinguishable", all(

@@ -188,14 +188,14 @@ of them slips, so a new page has to follow them too:
 - **Positioning is every industry.** The old "automotive aftermarket and
   jewelry" wording is checked for and must not come back.
 
-- **The founders are marketers.** Nikoloz (strategy & creative) and George (paid
+- **The founders are marketers.** Nikoloz (strategy & creative) and Giorgi (paid
   media & performance) are never described as designers; `check-audit.py`
   fails on the old "designers who learned to buy media" framing.
 
 ### Voice
 
 Every line on the site is GN Scales talking to a prospective client: "we" is
-Nikoloz and George, "you" is the business reading. Short sentences, contractions,
+Nikoloz and Giorgi, "you" is the business reading. Short sentences, contractions,
 plain words ("paid ads", not "media"; "plans", not "tiers"). No invented
 experience, clients or results — the site says plainly that the first five
 clients are being taken on now.
