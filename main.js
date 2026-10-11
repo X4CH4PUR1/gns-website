@@ -92,6 +92,21 @@
       if (e.target.closest('a')) setOpen(false);
     });
 
+    var back = nav.querySelector('.nav-back');
+    if (back) {
+      back.addEventListener('click', function () {
+        setOpen(false);
+        toggle.focus();
+      });
+    }
+
+    // A tap anywhere outside the drawer (the dimmed page, the header bar)
+    // closes it.
+    document.addEventListener('click', function (e) {
+      if (!isOpen() || nav.contains(e.target) || toggle.contains(e.target)) return;
+      setOpen(false);
+    });
+
     document.addEventListener('keydown', function (e) {
       if (!isOpen()) return;
 
