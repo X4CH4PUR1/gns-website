@@ -372,16 +372,17 @@ h1 .eyebrow {
 .nav-toggle[aria-expanded='true'] span:nth-child(1) { width: 24px; transform: translateY(3.75px) rotate(45deg); }
 .nav-toggle[aria-expanded='true'] span:nth-child(2) { width: 24px; transform: translateY(-3.75px) rotate(-45deg); }
 
-/* Only exists inside the mobile drawer. */
-.nav-back {
-  display: none; align-items: center; gap: 0.6rem;
-  font-family: var(--font-mono); font-size: 0.72rem;
-  letter-spacing: 0.14em; text-transform: uppercase;
-  color: var(--ink-2); transition: color var(--t-micro);
+/* The drawer's own X. Only exists inside the mobile drawer; drawn with the
+   same two gold lines as the toggle's open state. */
+.nav-close { display: none; }
+.nav-close span {
+  position: absolute; left: 50%; top: 50%; width: 22px; height: 1.5px;
+  margin: -0.75px 0 0 -11px; background: var(--gold-500);
+  transition: background var(--t-micro);
 }
-.nav-back svg { width: 16px; height: 16px; color: var(--gold-500); transition: transform var(--t-hover); }
-.nav-back:hover { color: var(--ink); }
-.nav-back:hover svg { transform: translateX(-3px); }
+.nav-close span:nth-child(1) { transform: rotate(45deg); }
+.nav-close span:nth-child(2) { transform: rotate(-45deg); }
+.nav-close:hover span { background: var(--ink); }
 
 /* ---------- Buttons ---------- */
 .btn {
@@ -1024,13 +1025,11 @@ body.cursor-text .cursor-dot { opacity: 0; }
   body.nav-open { overflow: hidden; }
   body.nav-open .site-nav { transform: none; }
 
-  /* The drawer slides over the right edge of the header, where the toggle
-     lives — without this the close X sits underneath the panel. */
-  .nav-toggle { position: relative; z-index: 91; }
-
-  .nav-back {
-    display: inline-flex; position: absolute; top: 1.5rem; left: var(--shell);
-    min-height: 44px; padding-right: 1rem;
+  /* The drawer covers the toggle, so it carries its own close button in the
+     same top-right spot. */
+  .nav-close {
+    display: block; position: absolute; top: 1.25rem; right: calc(var(--shell) - 8px);
+    width: 44px; height: 44px;
   }
 
   /* Dims the page behind the drawer; a tap on it closes the menu (main.js).

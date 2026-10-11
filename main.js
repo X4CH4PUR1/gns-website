@@ -92,9 +92,9 @@
       if (e.target.closest('a')) setOpen(false);
     });
 
-    var back = nav.querySelector('.nav-back');
-    if (back) {
-      back.addEventListener('click', function () {
+    var close = nav.querySelector('.nav-close');
+    if (close) {
+      close.addEventListener('click', function () {
         setOpen(false);
         toggle.focus();
       });
