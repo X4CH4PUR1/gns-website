@@ -550,18 +550,19 @@
      There is no server behind this site any more: GitHub Pages serves files
      and nothing else. So the form has two modes, and the markup picks one.
 
-       data-endpoint="https://…"   POST the fields to a form service that
-                                   answers JSON — Formspree, Basin, Getform.
-                                   Set it on the <form> in contact.html and
-                                   this path takes over automatically.
+       data-endpoint="https://…"   POST the answers to Web3Forms, which
+                                   emails them to us. The access key and
+                                   sender name ride along from the form's
+                                   hidden fields. This is the live path.
 
        no data-endpoint            Compose the enquiry as an email in the
                                    visitor's own mail client. Nothing is
                                    lost, it just needs one more click from
                                    them to send.
 
-     Without JavaScript the form falls back to its plain `action`, which is a
-     mailto: — every browser handles that, and the enquiry still reaches us. */
+     Without JavaScript the form falls back to its plain `action`, which posts
+     the raw fields to Web3Forms — the enquiry still reaches us, just with the
+     markup's field names instead of the labels below. */
   function initForm() {
     var form = document.getElementById('form');
     if (!form) return;
@@ -601,8 +602,8 @@
       message:  'What they want fixed'
     };
 
-    function transcript() {
-      var lines = [];
+    function answers() {
+      var list = [];
       for (var key in LABELS) {
         if (!Object.prototype.hasOwnProperty.call(LABELS, key)) continue;
         var field = form.elements[key];
@@ -620,15 +621,23 @@
         } else {
           value = field.value || '';
         }
-        lines.push(LABELS[key] + ': ' + value);
+        list.push([LABELS[key], value]);
       }
-      return lines.join('\n');
+      return list;
+    }
+
+    function transcript() {
+      return answers().map(function (a) { return a[0] + ': ' + a[1]; }).join('\n');
+    }
+
+    function subject() {
+      var who = (form.elements.business && form.elements.business.value) || 'a new enquiry';
+      return 'Website enquiry — ' + who;
     }
 
     function sendByMail() {
-      var who  = (form.elements.business && form.elements.business.value) || 'a new enquiry';
       var href = 'mailto:' + mailto +
-                 '?subject=' + encodeURIComponent('Website enquiry — ' + who) +
+                 '?subject=' + encodeURIComponent(subject()) +
                  '&body='    + encodeURIComponent(transcript());
 
       say('Opening your email app — press send there and it reaches Nikoloz and Giorgi.', '');
@@ -643,9 +652,19 @@
       say('Sending…', 'busy');
       if (button) button.disabled = true;
 
+      /* Built by hand rather than from the whole form, so the inbox gets the
+         labels and chip wording, and none of the bookkeeping fields. */
+      var body = new FormData();
+      ['access_key', 'from_name'].forEach(function (name) {
+        if (form.elements[name]) body.append(name, form.elements[name].value);
+      });
+      body.append('subject', subject());
+      if (form.elements.email) body.append('replyto', form.elements.email.value);
+      answers().forEach(function (a) { body.append(a[0], a[1]); });
+
       fetch(endpoint, {
         method: 'POST',
-        body: new FormData(form),
+        body: body,
         headers: { Accept: 'application/json' }
       })
         .then(function (res) {

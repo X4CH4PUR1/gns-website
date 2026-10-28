@@ -158,14 +158,17 @@
         </div>
 
         <!-- FORM -->
-        <!-- No server behind this site: GitHub Pages serves files and nothing
-             else. The form composes the enquiry as an email by default, which
-             needs no backend at all. To have it posted straight through
-             instead, add data-endpoint="https://formspree.io/f/xxxxxxxx" (or
-             any form service that answers JSON) to the tag below — main.js
-             picks that path up on its own, no other change needed. -->
+        <!-- No server behind this site, so enquiries go through Web3Forms,
+             which emails them to the inbox the access key below belongs to.
+             The key is public by design: it can only send to that inbox.
+             main.js posts the answers with readable labels; without
+             JavaScript the browser posts the raw fields to the same place and
+             Web3Forms sends the visitor on to the `redirect` page. Remove
+             data-endpoint to fall back to composing the email in the
+             visitor's own mail client (data-mailto). -->
         <form class="form" id="form"
-              action="mailto:george@gnscales.com" method="post" enctype="text/plain"
+              action="https://api.web3forms.com/submit" method="post"
+              data-endpoint="https://api.web3forms.com/submit"
               data-mailto="george@gnscales.com">
           <div class="form-head">
             <h2>Start here</h2>
@@ -177,6 +180,10 @@
             <label for="website">Leave this empty</label>
             <input type="text" id="website" name="website" tabindex="-1" autocomplete="off">
           </div>
+          <input type="hidden" name="access_key" value="c746c2fc-f106-4521-afa0-22803ab9d0a1">
+          <input type="hidden" name="subject" value="Website enquiry">
+          <input type="hidden" name="from_name" value="GN Scales website">
+          <input type="hidden" name="redirect" value="https://gnscales.com/thanks.html">
           <input type="hidden" name="_started" value="">
           <input type="hidden" name="_next" value="thanks.html">
 
@@ -300,6 +307,6 @@
     </div>
   </footer>
 
-  <script src="main.js?v=3b98cd86" defer></script>
+  <script src="main.js?v=9d55a714" defer></script>
 </body>
 </html>
