@@ -125,7 +125,7 @@ CARDS = {
     "og-default.jpg": ("Paid ads that bring\nreal customers.", "Performance marketing agency",
                        "Meta, Google & TikTok ads · creative · landing pages · gnscales.com"),
     "og-pricing.jpg": ("Three plans. No hidden fees.", "Pricing",
-                       "From $1,700/month · 3-month minimum, no markup on ad spend"),
+                       "From $1,618/month · 3-month minimum, no markup on ad spend"),
 }
 
 if __name__ == "__main__":

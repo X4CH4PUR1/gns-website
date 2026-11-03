@@ -83,6 +83,19 @@
 }
 .parity svg { width: 15px; height: 15px; flex-shrink: 0; color: var(--gold-500); margin-top: 0.3rem; }
 
+/* ---------- Crown add-ons ----------
+   Sold with Crown only, so they sit under the tiers rather than beside them:
+   three plain cards, no flags, so they never read as a fourth plan. */
+.addons { margin-top: clamp(3.5rem, 6vw, 5.5rem); }
+.addon-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem; align-items: stretch; }
+.addon { display: flex; flex-direction: column; gap: 0.9rem; }
+.addon-price {
+  font-family: var(--font-mono); font-size: 0.75rem;
+  letter-spacing: 0.04em; color: var(--gold-500);
+}
+/* Each half stays whole, so a narrow card breaks the line at the dot. */
+.addon-price span { white-space: nowrap; }
+
 /* ---------- Ad spend disclosure ---------- */
 .spend-note {
   display: flex; align-items: flex-start; gap: 1.6rem;
@@ -119,12 +132,13 @@
    into the label under it, so the card makes room for it. */
 @media (max-width: 1080px) {
   .tier { padding-top: 3.4rem; }
-  /* "From $4,500 / month" no longer fits on one line; "From" goes above. */
+  /* "From $4,612 / month" no longer fits on one line; "From" goes above. */
   .tier-figure span.tier-from { display: block; margin: 0 0 0.6rem; }
 }
 
 @media (max-width: 900px) {
   .tiers { grid-template-columns: 1fr; }
+  .addon-grid { grid-template-columns: 1fr; }
   .setup-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .pricing-faq { grid-template-columns: 1fr; }
   .pricing-faq h2 { margin-top: 0.75rem; }

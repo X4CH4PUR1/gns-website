@@ -90,7 +90,7 @@ c("2.7 FAQPage on home and pricing",
 c("2.7 Offer structured data on pricing", '"@type": "Offer"' in docs["pricing.html"])
 c("2.8 titles carry searchable terms",
   "Performance Marketing Agency" in docs["index.html"] and "Landing Pages" in docs["services.html"]
-  and "$1,500" in docs["pricing.html"] and "Industries We Serve" in docs["industries.html"])
+  and "$1,618" in docs["pricing.html"] and "Industries We Serve" in docs["industries.html"])
 
 # The SEO pass of Sept 2026. Search results cut titles at about 60 characters
 # and descriptions at about 160, so anything longer is text nobody sees.
@@ -173,7 +173,9 @@ c("4.1 'Portrait pending' never reaches a visitor",
   "Portrait pending" not in allsrc and "— pending" not in allsrc)
 c("4.2 'Remaining services' placeholder gone", "Remaining services" not in allsrc)
 c("4.2 the 04-06 group has a real heading",
-  "TikTok ads and the full retainer" in docs["services.html"])
+  "TikTok ads, AI and automation" in docs["services.html"])
+c("4.2 brand management is discontinued and stays gone",
+  not re.search(r"brand management|full retainer", allsrc, re.I))
 c("4.3 a work page exists and is in the nav",
   os.path.isfile("work.html") and 'href="work.html"' in docs["index.html"])
 c("4.4 breakpoints reduced to the agreed ladder",
