@@ -87,7 +87,9 @@ class Page(HTMLParser):
                     break
 
 
-pages = sorted(glob.glob("*.html"))
+# Root pages plus the Georgian pages under ka/. Links resolve from the page's
+# own folder, the way a browser resolves them.
+pages = sorted(glob.glob("*.html")) + sorted(glob.glob("ka/*.html"))
 print(f"Checking {len(pages)} pages\n")
 
 for name in pages:
@@ -130,9 +132,13 @@ for name in pages:
             if href != "#" and href[1:] not in p.ids:
                 problems.append(f"{name}: link to {href} at line {line} has no target on this page")
             continue
-        path = href.split("#")[0].split("?")[0].lstrip("/")
-        if path in ("", "./"):     # the home page is linked as ./
-            path = "index.html"
+        raw = href.split("#")[0].split("?")[0]
+        if raw.startswith("/"):
+            path = raw.lstrip("/") or "index.html"
+        else:
+            path = os.path.normpath(os.path.join(os.path.dirname(name), raw or "./"))
+            if raw.endswith("/") or raw == "" or os.path.isdir(path):   # ./ and ../ are folder index pages
+                path = os.path.join(path, "index.html")
         if not os.path.exists(path):
             problems.append(f"{name}: link to \"{href}\" at line {line} has no file behind it")
         anchor = href.split("#")[1] if "#" in href else None
@@ -141,7 +147,7 @@ for name in pages:
             if f'id="{anchor}"' not in target_src:
                 problems.append(f"{name}: link to \"{href}\" at line {line} — no #{anchor} on that page")
 
-    print(f"  {name:<16} {len(p.links):>3} links  {len(p.ids):>3} ids  "
+    print(f"  {name:<22} {len(p.links):>3} links  {len(p.ids):>3} ids  "
           f"{len(p.headings):>2} headings  {len(p.images)} images")
 
 # Assets referenced from the HTML must exist.

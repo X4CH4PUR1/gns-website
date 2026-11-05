@@ -56,6 +56,32 @@
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
 }
 
+/* Georgian (the ka/ pages). Georgian subsets only, from @fontsource 5.2.x,
+   SIL OFL 1.1 — licence in assets/fonts/noto-georgian-OFL.txt. They sit
+   after the Latin face in every stack, and the unicode-range means a browser
+   only fetches them when a page actually contains Georgian letters, so the
+   English pages never download them. */
+
+/* noto-sans-georgian-var.woff2 — 41KB, body and mono stacks */
+@font-face {
+  font-family: 'Noto Sans Georgian';
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url('assets/fonts/noto-sans-georgian-var.woff2') format('woff2');
+  unicode-range: U+10A0-10FF, U+1C90-1CBF, U+2D00-2D2F;
+}
+
+/* noto-serif-georgian-400.woff2 — 19KB, display stack */
+@font-face {
+  font-family: 'Noto Serif Georgian';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('assets/fonts/noto-serif-georgian-400.woff2') format('woff2');
+  unicode-range: U+10A0-10FF, U+1C90-1CBF, U+2D00-2D2F;
+}
+
 /* =========================================================
    GN SCALES — SHARED STYLESHEET
    Tokens, reset, typography, brand lockup, header/nav,
@@ -113,9 +139,9 @@
      curved metal. A two-stop gradient reads as plastic. */
   --metal: linear-gradient(96deg, #8a6e36 0%, #d2ad5c 16%, #f7e7be 33%, #d2ad5c 46%, #b4914a 58%, #f5dfa8 76%, #d2ad5c 92%);
 
-  --font-display: 'Instrument Serif', Georgia, 'Times New Roman', serif;
-  --font-ui: 'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
-  --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Consolas, monospace;
+  --font-display: 'Instrument Serif', 'Noto Serif Georgian', Georgia, 'Times New Roman', serif;
+  --font-ui: 'Schibsted Grotesk', 'Noto Sans Georgian', -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Noto Sans Georgian', ui-monospace, SFMono-Regular, Consolas, monospace;
 
   --shell: clamp(20px, 5.5vw, 100px);
   --maxw: 1440px;
@@ -402,6 +428,35 @@ h1 .eyebrow {
 .nav-list a:hover::after, .nav-list a[aria-current='page']::after { right: 0; }
 
 .spots { font-family: var(--font-mono); font-size: 0.6875rem; letter-spacing: 0.1em; color: var(--ink-3); white-space: nowrap; }
+
+/* EN / KA switch. A sibling of the nav, not inside it, so it stays in the
+   header bar on phones instead of disappearing into the drawer. The nav's
+   auto margin keeps nav + switch together on the right on desktop. */
+.site-nav { margin-left: auto; }
+.lang-switch {
+  display: flex; align-items: center; flex-shrink: 0;
+  border: 1px solid var(--line); border-radius: var(--r-pill);
+}
+.lang-switch a {
+  font-family: var(--font-mono); font-size: 0.625rem; letter-spacing: 0.12em;
+  color: var(--ink-3); padding: 0.4rem 0.6rem; line-height: 1;
+  border-radius: var(--r-pill); transition: color var(--t-micro), background var(--t-micro);
+}
+.lang-switch a:hover { color: var(--ink); }
+.lang-switch a[aria-current='true'] { color: var(--navy-900); background: var(--gold-500); }
+
+/* Georgian has no italic. Without this the browser slants Georgian letters
+   inside the italic display spans (.metal) by itself; Latin words keep their
+   real italic face. */
+:lang(ka) { font-synthesis: none; }
+
+/* Georgian letters run wider than the Latin display face, so the ka/ pages
+   set the headline smaller and the header labels tighter and on one line.
+   The phone sizes are unchanged: the clamp floor is the same. */
+:lang(ka) h1 { font-size: clamp(2.5rem, 6.2vw, 6rem); line-height: 1.08; }
+:lang(ka) h2 { font-size: clamp(1.9rem, 3.4vw, 3rem); line-height: 1.12; }
+:lang(ka) .closing h2 { font-size: clamp(2.2rem, 4.6vw, 4.25rem); line-height: 1.05; }
+:lang(ka) .nav-list a, :lang(ka) .spots { letter-spacing: 0.03em; white-space: nowrap; }
 
 .nav-toggle {
   display: none; flex-direction: column; align-items: flex-end; justify-content: center;
@@ -1055,11 +1110,13 @@ body.cursor-text .cursor-dot { opacity: 0; }
    half-collapse. Anything new goes on this ladder or it does not go in. */
 @media (max-width: 1080px) {
   .nav-list { gap: 1.6rem; }
+  :lang(ka) .nav-list { gap: 1.1rem; }
   .spots { display: none; }
 }
 
 @media (max-width: 900px) {
-  .nav-toggle { display: flex; }
+  .nav-toggle { display: flex; order: 1; }
+  .lang-switch { margin-left: auto; }
 
   .site-nav {
     position: fixed; inset: 0 0 0 auto; width: min(420px, 86vw); z-index: 90;
