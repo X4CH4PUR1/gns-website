@@ -14,7 +14,7 @@ Read this before writing any copy on the site. These facts come from the owners.
 ## What we sell
 - Meta & Instagram ads, Google Search & Shopping ads, TikTok ads, landing pages and websites, AI agents, automation, app builds.
 - Ad creative and video editing are part of the work. 
-- Prices: only as published on pricing.html (US, USD) and ka/pricing.html (Georgia, GEL). Prices are deliberately exact (1,618, not 1,600): never round them. AI agent, automation and app build are "From" prices, and are add-ons to Crown only.
+- Prices: only as published on pricing.html (USD). Prices are deliberately exact (1,618, not 1,600): never round them. AI agent, automation and app build are "From" prices, and are add-ons to Crown only.
 - Ad spend is paid by the client straight to the platforms. We never mark it up or route it through us.
 - Minimum term and contract terms: only as stated on pricing.html.
 
@@ -35,11 +35,6 @@ Read this before writing any copy on the site. These facts come from the owners.
 - Never use: guaranteed, #1, best-in-class, skyrocket, explode, unlock, game-changer, synergy, cutting-edge, "in today's digital landscape", exclamation marks, emojis, statistics without a source.
 - Spelling: US English everywhere (math, optimize, color, analyze, center, tires).
 - Call to action: "Book a strategy call" linking to contact.html. The call is free. Never state a fixed length (no "20 minutes", no "30 minutes"): it takes as long as the business needs.
-
-## Georgian copy (ka/ pages)
-- Formal თქვენ. Natural, modern business Georgian written for Georgian owners, never a word-for-word translation.
-- Same facts and honesty rules. Prices in GEL from ka/pricing.html.
-- "GN Scales" and platform names (Meta, Google, TikTok) stay in Latin letters.
 
 ## Contact facts
 - Email: george@gnscales.com. Location: Rustavi, Georgia. The street address appears only in the legal text of privacy.html and terms.html.

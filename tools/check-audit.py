@@ -205,14 +205,8 @@ c("6.1 no third-party font origins",
   "fonts.googleapis.com" not in allsrc and "fonts.gstatic.com" not in allsrc)
 c("6.1 fonts self-hosted and preloaded",
   every(lambda d: 'rel="preload"' in d and "assets/fonts/" in d))
-# Four Latin files, plus two Georgian ones for the ka/ pages (Noto Sans and
-# Noto Serif Georgian, Georgian subsets only). English pages never fetch the
-# Georgian files: their unicode-range only matches Georgian letters.
-c("6.1 font payload: four Latin files plus two Georgian",
-  len(glob.glob("assets/fonts/*.woff2")) == 6
-  and os.path.isfile("assets/fonts/noto-sans-georgian-var.woff2")
-  and os.path.isfile("assets/fonts/noto-serif-georgian-400.woff2")
-  and os.path.isfile("assets/fonts/noto-georgian-OFL.txt"))
+c("6.1 font payload trimmed to four files",
+  len(glob.glob("assets/fonts/*.woff2")) == 4)
 c("6.2 shader deferred until idle", "requestIdleCallback" in js)
 c("6.2 fbm reduced to three octaves", "i < 3; i++" in js)
 c("6.2 shader skipped on small screens", "mqWide.matches" in js)
@@ -259,52 +253,6 @@ c("9.1 privacy policy exists and is linked from every page",
 c("9.1 terms exist", os.path.isfile("terms.html"))
 c("9.4 thank-you page carries the conversion marker",
   'data-conversion="lead"' in docs["thanks.html"])
-
-print("\nP8 — Georgian pages (ka/)")
-# The four indexable Georgian pages are twins of English pages; thanks is not.
-KA_TWINS = {"index.html": "", "services.html": "services.html",
-            "pricing.html": "pricing.html", "contact.html": "contact.html"}
-ka = {p: open("ka/" + p, encoding="utf-8").read() for p in list(KA_TWINS) + ["thanks.html"]}
-def ka_url(p): return "https://gnscales.com/ka/" + KA_TWINS.get(p, p)
-def en_url(p): return "https://gnscales.com/" + KA_TWINS.get(p, p)
-c("ka pages declare Georgian", all('<html lang="ka">' in d and 'content="ka_GE"' in d for d in ka.values()))
-c("ka pages canonical to themselves",
-  all('<link rel="canonical" href="%s">' % ka_url(p) in d for p, d in ka.items()))
-def pair_ok(src, p):
-    return ('hreflang="en" href="%s"' % en_url(p) in src and 'hreflang="ka" href="%s"' % ka_url(p) in src
-            and 'hreflang="x-default" href="%s"' % en_url(p) in src)
-c("hreflang pairs are reciprocal",
-  all(pair_ok(ka[p], p) and pair_ok(docs[p], p) for p in KA_TWINS))
-c("no hreflang on pages without a twin",
-  all('hreflang="x-default"' not in docs[p] for p in PAGES if p not in KA_TWINS)
-  and 'hreflang="x-default"' not in ka["thanks.html"])
-c("ka thank-you page is noindex and keeps the conversion marker",
-  'name="robots" content="noindex, follow"' in ka["thanks.html"] and 'data-conversion="lead"' in ka["thanks.html"])
-c("ka contact form posts to Web3Forms and lands on ka/thanks",
-  'name="access_key" value="c746c2fc-f106-4521-afa0-22803ab9d0a1"' in ka["contact.html"]
-  and 'name="redirect" value="https://gnscales.com/ka/thanks.html"' in ka["contact.html"])
-c("ka pages load shared files from the root",
-  all('href="../style.css?v=' in d and 'src="../main.js?v=' in d for d in ka.values()))
-c("ka pages preload the Georgian body font; English pages do not",
-  all("noto-sans-georgian-var.woff2" in d for d in ka.values())
-  and not any("noto-sans-georgian" in d for d in docs.values()))
-c("language switch on every page, current language marked",
-  every(lambda d: 'class="lang-switch"' in d and 'lang="en" hreflang="en" aria-current="true"' in d)
-  and all('lang="ka" hreflang="ka" aria-current="true"' in d for d in ka.values()))
-c("ka pricing is in GEL with the published package prices",
-  all(x in ka["pricing.html"] for x in ("1,664 ₾", "2,408 ₾", "2,816 ₾", '"priceCurrency": "GEL"'))
-  and "$" not in re.sub(r"<script.*?</script>", "", ka["pricing.html"], flags=re.S))
-c("ka indexable pages are in the sitemap",
-  all("<loc>%s</loc>" % ka_url(p) in sitemap for p in KA_TWINS))
-c("ka titles and descriptions fit",
-  all(len(meta(ka[p], r"<title>(.*?)</title>")) <= 62
-      and 50 <= len(meta(ka[p], r'name="description" content="([^"]*)"')) <= 165 for p in KA_TWINS))
-c("ka FAQ markup matches the visible answers", all(
-  q["acceptedAnswer"]["text"] in html.unescape(re.sub(r"\s+", " ", d))
-  for d in ka.values()
-  for b in re.findall(r'<script type="application/ld\+json">(.*?)</script>', d, re.S)
-  for q in (json.loads(b).get("mainEntity", []) if json.loads(b).get("@type") == "FAQPage" else [])))
-c("no root-relative links on ka pages", not any(re.search(r'(?:href|src)="/[^/]', d) for d in ka.values()))
 
 print()
 if fails:

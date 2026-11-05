@@ -2,7 +2,7 @@
 - Static site: plain .html, .css and .js. No build step, no frameworks, no npm packages in the site.
 - Read docs/README.md before editing. Its section 4 is out of date: the contact form already posts to Web3Forms.
 - Strict separation: no style="" attributes and no inline <script> in HTML, except the existing one-line `js` class script and JSON-LD blocks. Styles go in style.css or the page's own .css; behaviour goes in main.js.
-- Internal links are document-relative (services.html, ./), never root-relative (/services.html). Pages inside ka/ use ../ for shared files and English pages.
+- Internal links are document-relative (services.html, ./), never root-relative (/services.html).
 - The header and footer are copied into every page. Any change to them is made in every .html file (grep for the old text).
 - When a .css or .js file changes, change its ?v= value in every page that links it (any new short hex value).
 - Copy follows docs/copy-brief.md. Write new pages as final copy. Change existing copy only when the prompt says so.

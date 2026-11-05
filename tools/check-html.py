@@ -87,9 +87,8 @@ class Page(HTMLParser):
                     break
 
 
-# Root pages plus the Georgian pages under ka/. Links resolve from the page's
-# own folder, the way a browser resolves them.
-pages = sorted(glob.glob("*.html")) + sorted(glob.glob("ka/*.html"))
+# Links resolve from each page's own folder, the way a browser resolves them.
+pages = sorted(glob.glob("*.html"))
 print(f"Checking {len(pages)} pages\n")
 
 for name in pages:

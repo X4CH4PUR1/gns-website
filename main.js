@@ -591,13 +591,6 @@
       status.className = 'form-status is-shown' + (state ? ' is-' + state : '');
     }
 
-    /* The visitor-facing lines can be overridden from the form tag
-       (data-msg-sending and friends), which is how the Georgian contact page
-       speaks Georgian. English stays the default. */
-    function msg(key, fallback) {
-      return form.getAttribute('data-msg-' + key) || fallback;
-    }
-
     /* Labels the founders read in the inbox, not the field names the markup
        uses. The order is the order of the form. */
     var LABELS = {
@@ -639,7 +632,7 @@
 
     function subject() {
       var who = (form.elements.business && form.elements.business.value) || 'a new enquiry';
-      return (form.getAttribute('data-subject') || 'Website enquiry') + ' — ' + who;
+      return 'Website enquiry — ' + who;
     }
 
     function sendByMail() {
@@ -647,7 +640,7 @@
                  '?subject=' + encodeURIComponent(subject()) +
                  '&body='    + encodeURIComponent(transcript());
 
-      say(msg('mail', 'Opening your email app — press send there and it reaches Nikoloz and Giorgi.'), '');
+      say('Opening your email app — press send there and it reaches Nikoloz and Giorgi.', '');
       window.location.href = href;
 
       /* The mail client opens in a separate window, so this page stays put.
@@ -656,7 +649,7 @@
     }
 
     function sendByFetch() {
-      say(msg('sending', 'Sending…'), 'busy');
+      say('Sending…', 'busy');
       if (button) button.disabled = true;
 
       /* Built by hand rather than from the whole form, so the inbox gets the
@@ -683,12 +676,12 @@
             });
         })
         .then(function (data) {
-          say(msg('sent', 'Sent. Redirecting…'), '');
+          say('Sent. Redirecting…', '');
           window.location.href = (data && data.redirect) || next;
         })
         .catch(function () {
           if (button) button.disabled = false;
-          say(msg('error', 'That did not send. Try again, or email us directly — the address is in the footer.'), 'error');
+          say('That did not send. Try again, or email us directly — the address is in the footer.', 'error');
         });
     }
 
