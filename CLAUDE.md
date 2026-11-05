@@ -5,9 +5,10 @@
 - Internal links are document-relative (services.html, ./), never root-relative (/services.html). Pages inside ka/ use ../ for shared files and English pages.
 - The header and footer are copied into every page. Any change to them is made in every .html file (grep for the old text).
 - When a .css or .js file changes, change its ?v= value in every page that links it (any new short hex value).
-- Never change existing site copy unless the prompt says so; the owner writes the copy. Draft copy on new pages starts with <!-- DRAFT COPY: owner to rewrite --> at the top of <main>.
+- Copy follows docs/copy-brief.md. Write new pages as final copy. Change existing copy only when the prompt says so.
+- Read docs/copy-brief.md before writing or changing any visible text.
 - Never invent results, statistics, client names, testimonials or reviews.
-- Keep the spelling style already used on the site.
+- Use US English spelling.
 - Every new indexable page gets: unique <title> (50-60 chars), meta description (140-155 chars), one <h1>, self canonical (https://gnscales.com/...), Open Graph tags like the existing pages, BreadcrumbList JSON-LD, and an entry in sitemap.xml with today's <lastmod>.
 - After every change run python3 tools/check-audit.py and python3 tools/check-html.py. Both must pass. If a check fails only because it does not know about a new page or folder, extend the check instead of weakening it, and tell me.
 - Do not commit or push. When done, list every changed file and what changed.
