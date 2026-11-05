@@ -21,7 +21,7 @@ os.chdir(ROOT)
 PAGES = ["index.html", "services.html", "industries.html", "pricing.html", "work.html", "about.html",
          "contact.html", "thanks.html", "privacy.html", "terms.html", "404.html",
          "meta-ads.html", "google-ads.html", "landing-pages.html", "ai-agents.html", "automation.html",
-         "app-builds.html"]
+         "app-builds.html", "work-logimotors.html"]
 
 docs = {p: open(p, encoding="utf-8").read() for p in PAGES}
 allsrc = "\n".join(docs.values())

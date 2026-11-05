@@ -243,7 +243,7 @@ defensible option, and each is a straightforward edit if you disagree.
 | Is "3 of 5 spots" real? | Treated as not real. The site says "Taking 5 founding partners" and names no count of clients. | Search the pages for "founding" |
 | Founder's published name | **Nikoloz Peikrishvili**, monogram `NP`. Always "Nikoloz" in the copy, never "Nikoloz". | `about.html`, `index.html` |
 | Does Growth include TikTok? | No — Growth is Meta and Google. TikTok comes with Crown. | `pricing.html` |
-| Can you name Logimotors? | Not assumed. No client is named anywhere. | `work.html` |
+| Can you name Logimotors? | Yes. We designed and built logimotors.com, so it is on the Work page as live work with its own case study. No results, figures or quotes from Logimotors are claimed. | `work.html`, `work-logimotors.html` |
 | Real gross margin | 45% is the calculator's default. Replace it with your own estimate. | `index.html`, the margin slider |
 | Calendar or form? | Form. A scheduler slot is ready: put a Cal.com or Calendly link in the `data-scheduler` attribute on the contact page and it loads only when somebody opens it. | `contact.html` |
 | Cookie banner? | Off. Turn it on before advertising into the EU or UK, where consent is required before analytics or pixels load. | `style.css`, `#consent` markup |
