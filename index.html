@@ -52,15 +52,17 @@
     "alternateName": "ი/მ გიორგი ლომიძე",
     "identifier": { "@type": "PropertyValue", "propertyID": "National Agency of Public Registry of Georgia", "value": "35001123645" },
     "url": "https://gnscales.com/",
-    "logo": "https://gnscales.com/favicon.svg",
+    "logo": "https://gnscales.com/icon-512.png",
     "image": "https://gnscales.com/assets/og/og-default.jpg?v=188d5583",
     "description": "Performance marketing agency running Meta, Google and TikTok ads, ad creative and landing pages for businesses in every industry.",
-    "areaServed": "Worldwide",
+    "areaServed": [
+        { "@type": "Country", "name": "United States" },
+        { "@type": "Country", "name": "Georgia" }
+    ],
     "priceRange": "$1,618-$4,612+/month",
     "email": "george@gnscales.com",
     "address": {
         "@type": "PostalAddress",
-        "streetAddress": "VIII micro-district, N4, apt. 42",
         "addressLocality": "Rustavi",
         "postalCode": "3700",
         "addressCountry": "GE"
@@ -68,13 +70,21 @@
     "founder": [
         {
             "@type": "Person",
+            "@id": "https://gnscales.com/about.html#nikoloz",
             "name": "Nikoloz Peikrishvili",
-            "jobTitle": "Co-founder — Strategy & creative"
+            "jobTitle": "Co-founder — Strategy & creative",
+            "image": "https://gnscales.com/assets/team/nikoloz-peikrishvili-portrait.jpg",
+            "url": "https://gnscales.com/about.html",
+            "worksFor": { "@id": "https://gnscales.com/#studio" }
         },
         {
             "@type": "Person",
+            "@id": "https://gnscales.com/about.html#giorgi",
             "name": "Giorgi Lomidze",
-            "jobTitle": "Co-founder — Paid media & performance"
+            "jobTitle": "Co-founder — Paid media",
+            "image": "https://gnscales.com/assets/team/george-lomidze-portrait.jpg",
+            "url": "https://gnscales.com/about.html",
+            "worksFor": { "@id": "https://gnscales.com/#studio" }
         }
     ],
     "slogan": "Paid ads that bring real customers.",
