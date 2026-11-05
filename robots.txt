@@ -1,8 +1,4 @@
 User-agent: *
 Allow: /
 
-# The thank-you page is a destination, not an entry point: indexing it
-# puts a dead end in the results where the contact page should be.
-Disallow: /thanks.html
-
 Sitemap: https://gnscales.com/sitemap.xml

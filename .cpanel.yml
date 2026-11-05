@@ -27,6 +27,7 @@ deployment:
       --exclude '.gitignore'
       --exclude '.cpanel.yml'
       --exclude '.nojekyll'
+      --exclude 'CLAUDE.md'
       --exclude 'docs/'
       --exclude 'tools/'
       --exclude 'data/'
@@ -42,7 +43,7 @@ deployment:
       else
       /bin/cp -R . $DEPLOYPATH/ &&
       /bin/rm -rf $DEPLOYPATH/.git $DEPLOYPATH/.gitattributes $DEPLOYPATH/.gitignore
-      $DEPLOYPATH/.cpanel.yml $DEPLOYPATH/.nojekyll $DEPLOYPATH/docs $DEPLOYPATH/tools
+      $DEPLOYPATH/.cpanel.yml $DEPLOYPATH/.nojekyll $DEPLOYPATH/CLAUDE.md $DEPLOYPATH/docs $DEPLOYPATH/tools
       $DEPLOYPATH/admin $DEPLOYPATH/submit.php ;
       fi
 
