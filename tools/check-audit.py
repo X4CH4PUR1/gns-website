@@ -66,8 +66,10 @@ c("5.6 both qualifying groups required",
 print("\nP1 — SEO and sharing")
 c("2.2 sitemap.xml exists", os.path.isfile("sitemap.xml"))
 c("2.3 robots.txt names the sitemap", "Sitemap:" in robots)
-c("2.3 robots.txt keeps the thank-you page out of the index",
-  "Disallow: /thanks.html" in robots)
+c("2.3 robots.txt lets crawlers reach the thank-you page",
+  "Disallow: /thanks.html" not in robots)
+c("2.3 thank-you page is kept out of the index by noindex",
+  'name="robots" content="noindex' in docs["thanks.html"])
 c("2.4 canonical on every indexable page",
   all('rel="canonical"' in docs[p] for p in PAGES if p not in ("thanks.html", "404.html")))
 c("2.4 no internal links to index.html", 'href="index.html"' not in allsrc)

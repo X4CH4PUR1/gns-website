@@ -721,10 +721,14 @@
   }
 
   /* ---------- Cookie consent ----------
-     Only present on pages that ship the banner markup. */
+     The banner only appears on pages that ship its markup, but a "yes" saved
+     on an earlier page is re-granted on every page, so initConversion() below
+     can rely on window.gnsConsent. */
   function initConsent() {
     var bar = document.getElementById('consent');
-    if (!bar) return;
+    var saved = read();
+    if (saved === 'yes') { window.gnsConsent = true; grant(bar ? bar.dataset.pixel : null); }
+    if (!bar || saved) return;
 
     function read() {
       try { return localStorage.getItem('gns-consent'); } catch (e) { return null; }
@@ -732,8 +736,19 @@
     function write(value) {
       try { localStorage.setItem('gns-consent', value); } catch (e) { /* private mode */ }
     }
+    function grant(pixelId) {
+      if (typeof window.gtag === 'function') {
+        window.gtag('consent', 'update', {
+          ad_storage: 'granted', analytics_storage: 'granted',
+          ad_user_data: 'granted', ad_personalization: 'granted'
+        });
+      }
+      if (typeof window.fbq === 'function' && pixelId) {
+        window.fbq('init', pixelId);
+        window.fbq('track', 'PageView');
+      }
+    }
 
-    if (read()) return;
     bar.hidden = false;
 
     bar.addEventListener('click', function (e) {
@@ -745,16 +760,7 @@
 
       if (answer !== 'yes') return;
       window.gnsConsent = true;
-      if (typeof window.gtag === 'function') {
-        window.gtag('consent', 'update', {
-          ad_storage: 'granted', analytics_storage: 'granted',
-          ad_user_data: 'granted', ad_personalization: 'granted'
-        });
-      }
-      if (typeof window.fbq === 'function' && bar.dataset.pixel) {
-        window.fbq('init', bar.dataset.pixel);
-        window.fbq('track', 'PageView');
-      }
+      grant(bar.dataset.pixel);
     });
   }
 
