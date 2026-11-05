@@ -30,6 +30,8 @@
 .founder-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.25rem; }
 .founder-card { display: flex; flex-direction: column; padding: 0 !important; }
 .founder-card:hover { transform: translateY(-4px); }
+/* Author links in the guides land on #nikoloz / #giorgi; clear the sticky header. */
+.founder-card { scroll-margin-top: 110px; }
 
 /* Sizing only; the monogram and photograph treatments are shared with the
    home page and live in style.css. */
