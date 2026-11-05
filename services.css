@@ -160,6 +160,53 @@
 .svc-addon-note a { color: var(--gold-500); text-decoration: underline; text-underline-offset: 3px; }
 .svc-addon-note a:hover { color: var(--gold-200); }
 
+/* ---------- Service detail pages ----------
+   meta-ads.html, google-ads.html and the other four single-service pages.
+   They load this sheet with style.css, so the few components they share
+   with index and pricing (FAQ layout, numbered steps) are restated here
+   rather than pulled in from those pages' sheets. */
+.svc-short { margin-top: clamp(2.5rem, 5vw, 3.5rem); padding-top: 2rem; border-top: 1px solid var(--line); }
+.svc-short .ticks { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.8rem 2.5rem; }
+
+.svc-page .section-head .lead { max-width: 62ch; }
+.svc-cols { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.8rem 2.5rem; }
+.svc-fit .card h3 { font-size: clamp(1.4rem, 2vw, 1.75rem); }
+.ticks.is-not svg { color: var(--ink-3); }
+.svc-note { margin-top: 2rem; }
+.svc-note a, .svc-page .section a:not(.btn):not(.link-arrow) {
+  color: var(--gold-500); text-decoration: underline; text-underline-offset: 3px;
+}
+.svc-note a:hover, .svc-page .section a:not(.btn):not(.link-arrow):hover { color: var(--gold-200); }
+
+.svc-steps { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1rem; }
+.svc-steps .card { display: flex; flex-direction: column; gap: 0.8rem; }
+.svc-step-num { font-family: var(--font-display); font-size: 2.4rem; line-height: 1; color: var(--gold-500); }
+.svc-step-when {
+  font-family: var(--font-mono); font-size: 0.625rem;
+  letter-spacing: 0.2em; text-transform: uppercase; color: var(--ink-3);
+}
+.svc-steps p:last-child { color: var(--ink-2); font-size: 0.96rem; line-height: 1.6; }
+
+.svc-faq {
+  display: grid; grid-template-columns: minmax(0, 24rem) minmax(0, 1fr);
+  gap: clamp(2.5rem, 6vw, 5.5rem); align-items: start;
+}
+.svc-faq-head { display: flex; flex-direction: column; gap: 1.2rem; }
+.svc-faq-head p:last-child { color: var(--ink-2); line-height: 1.68; }
+.svc-faq .faq-list { display: flex; flex-direction: column; }
+
+.svc-related { display: flex; flex-direction: column; gap: 1.25rem; margin-top: clamp(3rem, 5vw, 4rem); }
+.svc-related-links { display: flex; flex-wrap: wrap; align-items: center; gap: 1rem 2.25rem; }
+
+@media (max-width: 900px) {
+  .svc-steps { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .svc-faq { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 560px) {
+  .svc-short .ticks, .svc-cols, .svc-steps { grid-template-columns: 1fr; }
+}
+
 @media (max-width: 900px) {
   .svc, .svc.is-reversed { grid-template-columns: 1fr; }
   /* Keep the visual after the copy on every row once stacked, so the
