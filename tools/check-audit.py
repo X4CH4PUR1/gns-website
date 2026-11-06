@@ -115,6 +115,19 @@ c("2.11 main-page headlines carry a keyword",
 sitemap = open("sitemap.xml", encoding="utf-8").read()
 c("2.12 every indexed page is in the sitemap, with a lastmod",
   all(("https://gnscales.com/" + ("" if p == "index.html" else p) + "</loc><lastmod>") in sitemap for p in INDEXED))
+# llms.txt is the plain-text map AI search tools read. A page added to the
+# sitemap but not to llms.txt is a page they are not told about.
+llms = open("llms.txt", encoding="utf-8").read() if os.path.isfile("llms.txt") else ""
+c("2.16 llms.txt exists and opens with the site name", llms.startswith("# GN Scales\n"))
+missing_llms = [u for u in re.findall(r"<loc>([^<]+)</loc>", sitemap) if "(" + u + ")" not in llms]
+c("2.16 every page in the sitemap is listed in llms.txt", not missing_llms, ", ".join(missing_llms))
+# One sentence describes GN Scales everywhere a machine reads a description.
+ENTITY = ("GN Scales is a performance marketing agency: we run Meta, Google and TikTok ads "
+          "and build the landing pages they send customers to.")
+c("2.17 the entity sentence is the same in llms.txt, JSON-LD, manifest and footer",
+  ("> " + ENTITY) in llms and ('"description": "%s"' % ENTITY) in docs["index.html"]
+  and ENTITY in open("site.webmanifest", encoding="utf-8").read()
+  and every(lambda d: ("<p>" + ENTITY + "</p>") in d))
 c("2.13 breadcrumbs on the inner pages",
   all('"BreadcrumbList"' in docs[p] for p in INDEXED if p not in ("index.html", "privacy.html", "terms.html")))
 # Every JSON-LD block must parse, and every FAQ answer marked up for Google
