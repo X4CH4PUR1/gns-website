@@ -53,6 +53,9 @@
   padding-bottom: 6px; transition: color var(--t-micro), border-color var(--t-micro);
 }
 .contact-mail:hover { color: var(--gold-200); border-color: var(--gold-200); }
+@media (pointer: coarse) {
+  .contact-mail { padding-top: 4px; margin-top: -4px; }
+}
 
 .contact-address { font-style: normal; font-size: 1rem; line-height: 1.6; color: var(--ink-2); }
 
@@ -115,7 +118,8 @@
   width: 100%; background: var(--navy-900);
   border: 1px solid var(--line-2); color: var(--ink);
   border-radius: var(--r-md);
-  font-size: 0.96rem; padding: 0.9rem 1rem;
+  /* 16px: anything smaller and iPhone Safari zooms the page on focus. */
+  font-size: 1rem; padding: 0.9rem 1rem;
   transition: border-color var(--t-micro), box-shadow var(--t-micro);
 }
 .field textarea { resize: vertical; min-height: 108px; line-height: 1.55; }
@@ -160,6 +164,10 @@
 
 /* Submission feedback for the progressively-enhanced path. Empty and silent
    until something has actually happened. */
+/* Buttons don't wrap by default, and "Send it to Nikoloz and Giorgi" is wider
+   than a 375px screen allows: the end of it was cut off. Here it may wrap. */
+.form [type='submit'] { white-space: normal; text-align: center; }
+
 .form-status {
   display: none; gap: 0.6rem; align-items: flex-start;
   font-size: 0.9rem; line-height: 1.55; max-width: none;

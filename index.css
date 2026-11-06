@@ -393,6 +393,11 @@ ol.order-list {
   background: var(--gold-500); box-shadow: 0 0 0 5px rgba(210, 173, 92, 0.18);
 }
 .calc input[type='range']:focus-visible { outline-offset: 6px; }
+/* A 44px-tall slider for a finger; the margins give back the extra 20px so
+   the fields around it do not move. The track stays centred in the box. */
+@media (pointer: coarse) {
+  .calc input[type='range'] { height: 44px; margin: calc(0.35rem - 10px) 0 -10px; }
+}
 
 .calc-rule { border: 0; border-top: 1px solid var(--line); margin: 0; }
 
@@ -562,7 +567,9 @@ ol.order-list {
   .faq-grid h2 { margin-top: 0.75rem; }
   .maths-copy { max-width: 60ch; }
   /* Taller frame so both panels stay readable once the columns stack. */
-  .compare { aspect-ratio: 4 / 3.2; min-height: 420px; }
+  /* max-width: min-height alone made aspect-ratio widen the frame to 525px,
+     past the edge of a 375px screen. Capped, it is column-wide and 420px tall. */
+  .compare { aspect-ratio: 4 / 3.2; min-height: 420px; max-width: 100%; }
   .compare-after .compare-body { align-items: flex-start; text-align: left; }
   .compare-after .compare-tag { align-self: flex-start; }
 }

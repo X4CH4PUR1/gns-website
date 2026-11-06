@@ -197,6 +197,11 @@
 
 .svc-related { display: flex; flex-direction: column; gap: 1.25rem; margin-top: clamp(3rem, 5vw, 4rem); }
 .svc-related-links { display: flex; flex-wrap: wrap; align-items: center; gap: 1rem 2.25rem; }
+/* On touch, each link's hit area reaches 15px above its text (style.css), so
+   the rows need 24px between them to keep 8px clear between targets. */
+@media (pointer: coarse) {
+  .svc-related-links { row-gap: 1.5rem; }
+}
 
 @media (max-width: 900px) {
   .svc-steps { grid-template-columns: repeat(2, minmax(0, 1fr)); }

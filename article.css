@@ -9,6 +9,11 @@
 .article-crumb { font-family: var(--font-mono); font-size: 0.625rem; letter-spacing: 0.2em; text-transform: uppercase; }
 .article-crumb a { color: var(--gold-500); }
 .article-crumb a:hover { color: var(--gold-200); }
+/* An inline link: vertical padding widens what a finger can hit without
+   moving the line it sits on. */
+@media (pointer: coarse) {
+  .article-crumb a { padding-block: 15.5px; }
+}
 
 .legal-head h1.article-title { font-size: clamp(2.4rem, 5.4vw, 4rem); line-height: 1.04; }
 

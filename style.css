@@ -382,6 +382,11 @@ h1 .eyebrow {
 }
 .site-header.is-scrolled .header-inner { height: 74px; }
 
+/* An anchor jump (services.html#google, ./#calc) scrolls the page, so the
+   header is in its scrolled state when the target arrives: 74px plus its 1px
+   border. The target stops below it instead of underneath it. */
+[id] { scroll-margin-top: 75px; }
+
 .site-nav { display: flex; align-items: center; gap: clamp(1.6rem, 3vw, 2.6rem); }
 .nav-list { display: flex; align-items: center; gap: clamp(1.4rem, 2.4vw, 2.4rem); }
 .nav-end { display: flex; align-items: center; gap: 1.25rem; }
@@ -1069,7 +1074,12 @@ body.cursor-text .cursor-dot { opacity: 0; }
     transform: translateX(101%); transition: transform 460ms cubic-bezier(0.22, 1, 0.36, 1);
     overflow-y: auto;
   }
-  body.nav-open { overflow: hidden; }
+  /* Scroll lock goes on html, not body. html clips overflow-x, so a body
+     overflow never reached the viewport: the page still scrolled behind the
+     drawer, and body turned into its own scroll container, which pinned the
+     sticky header to the top of the document — focusing the menu button
+     then jumped the page to the top. :has() needs no script. */
+  html:has(> body.nav-open) { overflow: hidden; }
   body.nav-open .site-nav { transform: none; }
 
   /* The drawer covers the toggle, so it carries its own close button in the
@@ -1141,9 +1151,33 @@ body.cursor-text .cursor-dot { opacity: 0; }
   .header-inner { height: 76px; gap: 0.75rem; }
   .site-header.is-scrolled .header-inner { height: 66px; }
   .brand-logo { height: 42px; }
-  .nav-toggle { width: 42px; height: 42px; margin-right: -6px; }
+  .nav-toggle { width: 44px; height: 44px; margin-right: -7px; }
+  [id] { scroll-margin-top: 67px; }
   .btn-lg { padding: 1.05rem 1.5rem; }
   h1 { font-size: clamp(2.5rem, 12vw, 3rem); }
+}
+
+/* ---------- Touch: 44px tap targets, 8px apart ---------- */
+/* Only for a finger: a mouse keeps the tighter desktop spacing. Where a link
+   sits in a fixed layout, the extra padding is cancelled by an equal negative
+   margin, so the hit area grows and nothing on screen moves. */
+@media (pointer: coarse) {
+  .brand { min-height: 44px; }
+
+  /* Underlined links grow upward into the space above them, so the
+     underline stays tight under the text. */
+  .link-arrow { padding-top: 15px; margin-top: -15px; }
+
+  .footer-col { gap: 0.5rem; }
+  .footer-col a { padding-block: 10px; min-width: 44px; }
+  .footer-col .footer-mail { padding-top: 16px; padding-bottom: 3px; }
+  .footer-legal a { padding: 13px 6px; margin-inline: -6px; }
+
+  /* Collapsed FAQ questions stacked edge to edge, one hairline apart. 4px of
+     heading padding each side, taken back off the button, keeps the text
+     exactly where it was and puts 9px between the two buttons. */
+  .faq-item > h3 { padding-block: 4px; }
+  .faq-q { padding-block: calc(clamp(1.25rem, 2vw, 1.75rem) - 4px); }
 }
 
 /* ---------- Reduced motion ---------- */

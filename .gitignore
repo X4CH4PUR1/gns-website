@@ -8,3 +8,7 @@
 Thumbs.db
 .vscode/
 .idea/
+
+# tools/mobile: Playwright install and screenshots stay local
+tools/mobile/node_modules/
+tools/mobile/out/
